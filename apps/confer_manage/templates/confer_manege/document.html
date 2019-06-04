@@ -1,0 +1,176 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}会议纪要查看{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block breadcrumb %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            会议纪要查看
+            <small>conference edit</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> 会议纪要查看</a></li>
+            <li>会议纪要查看</li>
+            <li class="active">会议纪要查看</li>
+        </ol>
+    </section>
+{% endblock %}
+
+{% block content %}
+
+    <!-- Main content -->
+    <section class="content">
+    <div class="box box-warning">
+        <div class="box-header with-border">
+        <h4><b>请选择要查看的会议：</b></h4>
+    <select id="confertype" class="btn btn-default" onchange="Get_Next_Place('confertype','Get_sub')">
+        <option id="Not_data1">会议类别</option>
+        <option id="普通小型会议" value="普通小型会议">普通小型会议</option>
+        <option id="项目例会" value="项目例会">项目例会</option>
+        <option id="部门例会" value="部门例会">部门例会</option>
+    </select>
+    <select id="confersub" class="btn btn-default" onchange="Get_Next_Place('confersub','Get_time')">
+        <option id="Not_data2">会议主题</option>
+    </select>
+    <select id="confertime" class="btn btn-default">
+        <option id="Not_data3">会议时间</option>
+    </select>
+    <button type="button" class="btn btn-block btn-primary" style="width: 8%;display: inline;margin-left: 2%">查找</button>
+    <!--<hr style="background-color:#8B8986;height: 1px;width:100%;border: none;"/>-->
+        </div>
+
+        <div class="box-body">
+                        <form role="form" action="/confer_manage/document/" method="post">
+                            <div class="edit">
+
+                                {% csrf_token %}
+
+                                <!-- textarea -->
+                                <div class="form-group">
+                                    <label>会议纪要</label>
+                                    {{ document_form.conferconclusion }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div style="margin: 0 auto; width: 20%;height: 20%">
+                            <button type="submit" class="btn btn-app" style="margin-right:15%;border-color: #838081"><i class="fa fa-save"></i>
+                                提交
+                            </button>
+                            <button type="button" class="btn btn-app" style="float: right;border-color: #838081"><i class="fa fa-edit"></i>
+                                编辑
+                            </button>
+                                </div>
+
+                        </form>
+                    </div>
+            </div>
+
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+
+
+{% endblock %}
+
+{% block script %}
+
+    <!-- FastClick -->
+    <script src="{% static 'adminlet-2.4.10/bower_components/fastclick/lib/fastclick.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'adminlet-2.4.10/dist/js/adminlte.min.js' %}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{% static 'adminlet-2.4.10/dist/js/demo.js' %}"></script>
+
+    <!-- Select2 -->
+    <script src="{% static 'adminlet-2.4.10/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+
+    <!-- date-range-picker -->
+    <script src="{% static 'adminlet-2.4.10/bower_components/moment/min/moment.min.js' %}"></script>
+
+    <!-- Page script -->
+    <script type="text/javascript">
+        //用来获得option元素中selected属性为true的元素的id
+        function Get_Selected_Id(place){
+            var pro = document.getElementById(place);
+            var Selected_Id = pro.options[pro.selectedIndex].id;
+//            console.log("Get_Selected_Id:"+Selected_Id);  //测试使用
+            return Selected_Id;         //返回selected属性为true的元素的id
+        }
+
+        //执行相应的动作，调用相关数据请求函数
+        function Get_Next_Place(This_Place_ID,Action){
+            var Selected_Id = Get_Selected_Id(This_Place_ID);   //Selected_Id用来记录当前被选中的ID
+            if(Action=='Get_sub')                            //从而可以在下一个级联中加载相应的下级
+                Get_sub_Data(Selected_Id);
+            else if(Action=='Get_time')
+                Get_time_Data(Selected_Id);
+        }
+
+        //向服务器请求城市列表数据并调用添加城市函数
+        function Get_sub_Data(Type_Selected_Id){    //这里的Selected_Id应该是被选中的省份的ID
+//            console.log("Province_Selected_Id:"+Province_Selected_Id);   //测试使用
+            if(Type_Selected_Id == 'Not_data1'){    //如果选择了"Province"选项，则表示重置当前City和Country的选项内容，不会向服务器请求数据
+                $("#confersub").empty();
+                $("#confersub").append("<option id='Not_data2'>会议主题</option>");
+                $("#confertime").empty();
+                $("#confertime").append("<option id='Not_data3'>会议时间</option>");
+            }else{      //否则就会向服务器请求数据
+                $.getJSON('/confer_manage/getSubData/',{'confertype':Type_Selected_Id},function(Sub_list){
+//                    console.log(City_list);      //测试使用
+                    Add_sub(Sub_list);    //调用添加城市选项函数
+                });
+            }
+        }
+
+        //在当前页面添加城市选项
+        function Add_sub(Sub_list){
+            $("#confersub").empty();
+            $("#confersub").append("<option id='Not_data2'>会议主题</option>");
+            $("#confertime").empty();
+            $("#confertime").append("<option id='Not_data3'>会议时间</option>");
+            //上面的两次清空与两次添加是为了保持级联的一致性
+            for(var index in Sub_list){     //获得城市列表中的城市索引
+                //添加内容的同时在option标签中添加对应的城市ID
+                var text = "<option"+" id='"+Sub_list[index]+"'>"+Sub_list[index]+"</option>";
+                $("#confersub").append(text);
+                console.log(text);  //用来观察生成的text数据
+            }
+        }
+
+        //向服务器请求县区列表数据并调用添加县区函数
+       function Get_time_Data(Sub_Selected_Id){
+//           console.log("City_Selected_Id:"+City_Selected_Id);   //测试使用
+           if(Sub_Selected_Id == 'Not_data2'){     //如果选择了City选项，则表示重置当前Country的选项内容，不会向服务器请求数据
+               $("#confertime").empty();
+               $("#confertime").append("<option id='Not_data3'>会议时间</option>");
+               //上面的清空与添加是为了保持级联的一致性
+           }else{   //否则就会向服务器请求数据
+               var Type_Selected_Id = Get_Selected_Id("confertype");  //获得被选中省的ID，从而方便从服务器中加载数据
+               $.getJSON('/confer_manage/getTimeData/',{'confertype':Type_Selected_Id,'confersub':Sub_Selected_Id},function(Time_list){
+//                   console.log(Country_list);    //测试使用
+                   Add_time(Time_list);   //调用添加县区选项函数
+               });
+           }
+        }
+
+        //在当前页面添加县区选项
+        function Add_time(Time_list){
+            $("#confertime").empty();
+            $("#confertime").append("<option id='Not_data3'>会议时间</option>");
+            //上面的清空与添加是为了保持级联的一致性
+            for(var index in Time_list){     //获得县区列表中的县区索引
+                //添加内容的同时在option标签中添加对应的城市ID
+                var text = "<option"+" id='"+Time_list[index]+"'>"+Time_list[index]+"</option>";
+                $("#confertime").append(text);
+                console.log(text);  //用来观察生成的text数据
+            }
+        }
+
+    </script>
+
+{% endblock %}

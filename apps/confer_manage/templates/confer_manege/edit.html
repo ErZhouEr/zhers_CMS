@@ -1,0 +1,409 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}编辑会议{% endblock %}
+
+{% block css %}
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/dist/css/AdminLTE.min.css' %}">
+
+{% endblock %}
+
+{% block breadcrumb %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            编辑{{ conftype }}
+            <small>conference edit</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+            <li>编辑会议</li>
+            <li class="active">编辑会议</li>
+        </ol>
+    </section>
+{% endblock %}
+
+{% block content %}
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row" style="margin-left: 15px;margin-right: 15px">
+
+            <!-- right column -->
+            <div class="col-md-6" style="width: 90%;margin-left: 5%;margin-right: 5%">
+                <!-- Horizontal Form -->
+
+                <!-- general form elements disabled -->
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><b>会议预约编辑</b></h3>
+                    </div>
+                    <div class="box-body">
+                        <form role="form" id="createForm"
+                                {#                              action="/confer_manage/create/?confertype={{ conftype }}&startime={{ conferstartime }}&endtime={{ conferendtime }}"#}
+                              method="post">
+
+                            {% csrf_token %}
+
+                            <input type="hidden" name="createtoken" value="{{ token }}"/>
+
+                            <div class="form-group">
+                                <label>所属项目</label>
+                                {{ confer_form.conferproj }}
+                            </div>
+
+                            <div class="form-group">
+                                <label>会议主题</label>
+                                {{ confer_form.confersub }}
+                            </div>
+
+                            <div class="form-group">
+                                <label>参会人员</label>
+                                <!-- /btn-group -->
+                                {{ confer_form.people }}
+                            </div>
+                            <div class="form-group">
+                                <label>会议时间</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-clock-o"></i>
+                                        </div>
+                                        {{ confer_form.stime }}
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+                            </div>
+                            <div style="margin: 0 auto; width: 20%;height: 20%">
+                                <button type="button" class="btn btn-app" id="createSubmitbt" style="margin-right:15%">
+                                    <i
+                                            class="fa fa-save"></i>
+                                    提交
+                                </button>
+                                <button type="button" class="btn btn-app" id="createEditbt" style="float: right"
+                                        onclick="ActivateCreate()"><i
+                                        class="fa fa-edit"></i>
+                                    编辑
+                                </button>
+                            </div>
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div{% if message.tags %} class="{{ message.tags }}"{% endif %}
+                                                              style="background-color: #fcd3a1;font: bold 15px Microsoft YaHei; text-align: center">{{ message }}</div>
+
+
+                                {% endfor %}
+
+                            {% endif %}
+
+                        </form>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><b>汇报内容编辑</b></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <form role="form" id="editForm" {# action="/confer_manage/edit/" #} method="post">
+
+                            {% csrf_token %}
+
+                            <div id="edit">
+                                <!-- text input -->
+
+                                <label>项目名称</label>
+                                {{ edit_Form.subjectname }}
+
+                                <!-- textarea -->
+
+                                <label>汇报内容</label>
+                                {{ edit_Form.subcontent }}
+
+                            </div>
+                            <br>
+                            <button type="button" class="btn btn-block btn-primary" style="width: 25%; margin: 0 auto;"
+                                    onclick="addSubject()">
+                                新增项目
+                            </button>
+                            <br>
+
+                            <div class="form-group">
+                                <label>分享内容</label>
+                                {{ edit_Form.sharecontent }}
+                            </div>
+
+                            <div class="form-group">
+                                <label>预计发言时间</label>
+                                {{ edit_Form.pretime }}
+                            </div>
+
+                            <div class="form-group">
+                                <label>超时原因</label>
+                                {{ edit_Form.exreason }}
+                            </div>
+                            <hr>
+                            <div style="margin: 0 auto; width: 20%;height: 20%">
+                                <button type="button" id="editSubmitbt" class="btn btn-app" style="margin-right:15%"><i
+                                        class="fa fa-save"></i>
+                                    提交
+                                </button>
+                                <button type="button" id="editEditbt" class="btn btn-app" style="float: right"><i
+                                        class="fa fa-edit"></i>
+                                    编辑
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+
+                <div class="box-header with-border">
+                    <h3 class="box-title"><b>全体参会人员准备进度</b></h3>
+                </div>
+                <div class="progress progress active">
+                    <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+                         aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                        <span class="sr-only">20% Complete</span>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-block btn-success btn-lg "
+                        style="height: 50px; width: 100%; margin: 0 auto;" onclick="startConfer()"><b>START
+                    CONFERENCE</b></button>
+                <br>
+                <!-- /.box -->
+            </div>
+            <!--/.col (right) -->
+        </div>
+
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+    <div class="btn-group-vertical" style="position: fixed;bottom: 10%;right: 0.2%">
+        <a href="#top" class="btn btn-primary">Top</a>
+        <a href="#" class="btn btn-default" style="height: 30px"></a>
+        <a href="#bottom" class="btn btn-primary">Bottom</a>
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+
+    <!-- FastClick -->
+    <script src="{% static 'adminlet-2.4.10/bower_components/fastclick/lib/fastclick.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'adminlet-2.4.10/dist/js/adminlte.min.js' %}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{% static 'adminlet-2.4.10/dist/js/demo.js' %}"></script>
+
+    <!-- Select2 -->
+    <script src="{% static 'adminlet-2.4.10/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+
+    <!-- date-range-picker -->
+    <script src="{% static 'adminlet-2.4.10/bower_components/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'adminlet-2.4.10/bower_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+    <!-- bootstrap datepicker -->
+    <script src="{% static 'adminlet-2.4.10/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+    <!-- bootstrap time picker -->
+    <script src="{% static 'adminlet-2.4.10/plugins/timepicker/bootstrap-timepicker.min.js' %}"></script>
+
+    <!-- Page script -->
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+
+            //Datemask dd/mm/yyyy
+            $('#datemask').inputmask('dd/mm/yyyy', {'placeholder': 'dd/mm/yyyy'})
+            //Datemask2 mm/dd/yyyy
+            $('#datemask2').inputmask('mm/dd/yyyy', {'placeholder': 'mm/dd/yyyy'})
+            //Money Euro
+            $('[data-mask]').inputmask()
+
+            //Date range picker
+            $('#reservation').daterangepicker()
+            //Date range picker with time picker
+            $('#reservationtime').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 30,
+                format: 'MM/DD/YYYY h:mm A'
+            })
+            //Date range as a button
+            $('#daterange-btn').daterangepicker(
+                {
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    startDate: moment().subtract(29, 'days'),
+                    endDate: moment()
+                },
+                function (start, end) {
+                    $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+                }
+            )
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            })
+
+            //iCheck for checkbox and radio inputs
+            $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue'
+            })
+            //Red color scheme for iCheck
+            $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+                checkboxClass: 'icheckbox_minimal-red',
+                radioClass: 'iradio_minimal-red'
+            })
+            //Flat red color scheme for iCheck
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+                checkboxClass: 'icheckbox_flat-green',
+                radioClass: 'iradio_flat-green'
+            })
+
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+    </script>
+    <script>
+        function startConfer() {
+            window.location.href = "http://127.0.0.1:8000/confer_manage/start/";
+        }
+
+        function addSubject() {
+            var editdiv = document.getElementById('edit');
+            var eles = document.getElementsByClassName('form-control edit-project');
+            var lastele = eles[eles.length - 1];
+            var addele1 = document.createElement('input');
+            addele1.setAttribute('type', 'text');//输入框的类型
+            addele1.setAttribute('class', 'form-control edit-project');//输入框的
+            addele1.setAttribute('placeholder', "请输入标准项目名称，不要自由发挥");
+            insertAfter(addele1, lastele);
+            var addele2 = document.createElement('textarea');
+            addele2.setAttribute('rows', '3');
+            addele2.setAttribute('class', 'form-control edit-project');//输入框的
+            addele2.setAttribute('placeholder', "请不要超过50字，参考格式1、...；2、...；...");
+            insertAfter(addele2, addele1);
+            var abr = document.createElement('label');
+            abr.innerHTML = '新增的项目名称及汇报内容';
+            editdiv.insertBefore(abr, addele1);
+            var ahr = document.createElement('hr');
+            ahr.setStyle('margin-top', 6);
+            ahr.setStyle('margin-bottom', 6);
+            editdiv.insertBefore(ahr, abr);
+        }
+
+        function insertAfter(newElement, targetElement) {
+
+            var parent = targetElement.parentNode;
+
+            if (parent.lastChild == targetElement) {
+                parent.appendChild(newElement);
+            } else {
+                parent.insertBefore(newElement, targetElement.nextSibling);
+            }
+        }
+
+    </script>
+    <script>
+        function submitAction() {
+            var createForm = document.getElementById('createForm');
+            createForm.submit();
+            var btnSubmit = document.getElementById('createSubmitbt');
+            btnSubmit.disabled = "disabled";
+            var inputArea = document.getElementsByClassName('form-control create-project');
+            for (i = 0; i < inputArea.length; i++) {
+                inputArea[i].disabled = "disabled";
+            }
+
+        }
+
+        function ActivateCreate() {
+            var btnSubmit = document.getElementById('createSubmitbt');
+            btnSubmit.disabled = false;
+            var inputArea = document.getElementsByClassName('form-control create-project');
+            for (i = 0; i < inputArea.length; i++) {
+                inputArea[i].disabled = false;
+            }
+        }
+
+        $(document).ready(function(){
+            $.ajaxSetup({
+                 data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            });
+
+        $(function () {
+            $("#createSubmitbt").click(function () {
+                $.ajax({
+                    url: "/confer_manage/createajax/",
+                    type: "POST",
+                    data: $("#createForm").serialize(),
+                    dataType: "JSON",
+                    success: function (arg) {
+                        console.log("26----", arg);
+                        if (arg["status"] == "成功") {
+                            alert(arg["message"]);
+                            var btnSubmit = document.getElementById('createSubmitbt');
+                            btnSubmit.disabled = "disabled";
+                            var inputArea = document.getElementsByClassName('form-control create-project');
+                            for (i = 0; i < inputArea.length; i++) {
+                                inputArea[i].disabled = "disabled";
+                            }
+                        }else {
+                            alert(arg["message"])
+                        }
+
+                    }
+
+                })
+            })
+        });
+
+    $(function () {
+            $("#editSubmitbt").click(function () {
+                var arr=new Array();
+                var editinput=document.getElementsByClassName("form-control edit-project");
+                alert(editinput.length);
+                for(i=0;i<editinput.length;i++){
+                    arr.push(editinput[i].value);
+                }
+                $.ajax({
+                    url: "/confer_manage/editajax/",
+                    type: "POST",
+                    data: $("#editForm").serialize(),
+                    dataType: "JSON",
+                    success: function (arg) {
+                        console.log("26----", arg);
+                        if (arg["status"] == "成功") {
+                            alert(arg["message"]);
+                            var btnSubmit = document.getElementById('editSubmitbt');
+                            btnSubmit.disabled = "disabled";
+                            var inputArea = document.getElementsByClassName('form-control edit-project');
+                            for (i = 0; i < inputArea.length; i++) {
+                                inputArea[i].disabled = "disabled";
+                            }
+                        }else {
+                            alert(arg["message"])
+                        }
+
+                    }
+
+                })
+            })
+        });
+     })
+    </script>
+{% endblock %}
