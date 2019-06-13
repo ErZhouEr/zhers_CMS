@@ -10,13 +10,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            开始会议
+            开始{{ request.session.conftype }}
             <small>conference start</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-            <li>开始会议</li>
-            <li class="active">开始会议</li>
+            <li>开始{{ request.session.conftype }}</li>
+            <li class="active">开始{{ request.session.conftype }}</li>
         </ol>
     </section>
 {% endblock %}
@@ -38,30 +38,52 @@
                         <h3 class="box-title"><b>会议内容记录</b></h3>
                     </div>
                     <!-- /.box-header -->
-                    <div class="box-body">
-                        <form role="form" action="/confer_manage/start/" method="post">
+                    <div class="box-body"><form>
+                        <div class="input-group">
+
+                            <select class="form-control select2" id="peopleselect"
+                                    style="width: 98%;display: inline">
+                                <option selected="selected">点击选择下一个发言人</option>
+                                {% for i in  people_lst %}
+                                    <option>{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                            <span class="input-group-btn">
+                      <button type="button" class="btn btn-warning" id="peopleSubmitbt"><b>确定</b></button>
+                    </span>
+                        </div></form>
+                        <hr style="background-color:#838081;height: 1px;width:100%;border: none;">
+                        <form role="form">
 
                             {% csrf_token %}
 
                             <!-- textarea -->
                             <div class="form-group">
-                                <label>汇报人1</label>
+                                <label>汇报内容</label>
                                 {{ start_form.subcontent }}
                             </div>
+                            <div class="form-group">
+                                <label>分享内容</label>
+                                {{ start_form.sharecontent }}
+                            </div>
 
-                            <div class="form-group float-left" style="display: inline-block;width: 78%">
+                            <div class="form-group float-left" style="display: inline-block;width: 38%">
+                                <label>预计发言时间</label>
+                                {{ start_form.pretime }}
+                            </div>
+                            <div class="form-group float-right" style="display: inline-block;width: 38%">
                                 <label>实际发言时间</label>
                                 {{ start_form.realtime }}
                             </div>
                             <div class="box-body float-right" style="display: inline-block;position: fixed">
                                 <h3 id="mytime"></h3>
-                                <button class="btn btn-app" onclick="start()">
+                                <button class="btn btn-app" type="button" onclick="start()">
                                     <i class="fa fa-play"></i> Play
                                 </button>
-                                <button class="btn btn-app" onclick="resetime()">
+                                <button class="btn btn-app" type="button" onclick="resetime()">
                                     <i class="fa fa-repeat"></i> Reset
                                 </button>
-                                <button class="btn btn-app" onclick="stop()">
+                                <button class="btn btn-app" type="button" onclick="stop()">
                                     <i class="fa fa-pause"></i> Pause
                                 </button>
                             </div>
@@ -71,45 +93,15 @@
                                 {{ start_form.followup }}
                             </div>
 
-                            <hr>
                             <!-- textarea -->
 
-                            <div class="form-group">
-                                <label>汇报人2</label>
-                                {{ start_form.subcontent }}
-                            </div>
-
-                            <div class="form-group float-left" style="display: inline-block;width: 78%">
-                                <label>实际发言时间</label>
-                                {{ start_form.realtime }}
-                            </div>
-
-                            <!--<div class="box-body float-right" style="display: inline-block">
-
-                                <button class="btn btn-app" onclick="start()">
-                                    <i class="fa fa-play"></i> Play
-                                </button>
-                                <button class="btn btn-app" onclick="reset()">
-                                    <i class="fa fa-repeat"></i> Reset
-                                </button>
-                                <button class="btn btn-app" onclick="stop()">
-                                    <i class="fa fa-pause"></i> Pause
-                                </button>
-                            </div>-->
-
-
-                            <div class="form-group">
-                                <label>followup</label>
-                                {{ start_form.followup }}
-                            </div>
-                            <hr>
-                            <div style="margin: 0 auto; width: 10%;height: 10%">
-                                <button type="submit" class="btn btn-app" style="margin: 0 auto"><i
-                                        class="fa fa-save"></i>
+                            <div style="margin: 0 auto; width: 6%;height: 10%">
+                                <button type="button" class="btn btn-app" id="saveneweditbt" style="display: inline-block;margin: 0 auto;border-color: #838081">
+                                    <i
+                                            class="fa fa-save"></i>
                                     保存
                                 </button>
                             </div>
-                            <br>
 
                         </form>
                     </div>
@@ -119,9 +111,8 @@
                 </div>
 
                 <a href="/confer_manage/document/" class="btn btn-block btn-success btn-lg "
-                   style="height: 50px; width: 100%; margin: 0 auto;"><b>CONFERENCE
+                   style="height: 50px; width: 30%; margin: 0 auto;"><b>CONFERENCE
                     COMPLETED</b></a>
-                <br>
                 <!-- /.box -->
             </div>
             <!--/.col (right) -->
@@ -207,82 +198,59 @@
 
     </script>
 
+    <script>
+        $(function () {
+            $("#peopleSubmitbt").click(function () {
+                var data=$("#peopleselect").val();
+                $.ajax({
+                    url: "/confer_manage/chospeople/",
+                    type: "POST",
+                    data: {people: data},
+                    dataType: "JSON",
+                    success: function (arg) {
+                        console.log("26----", arg);
+                        if (arg["status"] == "成功") {
+                            {#alert(arg['subcontent']);#}
+                            $("#subcontent")[0].value=arg['subcontent'];
+                            $("#sharecontent")[0].value=arg['sharecontent'];
+                            $("#pretime")[0].value=arg['pretime'];
+                            $("#followup")[0].value=arg['followup'];
+                        } else {
+                            alert(arg['message'])
+                        }
 
-    {#    <script type="text/javascript">#}
-    {#buttons = document.getElementsByClassName('btn btn-app');#}
-    {#startbuttons = document.getElementsByClassName('fa fa-play');#}
-    {#pausebuttons = document.getElementsByClassName('fa fa-pause');#}
-    {#resetbuttons = document.getElementsByClassName('fa fa-repeat');#}
-    {#document.onclick = function (e) {#}
-    {#    start()#}
-    {#    var e = (e || event);#}
-    {#    clickedele = e["target"] || e["srcElement"];#}
-    {#var clickcls=o.className;#}
-    {#    for (i = 0; i < startbuttons.length; i++) {#}
-    {#        if (buttons[i] == clickedele) {#}
-    {#alert(i)#}
-    {#            mytime[Math.floor(i/3)].value = str;#}
-    {#        }#}
-    {#    }#}
-    {##}
-    {#        var h = m = s = ms = 0;  //定义时，分，秒，毫秒并初始化为0；#}
-    {#        var time = 0;#}
-    {##}
-    {#        function timer() {   //定义计时函数#}
-    {#            ms = ms + 50;         //毫秒#}
-    {#            if (ms >= 1000) {#}
-    {#                ms = 0;#}
-    {#                s = s + 1;         //秒#}
-    {#            }#}
-    {#            if (s >= 60) {#}
-    {#                s = 0;#}
-    {#                m = m + 1;        //分钟#}
-    {#            }#}
-    {#            if (m >= 60) {#}
-    {#                m = 0;#}
-    {#                h = h + 1;        //小时#}
-    {#            }#}
-    {#            str = toDub(h) + "时" + toDub(m) + "分" + toDub(s) + "秒" + toDubms(ms) + "毫秒";#}
-    {#            mytime = document.getElementById('time-shower');#}
-    {##}
-    {##}
-    {#             mytime.innerText = str#}
-    {#            // document.getElementById('mytime').innerHTML=h+"时"+m+"分"+s+"秒"+ms+"毫秒";#}
-    {#        }#}
-    {##}
-    {#        function reset() {  //重置#}
-    {#            alert(1)#}
-    {#            clearInterval(time);#}
-    {#            h = m = s = ms = 0;#}
-    {#            document.getElementById('time-shower').innerText = "00时00分00秒0000毫秒";#}
-    {#        }#}
-    {##}
-    {#        function start() {  //开始#}
-    {#            clearInterval(time);#}
-    {#            time = setInterval(timer, 50);#}
-    {#        }#}
-    {##}
-    {#        function stop() {  //暂停#}
-    {#            clearInterval(time);#}
-    {#        }#}
-    {##}
-    {#        function toDub(n) {  //补0操作#}
-    {#            if (n < 10) {#}
-    {#                return "0" + n;#}
-    {#            } else {#}
-    {#                return "" + n;#}
-    {#            }#}
-    {#        }#}
-    {##}
-    {#        function toDubms(n) {  //给毫秒补0操作#}
-    {#            if (n < 10) {#}
-    {#                return "00" + n;#}
-    {#            } else {#}
-    {#                return "0" + n;#}
-    {#            }#}
-    {##}
-    {#        }#}
-    {##}
-    {#    </script>#}
+                    }
+
+                })
+            });
+
+
+            $("#saveneweditbt").click(function () {
+                var people=$("#peopleselect").val();
+                var subcont=$("#subcontent").val();
+                var sharecont=$("#sharecontent").val();
+                var realtim=$("#realtime").val();
+                var folup=$("#followup").val();
+                var data={peop:people,sentence:subcont,share:sharecont,rtime:realtim,follup:folup};
+                $.ajax({
+                    url: "/confer_manage/savenewedit/",
+                    type: "POST",
+                    data: data,
+                    dataType: "JSON",
+                    success: function (arg) {
+                        console.log("26----", arg);
+                        if (arg["status"] == "成功") {
+                            alert(arg['message']);
+
+                        } else {
+                            alert(arg['message'])
+                        }
+
+                    }
+
+                })
+            })
+        });
+    </script>
 
 {% endblock %}

@@ -75,12 +75,12 @@
                                 </div>
                             </div>
                             <div style="margin: 0 auto; width: 20%;height: 20%">
-                                <button type="button" class="btn btn-app" id="createSubmitbt" style="margin-right:15%">
+                                <button type="button" class="btn btn-app" id="createSubmitbt" style="margin-right:15%;border-color: #838081">
                                     <i
                                             class="fa fa-save"></i>
                                     提交
                                 </button>
-                                <button type="button" class="btn btn-app" id="createEditbt" style="float: right"
+                                <button type="button" class="btn btn-app" id="createEditbt" style="float: right;border-color: #838081"
                                         onclick="ActivateCreate()"><i
                                         class="fa fa-edit"></i>
                                     编辑
@@ -100,56 +100,61 @@
                     </div>
                     <!-- /.box-body -->
                 </div>
-                <div class="box box-warning">
+                <div class="box box-warning" id="editconfer" style="display: none">
                     <div class="box-header with-border">
                         <h3 class="box-title"><b>汇报内容编辑</b></h3>
                     </div>
                     <!-- /.box-header -->
+
                     <div class="box-body">
-                        <form role="form" id="editForm" {# action="/confer_manage/edit/" #} method="post">
+
+                        <div class="input-group">
+                            {#                            <p><b>选择你在本次会议的话题数</b></p>#}
+                            <select class="form-control select2" id="countselect"
+                                    style="width: 98%;display: inline;float: right">
+                                <option selected="selected">点击选择你在本次会议的话题数</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                            <span class="input-group-btn">
+                      <button type="button" class="btn btn-warning" id="countSubmitbt"><b>确定</b></button>
+                    </span>
+                        </div>
+                        <hr>
+                        <form role="form" id="editForm" method="post"
+                              style="border: 1px solid #65728c">
 
                             {% csrf_token %}
+                            <div style="width: 95%;margin: 0 auto">
+                                <div id="edit"></div>
 
-                            <div id="edit">
-                                <!-- text input -->
+                                <br>
 
-                                <label>项目名称</label>
-                                {{ edit_Form.subjectname }}
+                                <div class="form-group">
+                                    <label>分享内容</label>
+                                    {{ edit_Form.sharecontent }}
+                                </div>
 
-                                <!-- textarea -->
+                                <div class="form-group">
+                                    <label>预计发言时间</label>
+                                    {{ edit_Form.pretime }}
+                                </div>
 
-                                <label>汇报内容</label>
-                                {{ edit_Form.subcontent }}
-
-                            </div>
-                            <br>
-                            <button type="button" class="btn btn-block btn-primary" style="width: 25%; margin: 0 auto;"
-                                    onclick="addSubject()">
-                                新增项目
-                            </button>
-                            <br>
-
-                            <div class="form-group">
-                                <label>分享内容</label>
-                                {{ edit_Form.sharecontent }}
-                            </div>
-
-                            <div class="form-group">
-                                <label>预计发言时间</label>
-                                {{ edit_Form.pretime }}
-                            </div>
-
-                            <div class="form-group">
-                                <label>超时原因</label>
-                                {{ edit_Form.exreason }}
+                                <div class="form-group">
+                                    <label>超时原因</label>
+                                    {{ edit_Form.exreason }}
+                                </div>
                             </div>
                             <hr>
                             <div style="margin: 0 auto; width: 20%;height: 20%">
-                                <button type="button" id="editSubmitbt" class="btn btn-app" style="margin-right:15%"><i
+                                <button type="button" id="editSubmitbt" class="btn btn-app" style="margin-right:15%;border-color: #838081"><i
                                         class="fa fa-save"></i>
                                     提交
                                 </button>
-                                <button type="button" id="editEditbt" class="btn btn-app" style="float: right"><i
+                                <button type="button" id="editEditbt" class="btn btn-app" style="float: right;border-color: #838081" onclick="editActivateCreate()"><i
                                         class="fa fa-edit"></i>
                                     编辑
                                 </button>
@@ -169,10 +174,12 @@
                         <span class="sr-only">20% Complete</span>
                     </div>
                 </div>
+                <div id="startconfer" style="display: none">
 
-                <button type="button" class="btn btn-block btn-success btn-lg "
-                        style="height: 50px; width: 100%; margin: 0 auto;" onclick="startConfer()"><b>START
-                    CONFERENCE</b></button>
+                    <a type="button" class="btn btn-block btn-success btn-lg " href="/confer_manage/start/"
+                            style="height: 50px; width: 25%; margin: 0 auto;"><b>START
+                        CONFERENCE</b></a>
+                </div>
                 <br>
                 <!-- /.box -->
             </div>
@@ -340,70 +347,165 @@
             }
         }
 
-        $(document).ready(function(){
+        function editActivateCreate() {
+            var btnSubmit = document.getElementById('editSubmitbt');
+            btnSubmit.disabled = false;
+            var inputArea = document.getElementsByClassName('form-control edit-project');
+            for (i = 0; i < inputArea.length; i++) {
+                inputArea[i].disabled = false;
+            }
+        }
+
+        $(document).ready(function () {
+            if ('{{ flag_creat }}' == 'False') {
+                var btnSubmit = document.getElementById('createSubmitbt');
+                btnSubmit.disabled = "disabled";
+                var btnEdit = document.getElementById('createEditbt');
+                btnEdit.disabled = "disabled";
+                var inputArea = document.getElementsByClassName('form-control create-project');
+                for (i = 0; i < inputArea.length; i++) {
+                    inputArea[i].disabled = "disabled";
+                }
+                var editconferdiv = document.getElementById('editconfer');
+                editconferdiv.style.display = 'block';
+                if ('{{ flag_topic }}' == 'True') {
+                    var btnSubmit = document.getElementById('editSubmitbt');
+                    btnSubmit.disabled = "disabled";
+                    var inputArea = document.getElementsByClassName('form-control edit-project');
+                    for (i = 0; i < inputArea.length; i++) {
+                        inputArea[i].disabled = "disabled";
+                    }
+                    var startconferdiv = document.getElementById('startconfer');
+                    startconferdiv.style.display = 'block';
+                }
+
+            } else if ('{{ flag_conf }}' == 'True') {
+                var btnSubmit = document.getElementById('createSubmitbt');
+                btnSubmit.disabled = "disabled";
+                {#var btnEdit = document.getElementById('createEditbt');#}
+                {#btnEdit.disabled = "disabled";#}
+                var inputArea = document.getElementsByClassName('form-control create-project');
+                for (i = 0; i < inputArea.length; i++) {
+                    inputArea[i].disabled = "disabled";
+                }
+                var editconferdiv = document.getElementById('editconfer');
+                editconferdiv.style.display = 'block';
+                if ('{{ flag_topic }}' == 'True') {
+                    var btnSubmit = document.getElementById('editSubmitbt');
+                    btnSubmit.disabled = "disabled";
+                    var inputArea = document.getElementsByClassName('form-control edit-project');
+                    for (i = 0; i < inputArea.length; i++) {
+                        inputArea[i].disabled = "disabled";
+                    }
+                    var startconferdiv = document.getElementById('startconfer');
+                    startconferdiv.style.display = 'block';
+                }
+            }
+
             $.ajaxSetup({
-                 data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
             });
 
-        $(function () {
-            $("#createSubmitbt").click(function () {
-                $.ajax({
-                    url: "/confer_manage/createajax/",
-                    type: "POST",
-                    data: $("#createForm").serialize(),
-                    dataType: "JSON",
-                    success: function (arg) {
-                        console.log("26----", arg);
-                        if (arg["status"] == "成功") {
-                            alert(arg["message"]);
-                            var btnSubmit = document.getElementById('createSubmitbt');
-                            btnSubmit.disabled = "disabled";
-                            var inputArea = document.getElementsByClassName('form-control create-project');
-                            for (i = 0; i < inputArea.length; i++) {
-                                inputArea[i].disabled = "disabled";
+            $(function () {
+                $("#createSubmitbt").click(function () {
+                    $.ajax({
+                        url: "/confer_manage/createajax/",
+                        type: "POST",
+                        data: $("#createForm").serialize(),
+                        dataType: "JSON",
+                        success: function (arg) {
+                            console.log("26----", arg);
+                            if (arg["status"] == "成功") {
+                                alert(arg["message"]);
+                                var btnSubmit = document.getElementById('createSubmitbt');
+                                btnSubmit.disabled = "disabled";
+                                var inputArea = document.getElementsByClassName('form-control create-project');
+                                for (i = 0; i < inputArea.length; i++) {
+                                    inputArea[i].disabled = "disabled";
+                                }
+                                var editconferdiv = document.getElementById('editconfer');
+                                editconferdiv.style.display = 'block';
+
+                            } else {
+                                alert(arg["message"])
                             }
-                        }else {
-                            alert(arg["message"])
+
                         }
 
-                    }
-
+                    })
                 })
-            })
-        });
+            });
 
-    $(function () {
-            $("#editSubmitbt").click(function () {
-                var arr=new Array();
-                var editinput=document.getElementsByClassName("form-control edit-project");
-                alert(editinput.length);
-                for(i=0;i<editinput.length;i++){
-                    arr.push(editinput[i].value);
-                }
-                $.ajax({
-                    url: "/confer_manage/editajax/",
-                    type: "POST",
-                    data: $("#editForm").serialize(),
-                    dataType: "JSON",
-                    success: function (arg) {
-                        console.log("26----", arg);
-                        if (arg["status"] == "成功") {
-                            alert(arg["message"]);
-                            var btnSubmit = document.getElementById('editSubmitbt');
-                            btnSubmit.disabled = "disabled";
-                            var inputArea = document.getElementsByClassName('form-control edit-project');
-                            for (i = 0; i < inputArea.length; i++) {
-                                inputArea[i].disabled = "disabled";
+            $(function () {
+                $("#editSubmitbt").click(function () {
+                    var arr = new Array();
+                    var editinput = document.getElementsByClassName("form-control edit-project");
+                    for (i = 0; i < editinput.length; i++) {
+                        arr.push(editinput[i].value);
+                    }
+                    $.ajax({
+                        url: "/confer_manage/editajax/",
+                        type: "POST",
+                        traditional: true,
+                        data: {dt: arr},
+                        dataType: "JSON",
+                        success: function (arg) {
+                            console.log("26----", arg);
+                            if (arg["status"] == "成功") {
+                                alert(arg["message"]);
+                                var btnSubmit = document.getElementById('editSubmitbt');
+                                btnSubmit.disabled = "disabled";
+                                var inputArea = document.getElementsByClassName('form-control edit-project');
+                                for (i = 0; i < inputArea.length; i++) {
+                                    inputArea[i].disabled = "disabled";
+                                }
+                                var startconferdiv = document.getElementById('startconfer');
+                                startconferdiv.style.display = 'block';
+                            } else {
+                                alert(arg["message"])
                             }
-                        }else {
-                            alert(arg["message"])
+
                         }
 
-                    }
-
+                    })
                 })
+            });
+
+
+            $(function () {
+                $("#countSubmitbt").click(function () {
+                    var n = document.getElementById('countselect').value;
+                    var editdiv = document.getElementById('edit');
+                    while (editdiv.hasChildNodes()) //当elem下还存在子节点时 循环继续
+                    {
+                        editdiv.removeChild(editdiv.firstChild);
+                    }
+                    for (i = 0; i < n; i++) {
+                        var br = document.createElement('br');
+                        editdiv.appendChild(br);
+                        var lb = document.createElement('label');
+                        lb.innerText = "汇报内容" + (i + 1);
+                        editdiv.appendChild(lb);
+                        var inp = document.createElement('input');
+                        inp.setAttribute('type', 'text');//输入框的类型
+                        inp.setAttribute('class', 'form-control edit-project');//输入框的
+                        inp.setAttribute('placeholder', "请输入标准项目名称，不要自由发挥");
+                        inp.setAttribute('value', '{{ project }}');
+                        editdiv.appendChild(inp);
+                        var lb2 = document.createElement('label');
+                        lb2.innerText = "";
+                        editdiv.appendChild(lb2);
+                        var addele2 = document.createElement('textarea');
+                        addele2.setAttribute('rows', '3');
+                        addele2.setAttribute('class', 'form-control edit-project');//输入框的
+                        addele2.setAttribute('placeholder', "请不要超过50字，参考格式1、...；2、...；...");
+                        editdiv.appendChild(addele2);
+                    }
+                })
+
             })
-        });
-     })
+        })
+
+
     </script>
 {% endblock %}

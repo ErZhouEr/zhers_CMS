@@ -30,9 +30,12 @@
         <h4><b>请选择要查看的会议：</b></h4>
     <select id="confertype" class="btn btn-default" onchange="Get_Next_Place('confertype','Get_sub')">
         <option id="Not_data1">会议类别</option>
-        <option id="普通小型会议" value="普通小型会议">普通小型会议</option>
-        <option id="项目例会" value="项目例会">项目例会</option>
-        <option id="部门例会" value="部门例会">部门例会</option>
+{#        <option id="普通小型会议" value="普通小型会议">普通小型会议</option>#}
+{#        <option id="项目例会" value="项目例会">项目例会</option>#}
+{#        <option id="部门例会" value="部门例会">部门例会</option>#}
+        {% for i in all_types %}
+            <option id="{{ i }}" value="{{ i }}">{{ i }}</option>
+        {% endfor %}
     </select>
     <select id="confersub" class="btn btn-default" onchange="Get_Next_Place('confersub','Get_time')">
         <option id="Not_data2">会议主题</option>
@@ -40,7 +43,7 @@
     <select id="confertime" class="btn btn-default">
         <option id="Not_data3">会议时间</option>
     </select>
-    <button type="button" class="btn btn-block btn-primary" style="width: 8%;display: inline;margin-left: 2%">查找</button>
+    <button type="button" class="btn btn-block btn-primary" id="searchconf" style="width: 8%;display: inline;margin-left: 2%">查找会议</button>
     <!--<hr style="background-color:#8B8986;height: 1px;width:100%;border: none;"/>-->
         </div>
 
@@ -58,11 +61,11 @@
                             </div>
                             <hr>
                             <div style="margin: 0 auto; width: 20%;height: 20%">
-                            <button type="submit" class="btn btn-app" style="margin-right:15%;border-color: #838081"><i class="fa fa-save"></i>
-                                提交
+                            <button type="submit" class="btn btn-app" style="margin-right:15%;border-color: #838081"><i class="fa fa-heart"></i>
+                                收藏
                             </button>
-                            <button type="button" class="btn btn-app" style="float: right;border-color: #838081"><i class="fa fa-edit"></i>
-                                编辑
+                            <button type="button" class="btn btn-app" style="float: right;border-color: #838081"><i class="fa fa-inbox"></i>
+                                导出
                             </button>
                                 </div>
 
@@ -170,6 +173,38 @@
                 console.log(text);  //用来观察生成的text数据
             }
         }
+
+
+        $(function () {
+            $("#searchconf").click(function () {
+                var conftype=$("#confertype").val();
+                var confsub=$("#confersub").val();
+                var conftime=$("#confertime").val();
+                var data={cftyp:conftype,cfsb:confsub,cftm:conftime};
+                {#alert(data);#}
+                $.ajax({
+                    url: "/confer_manage/choscoonf/",
+                    type: "POST",
+                    data: data,
+                    dataType: "JSON",
+                    success: function (arg) {
+                        console.log("26----", arg);
+                        if (arg["status"] == "成功") {
+                            if(arg['conclusion'].length<10){
+                                alert('当前会议无会议纪要，请重新选择')
+                            }else {
+                                $("#confconclusion")[0].value=arg['conclusion']
+                            }
+
+                        } else {
+                            alert(arg['message'])
+                        }
+
+                    }
+
+                })
+                })
+            });
 
     </script>
 
