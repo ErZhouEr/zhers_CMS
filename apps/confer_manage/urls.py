@@ -27,6 +27,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('usertask/', views.usertask, name='usertask'),
     path('document/', views.document, name='document'),
+    path('newdocument/', views.newdocument, name='newdocument'),
     path('choscoonf/', views.choscoonf, name='choscoonf'),
     path('getSubData/', views.getSubData),
     path('getTimeData/', views.getTimeData),

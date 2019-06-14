@@ -20,19 +20,29 @@ from django.views.decorators.csrf import csrf_exempt
 def dashboard(request):
 	if not request.session.get('is_login', None):
 		return redirect('/login/')
+	#计算基金总金额
 	topics=models.Topic.objects.filter(is_ex=1)
 	money_dict={}
 	for topic in topics:
 		money_dict[topic.people_id.name]=money_dict.get(topic.people_id.name,0)+topic.money
 	print(money_dict)
 	money_people=list(money_dict.keys())
-	topics_notsub=models.Topic.objects.filter(is_money_sub=0)
+	#找到没交清钱的，进行提醒
+	topics_notsub=models.Topic.objects.filter(is_money_sub=0,is_ex=1)
 	notsub_dict={}
 	for tpc in topics_notsub:
-		key=tpc.people_id.name+tpc.confer_id.subject
+		key=tpc.people_id.name+'在'+tpc.confer_id.confer_type.confer_type+tpc.confer_id.subject
 		notsub_dict[key]=tpc.money-tpc.money_sub
+	#统计每个人的会议总数
+	people_lst=lg_models.User.objects.all()
+	peop_cf_dict={}
+	for peop in people_lst:
+		con_num=models.Conference.objects.filter(people=peop).count()
+		print(con_num)
+		peop_cf_dict[peop.name]=con_num
+	peoples=list(peop_cf_dict.keys())
+	values=list(peop_cf_dict.values())
 	return render(request, 'confer_manege/dashboard.html', locals())
-
 
 def usertask(request):
 	if not request.session.get('is_login', None):
@@ -494,49 +504,72 @@ def document(request):
 			conf_dict_l2[sub.subject] = conf_times
 		conf_dict[typ.confer_type] = conf_dict_l2
 	all_types = conf_dict.keys()
-
-	confer_id = request.session['confer_id']
-	cu_user = request.session['user_id']
-	topics = models.Topic.objects.filter(confer_id=confer_id)
-	conclusion = {}  # 读取topic中保存的字典并形成会议纪要的格式
-	for topic in topics:
-		sen_dict = ast.literal_eval(topic.sentence)
-		for key in sen_dict:
-			# print(key, sen_dict)
-			conclusion[key] = conclusion.get(key, [])
-			conclusion[key].append(
-				'* [ ' + topic.people_id.name + ' ] ' + sen_dict[key].split('#')[1].replace('\n', ''))
-	doc = '【会议纪要】\n'
-	for key in conclusion:
-		doc = doc + 'PROJECT: ' + key + ':\n' + '\n'.join(conclusion[key]) + '\n'
-
-	share = '【SHARE】\n'
-	for topic in topics:
-		if len(topic.share) > 3:
-			share = share + '* [ ' + topic.people_id.name + ' ] ' + topic.share + '\n'
-	follup = '【FOLLOW UP】\n'
-	for topic in topics:
-		if len(topic.followup) > 3:
-			follup = follup + '* [ ' + topic.people_id.name + ' ] ' + topic.followup + '\n'
-	money = '【DONATION】\n'
-	for topic in topics:
-		if topic.is_ex is True:
-			if topic.is_money_sub is not True:
-				status = '待还'
-			else:
-				status = '已还'
-			money = money + '* [ ' + topic.people_id.name + ' ] ' + '本次需奉献' + str(topic.money) + '元' + '，已奉献' + str(
-				topic.money_sub) + '元' + '\n'
-	doc = doc + '-----' * 40 + '\n' + share + '-----' * 40 + '\n' + follup + '-----' * 40 + '\n' + money + '-----' * 40 + '\n'
-	confer = models.Conference.objects.get(id=confer_id)
-	confer.confer_conclusion = doc
-	confer.conclusioner = lg_models.User.objects.get(id=cu_user)
-	confer.is_over = True
-	confer.save()
-	print('会议纪要保存成功')
-	data = {'conferconclusion': doc}
-	document_form = forms.Document(auto_id=True, data=data)
+	document_form = forms.Document(auto_id=True)
 	return render(request, 'confer_manege/document.html', locals())
+
+
+def newdocument(request):
+	if not request.session.get('is_login', None):
+		return redirect('/login/')
+	conf_dict = {}
+	conf_types = models.Sysconf.objects.all()
+	for typ in conf_types:
+		conf_subs = models.Conference.objects.filter(confer_type=typ.id)
+		conf_dict_l2 = {}
+		for sub in conf_subs:
+			confs = models.Conference.objects.filter(confer_type=typ.id, subject=sub.subject)
+			conf_times = []
+			for conf in confs:
+				conf_times.append(conf.stime)
+			conf_dict_l2[sub.subject] = conf_times
+		conf_dict[typ.confer_type] = conf_dict_l2
+	all_types = conf_dict.keys()
+	try:
+		confer_id = request.session['confer_id']
+		cu_user = request.session['user_id']
+		topics = models.Topic.objects.filter(confer_id=confer_id)
+		conclusion = {}  # 读取topic中保存的字典并形成会议纪要的格式
+		for topic in topics:
+			sen_dict = ast.literal_eval(topic.sentence)
+			for key in sen_dict:
+				# print(key, sen_dict)
+				conclusion[key] = conclusion.get(key, [])
+				conclusion[key].append(
+					'* [ ' + topic.people_id.name + ' ] ' + sen_dict[key].split('#')[1].replace('\n', ''))
+		doc = '【会议纪要】\n'
+		for key in conclusion:
+			doc = doc + 'PROJECT: ' + key + ':\n' + '\n'.join(conclusion[key]) + '\n'
+
+		share = '【SHARE】\n'
+		for topic in topics:
+			if len(topic.share) > 3:
+				share = share + '* [ ' + topic.people_id.name + ' ] ' + topic.share + '\n'
+		follup = '【FOLLOW UP】\n'
+		for topic in topics:
+			if len(topic.followup) > 3:
+				follup = follup + '* [ ' + topic.people_id.name + ' ] ' + topic.followup + '\n'
+		money = '【DONATION】\n'
+		for topic in topics:
+			if topic.is_ex is True:
+				if topic.is_money_sub is not True:
+					status = '待还'
+				else:
+					status = '已还'
+				money = money + '* [ ' + topic.people_id.name + ' ] ' + '本次需奉献' + str(topic.money) + '元' + '，已奉献' + str(
+					topic.money_sub) + '元' + '\n'
+		doc = doc + '-----' * 40 + '\n' + share + '-----' * 40 + '\n' + follup + '-----' * 40 + '\n' + money + '-----' * 40 + '\n'
+		confer = models.Conference.objects.get(id=confer_id)
+		confer.confer_conclusion = doc
+		confer.conclusioner = lg_models.User.objects.get(id=cu_user)
+		confer.is_over = True
+		confer.save()
+		print('会议纪要保存成功')
+		data = {'conferconclusion': doc}
+		document_form = forms.Document(auto_id=True, data=data)
+		return render(request, 'confer_manege/document.html', locals())
+	except:
+		return render(request, 'confer_manege/500.html', locals())
+
 
 
 # ---------------------数据库与前端document页面交互生成前端元素---------------------------
