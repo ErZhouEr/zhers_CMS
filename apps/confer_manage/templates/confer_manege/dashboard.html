@@ -25,110 +25,116 @@
     <section class="content">
         <div class="row">
             <!-- row -->
-            <div class="col-md-12">
-                <!-- jQuery Knob -->
-                <div class="box box-solid">
-                    <div class="box-header">
-                        <i class="fa fa-bar-chart-o"></i>
-
-                        <h3 class="box-title">例会数据展示
-                            <small>(%)</small>
-                        </h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-default btn-sm" data-widget="collapse"><i
-                                    class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm" data-widget="remove"><i
-                                    class="fa fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <div class="row">
-
-                            <div class="col-xs-6 col-md-2 col-md-offset-1 text-center">
-                                <input type="text" class="knob" value="30" data-width="150" data-height="150"
-                                       data-fgColor="#00a65a" data-readonly="true">
-
-                                <div class="knob-label">未准备充分</div>
-                            </div>
-
-                            <!-- ./col -->
-                            <div class="col-xs-6 col-md-2 text-center">
-                                <input type="text" class="knob" value="70" data-width="150" data-height="150"
-                                       data-fgColor="#f56954" data-readonly="true">
-
-                                <div class="knob-label">正常会议</div>
-                            </div>
-                            <!-- ./col -->
-
-                            <div class="col-xs-6 col-md-2 text-center">
-                                <input type="text" class="knob" value="50" data-width="150" data-height="150"
-                                       data-fgColor="#932ab6" data-readonly="true">
-
-                                <div class="knob-label">临时会议</div>
-                            </div>
-
-                            <!-- ./col -->
-                            <div class="col-xs-6 col-md-2 text-center">
-                                <input type="text" class="knob" value="100" data-width="150" data-height="150"
-                                       data-fgColor="#3c8dbc" data-readonly="true">
-
-                                <div class="knob-label">备用</div>
-                            </div>
-
-                            <!-- ./col -->
-                            <div class="col-xs-6 col-md-2 text-center">
-                                <input type="text" class="knob" value="0" data-width="150" data-height="150"
-                                       data-fgColor="#cccccc" data-readonly="true">
-
-                                <div class="knob-label">未知</div>
-                            </div>
-
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                    <!-- /.box -->
-                </div>
-                <!-- /.col (RIGHT) -->
-            </div>
+            {#            <div class="col-md-12">#}
+            {#                <!-- jQuery Knob -->#}
+            {#                <div class="box box-solid">#}
+            {#                    <div class="box-header">#}
+            {#                        <i class="fa fa-bar-chart-o"></i>#}
+            {##}
+            {#                        <h3 class="box-title">例会数据展示#}
+            {#                            <small>(%)</small>#}
+            {#                        </h3>#}
+            {##}
+            {#                        <div class="box-tools pull-right">#}
+            {#                            <button type="button" class="btn btn-default btn-sm" data-widget="collapse"><i#}
+            {#                                    class="fa fa-minus"></i>#}
+            {#                            </button>#}
+            {#                            <button type="button" class="btn btn-default btn-sm" data-widget="remove"><i#}
+            {#                                    class="fa fa-times"></i>#}
+            {#                            </button>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                    <!-- /.box-header -->#}
+            {#                    <div class="box-body">#}
+            {#                        <div class="row">#}
+            {##}
+            {#                            <div class="col-xs-6 col-md-2 col-md-offset-1 text-center">#}
+            {#                                <input type="text" class="knob" value="30" data-width="150" data-height="150"#}
+            {#                                       data-fgColor="#00a65a" data-readonly="true">#}
+            {##}
+            {#                                <div class="knob-label">未准备充分</div>#}
+            {#                            </div>#}
+            {##}
+            {#                            <!-- ./col -->#}
+            {#                            <div class="col-xs-6 col-md-2 text-center">#}
+            {#                                <input type="text" class="knob" value="70" data-width="150" data-height="150"#}
+            {#                                       data-fgColor="#f56954" data-readonly="true">#}
+            {##}
+            {#                                <div class="knob-label">正常会议</div>#}
+            {#                            </div>#}
+            {#                            <!-- ./col -->#}
+            {##}
+            {#                            <div class="col-xs-6 col-md-2 text-center">#}
+            {#                                <input type="text" class="knob" value="50" data-width="150" data-height="150"#}
+            {#                                       data-fgColor="#932ab6" data-readonly="true">#}
+            {##}
+            {#                                <div class="knob-label">临时会议</div>#}
+            {#                            </div>#}
+            {##}
+            {#                            <!-- ./col -->#}
+            {#                            <div class="col-xs-6 col-md-2 text-center">#}
+            {#                                <input type="text" class="knob" value="100" data-width="150" data-height="150"#}
+            {#                                       data-fgColor="#3c8dbc" data-readonly="true">#}
+            {##}
+            {#                                <div class="knob-label">备用</div>#}
+            {#                            </div>#}
+            {##}
+            {#                            <!-- ./col -->#}
+            {#                            <div class="col-xs-6 col-md-2 text-center">#}
+            {#                                <input type="text" class="knob" value="0" data-width="150" data-height="150"#}
+            {#                                       data-fgColor="#cccccc" data-readonly="true">#}
+            {##}
+            {#                                <div class="knob-label">未知</div>#}
+            {#                            </div>#}
+            {##}
+            {#                        </div>#}
+            {#                        <!-- /.box-body -->#}
+            {#                    </div>#}
+            {#                    <!-- /.box -->#}
+            {#                </div>#}
+            {#                <!-- /.col (RIGHT) -->#}
+            {#            </div>#}
             <!-- /.row -->
 
             <div class="col-md-6">
                 <!-- BAR CHART -->
                 <div class="box box-success">
                     <div class="box-header with-border">
-                        <h3 class="box-title">用户参加会议数量统计：</h3>
+                        <h3 class="box-title">各部门会议数量/时间折线图</h3>
 
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                            <button type="button" class="btn btn-sm bg-gray" data-widget="collapse"><i
                                     class="fa fa-minus"></i>
                             </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                            <button type="button" class="btn btn-sm bg-gray" data-widget="remove"><i
                                     class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        {# 百度Echarts实现统计图#}
+                        <div id="lineChart" style="width: 90%;height:400px;"></div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <i class="fa fa-th"></i>
+
+                        <h3 class="box-title">用户参加会议数量统计</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn bg-gray btn-sm" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn bg-gray btn-sm" data-widget="remove"><i
+                                    class="fa fa-times"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="box-body">
                         {# 百度Echarts实现柱状图#}
                         <div id="barChart" style="width: 90%;height:400px;"></div>
-                    </div>
-                    <!-- /.box-body -->
-
-                    <div class="box-header">
-                        <i class="fa fa-th"></i>
-
-                        <h3 class="box-title">会议数量/时间折线图</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn bg-teal btn-sm" data-widget="collapse"><i
-                                    class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn bg-teal btn-sm" data-widget="remove"><i
-                                    class="fa fa-times"></i>
-                            </button>
-                        </div>
                     </div>
 
                 </div>
@@ -142,21 +148,21 @@
                         <h3 class="box-title">例会基金状况统计：</h3>
 
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                            <button type="button" class="btn bg-danger btn-sm" data-widget="collapse"><i
                                     class="fa fa-minus"></i>
                             </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                            <button type="button" class="btn bg-danger btn-sm" data-widget="remove"><i
                                     class="fa fa-times"></i></button>
                         </div>
                     </div>
                     <div class="box-body">
                         {# 百度Echarts实现饼状图#}
-                        <div id="donutChart" style="width: 80%;height:400px;display: inline;float: left"></div>
-                        <div style="width: 18%;height: 400px;display: inline;float: right;border-left: #7e7783 solid 1px;text-align: center">
-                            <h4>收支情况概述</h4>
-                        </div>
+                        <div id="donutChart" style="width: 100%;height:450px;display: inline;float: left"></div>
+                        {#                        <div style="width: 18%;height: 400px;display: inline;float: right;border-left: #7e7783 solid 1px;text-align: center">#}
+                        {#                            <h4>收支情况概述</h4>#}
+                        {#                        </div>#}
                     </div>
-                    <!--<hr style="background-color:#0b58a2;height: 1px;width:90%;border: none;">-->
+                    <hr style="background-color:#838081;height: 1px;width:80%;border: none;">
                     <!-- TO DO List -->
                     <div class="box-header">
                         <i class="ion ion-clipboard"></i>
@@ -225,57 +231,57 @@
 
     <script>
         // 顶部服务器状态百分率圆图
-        $(function () {
-            /* jQueryKnob */
-            $(".knob").knob({
-                /*change : function (value) {
-		  //console.log("change : " + value);
-		  },
-		  release : function (value) {
-		  console.log("release : " + value);
-		  },
-		  cancel : function () {
-		  console.log("cancel : " + this.value);
-		  },*/
-                draw: function () {
-                    // "tron" case
-                    if (this.$.data('skin') == 'tron'
-                    ) {
-                        var a = this.angle(this.cv)  // Angle
-                            , sa = this.startAngle          // Previous start angle
-                            , sat = this.startAngle         // Start angle
-                            , ea                            // Previous end angle
-                            , eat = sat + a                 // End angle
-                            , r = true;
-                        this.g.lineWidth = this.lineWidth;
-                        this.o.cursor
-                        && (sat = eat - 0.3)
-                        && (eat = eat + 0.3);
-                        if (this.o.displayPrevious) {
-                            ea = this.startAngle + this.angle(this.value);
-                            this.o.cursor
-                            && (sa = ea - 0.3)
-                            && (ea = ea + 0.3);
-                            this.g.beginPath();
-                            this.g.strokeStyle = this.previousColor;
-                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
-                            this.g.stroke();
-                        }
-                        this.g.beginPath();
-                        this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
-                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
-                        this.g.stroke();
-                        this.g.lineWidth = 2;
-                        this.g.beginPath();
-                        this.g.strokeStyle = this.o.fgColor;
-                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
-                        this.g.stroke();
-                        return false;
-                    }
-                }
-            });
-            /* END JQUERY KNOB */
-        });
+        {#$(function () {#}
+        {#    /* jQueryKnob */#}
+        {#    $(".knob").knob({#}
+        {#        /*change : function (value) {#}
+        {#  //console.log("change : " + value);#}
+        {#  },#}
+        {#  release : function (value) {#}
+        {#  console.log("release : " + value);#}
+        {#  },#}
+        {#  cancel : function () {#}
+        {#  console.log("cancel : " + this.value);#}
+        {#  },*/#}
+        {#        draw: function () {#}
+        {#            // "tron" case#}
+        {#            if (this.$.data('skin') == 'tron'#}
+        {#            ) {#}
+        {#                var a = this.angle(this.cv)  // Angle#}
+        {#                    , sa = this.startAngle          // Previous start angle#}
+        {#                    , sat = this.startAngle         // Start angle#}
+        {#                    , ea                            // Previous end angle#}
+        {#                    , eat = sat + a                 // End angle#}
+        {#                    , r = true;#}
+        {#                this.g.lineWidth = this.lineWidth;#}
+        {#                this.o.cursor#}
+        {#                && (sat = eat - 0.3)#}
+        {#                && (eat = eat + 0.3);#}
+        {#                if (this.o.displayPrevious) {#}
+        {#                    ea = this.startAngle + this.angle(this.value);#}
+        {#                    this.o.cursor#}
+        {#                    && (sa = ea - 0.3)#}
+        {#                    && (ea = ea + 0.3);#}
+        {#                    this.g.beginPath();#}
+        {#                    this.g.strokeStyle = this.previousColor;#}
+        {#                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);#}
+        {#                    this.g.stroke();#}
+        {#                }#}
+        {#                this.g.beginPath();#}
+        {#                this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;#}
+        {#                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);#}
+        {#                this.g.stroke();#}
+        {#                this.g.lineWidth = 2;#}
+        {#                this.g.beginPath();#}
+        {#                this.g.strokeStyle = this.o.fgColor;#}
+        {#                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);#}
+        {#                this.g.stroke();#}
+        {#                return false;#}
+        {#            }#}
+        {#        }#}
+        {#    });#}
+        {#    /* END JQUERY KNOB */#}
+        {# });#}
 
 
         //不同状态资产数量统计 柱状图
@@ -294,6 +300,12 @@
                 legend: {
                     data: ['']
                 },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {},
+                        dataView:{}
+                    }
+                },
                 xAxis: {
                     data: {{ peoples|safe }}
                 },
@@ -309,6 +321,102 @@
             myChart.setOption(option);
         });
 
+        //各部门会议数量折线图
+        $(function () {
+            var dom = document.getElementById("lineChart");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            option = {
+                title: {
+                    text: '堆叠区域图'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                legend: {
+                    data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {},
+                        dataView: {}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月']
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    {
+                        name: '数据管理',
+                        type: 'line',
+                        stack: '总量',
+                        areaStyle: {},
+                        data: [120, 132, 101, 134, 90, 230, 210]
+                    },
+                    {
+                        name: '建模分析',
+                        type: 'line',
+                        stack: '总量',
+                        areaStyle: {},
+                        data: [220, 182, 191, 234, 290, 330, 310]
+                    },
+                    {
+                        name: '视频广告',
+                        type: 'line',
+                        stack: '总量',
+                        areaStyle: {},
+                        data: [150, 232, 201, 154, 190, 330, 410]
+                    },
+                    {
+                        name: '直接访问',
+                        type: 'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data: [320, 332, 301, 334, 390, 330, 320]
+                    },
+                    {
+                        name: '搜索引擎',
+                        type: 'line',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        },
+                        areaStyle: {normal: {}},
+                        data: [820, 932, 901, 934, 1290, 1330, 1320]
+                    }
+                ]
+            };
+            ;
+            if (option && typeof option === "object") {
+                myChart.setOption(option, true);
+            }
+        });
+
         //资产类型数量统计 饼图
 
         $(function () {
@@ -319,62 +427,165 @@
             // 基于准备好的dom，初始化echarts实例
             var myChart = echarts.init(document.getElementById('donutChart'));
             // 指定图表的配置项和数据
+            {#var option = {#}
+            {#    title: {#}
+            {#        text: '会议基金奉献榜',#}
+            {#        x: 'center'#}
+            {#    },#}
+            {#    tooltip: {#}
+            {#        trigger: 'item',#}
+            {#        formatter: "{a} <br/>{b} : {c} ({d}%)"#}
+            {#    },#}
+            {#    legend: {#}
+            {#        orient: 'vertical',#}
+            {#        left: 'left',#}
+            {#        data: {{ money_people|safe }}#}
+            {#    },#}
+            {#    toolbox: {#}
+            {#        show: true,#}
+            {#        feature: {#}
+            {#            mark: {show: true},#}
+            {#            dataView: {show: true, readOnly: false},#}
+            {#            magicType: {#}
+            {#                show: true,#}
+            {#                type: ['pie', 'funnel'],#}
+            {#                option: {#}
+            {#                    funnel: {#}
+            {#                        x: '25%',#}
+            {#                        width: '50%',#}
+            {#                        funnelAlign: 'left',#}
+            {#                        max: 1548#}
+            {#                    }#}
+            {#                }#}
+            {#            },#}
+            {#            restore: {show: true},#}
+            {#            saveAsImage: {show: true}#}
+            {#        }#}
+            {#    },#}
+            {#    series: [#}
+            {#        {#}
+            {#            name: '资产分布',#}
+            {#            type: 'pie',#}
+            {#            radius: '60%',#}
+            {#            center: ['50%', '50%'],#}
+            {#            data: [#}
+            {#                {% for k,v in money_dict.items %}#}
+            {#                    {value: {{ v }}, name: '{{ k }}'},#}
+            {#                {% endfor %}#}
+            {#            ],#}
+            {#            itemStyle: {#}
+            {#                emphasis: {#}
+            {#                    shadowBlur: 10,#}
+            {#                    shadowOffsetX: 0,#}
+            {#                    shadowColor: 'rgba(0, 0, 0, 0.5)'#}
+            {#                }#}
+            {#            }#}
+            {#        }#}
+            {#    ],#}
+            {##}
+            {# };#}
+
+            {#app.title = '嵌套环形图';#}
+
             var option = {
-                title: {
-                    text: '会议基金奉献榜',
-                    x: 'center'
-                },
                 tooltip: {
                     trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
                 },
                 legend: {
                     orient: 'vertical',
-                    left: 'left',
-                    data: {{ money_people|safe }}
+                    x: 'left',
+                    data: {{ total_data_x|safe }}
                 },
                 toolbox: {
-                    show: true,
                     feature: {
-                        mark: {show: true},
-                        dataView: {show: true, readOnly: false},
-                        magicType: {
-                            show: true,
-                            type: ['pie', 'funnel'],
-                            option: {
-                                funnel: {
-                                    x: '25%',
-                                    width: '50%',
-                                    funnelAlign: 'left',
-                                    max: 1548
-                                }
-                            }
-                        },
-                        restore: {show: true},
-                        saveAsImage: {show: true}
+                        saveAsImage: {},
+                        dataView: {}
                     }
                 },
                 series: [
                     {
-                        name: '资产分布',
+                        name: '总体收支情况',
                         type: 'pie',
-                        radius: '60%',
-                        center: ['50%', '50%'],
-                        data: [
-                            {% for k,v in money_dict.items %}
-                                {value: {{ v }}, name: '{{ k }}'},
-                            {% endfor %}
-                        ],
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }
-                ],
+                        selectedMode: 'single',
+                        radius: [0, '30%'],
+                        center: ['50%', '60%'],
 
+                        label: {
+                            normal: {
+                                position: 'inner'
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data: [
+                            {value: {{ layer1_money.income }}, name: '收入'},
+                            {value: {{ layer1_money.outcome }}, name: '支出'}
+                        ]
+                    },
+                    {
+                        name: '收支细节',
+                        type: 'pie',
+                        radius: ['40%', '55%'],
+                        center: ['50%', '60%'],
+                        label: {
+                            normal: {
+                                formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                                backgroundColor: '#eee',
+                                borderColor: '#aaa',
+                                borderWidth: 1,
+                                borderRadius: 4,
+                                shadowBlur: 3,
+                                shadowOffsetX: 1,
+                                shadowOffsetY: 1,
+                                shadowColor: '#999',
+                                padding: [0, 7],
+                                rich: {
+                                    a: {
+                                        color: '#999',
+                                        lineHeight: 22,
+                                        align: 'center'
+                                    },
+                                    // abg: {
+                                    //     backgroundColor: '#333',
+                                    //     width: '100%',
+                                    //     align: 'right',
+                                    //     height: 22,
+                                    //     borderRadius: [4, 4, 0, 0]
+                                    // },
+                                    hr: {
+                                        borderColor: '#aaa',
+                                        width: '100%',
+                                        borderWidth: 0.5,
+                                        height: 0
+                                    },
+                                    b: {
+                                        fontSize: 16,
+                                        lineHeight: 33
+                                    },
+                                    per: {
+                                        color: '#eee',
+                                        backgroundColor: '#334455',
+                                        padding: [2, 4],
+                                        borderRadius: 2
+                                    }
+                                }
+                            }
+                        },
+                        data: [
+                            {% for k,v in total_dict.income.items %}
+                                {value: {{ v }}, name: '{{k|safe}}'},
+                            {% endfor %}
+                            {% for k,v in total_dict.outcome.items %}
+                                {value: {{ v }}, name: '{{k|safe}}'},
+                            {% endfor %}
+
+                        ]
+                    }
+                ]
             };
             // 使用刚指定的配置项和数据显示图表。
             myChart.setOption(option);

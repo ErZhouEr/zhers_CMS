@@ -165,10 +165,11 @@
             var confer_data = [];
             {% for confer in confer_data %}
                 confer_dict = {
-                    title: '{{ confer.title }}',
+                    title: '{{ confer.title }}'+'-{{ confer.id }}',
                     start: new Date({{ confer.year }}, {{ confer.month }}-1, {{ confer.day }},{{ confer.hour }},{{ confer.min }}),
                     end: new Date({{ confer.end_year }}, {{ confer.end_month }}-1, {{ confer.end_day }},{{ confer.end_hour }},{{ confer.end_min }}),
                     url:'/confer_manage/create/',
+                    overlap: false,
                     backgroundColor: '{{ confer.backgroundColor }}',
                     borderColor: '{{ confer.borderColor }}'
                 };
@@ -194,10 +195,10 @@
                     if (eventObj.url) {
                         alert(
                             'Clicked ' + eventObj.title + '.\n' +
-                            '将会前往 ' + eventObj.url + ' 创建会议~'
+                            '将会前往 ' + eventObj.url + ' 编辑会议，或进入会议纪要查看（已完结会议）'
                         );
-                        if(eventObj.end==null){eventObj.end=eventObj.start+3600000;}
-                        window.location.href = eventObj.url + '?' + 'confertype=' + eventObj.title + '&' + 'startime=' + eventObj.start + '&' + 'endtime=' + eventObj.end;
+                        if(eventObj.end==null){eventObj.end=eventObj.start+7200000;}
+                        window.location.href = eventObj.url + '?' + 'confertype=' + eventObj.title.split('-')[0] + '&'+'conferid=' + eventObj.title.split('-')[1] + '&' + 'startime=' + eventObj.start + '&' + 'endtime=' + eventObj.end;
                         return false; // prevents browser from following link in current tab.
                     } else {
                         alert('Clicked ' + eventObj.title);
@@ -234,6 +235,7 @@
                 editable: true,
                 aspectRatio: 1.8,
                 droppable: true, // this allows things to be dropped onto the calendar !!!
+
                 drop: function (date, allDay) { // this function is called when something is dropped
 
                     // retrieve the dropped element's stored Event Object

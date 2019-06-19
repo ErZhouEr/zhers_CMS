@@ -53,8 +53,9 @@ class Conference(models.Model):
 	people = models.ManyToManyField(to='login.User', verbose_name='参会人员',default='')
 	confer_conclusion = models.TextField(max_length=1500, verbose_name='会议纪要',default='')
 	conclusioner=models.ForeignKey(to='login.User',related_name='conclusion_people',on_delete=models.ProtectedError,verbose_name='会议记录人',null=True)
-	# is_start=models.BooleanField(default=False, verbose_name='是否已经开始')
+	# is_start=models.CharField(default=False, verbose_name='是否已经开始')
 	is_over=models.BooleanField(default=False, verbose_name='是否完成')
+
 
 	def __str__(self):
 		return self.subject
@@ -70,6 +71,7 @@ class Topic(models.Model):
 	share=models.TextField(max_length=200, verbose_name='分享内容',default='')
 	confer_id = models.ForeignKey(Conference, on_delete=models.ProtectedError, verbose_name='会议id',default=-1)
 	pre_time = models.FloatField(max_length=10, verbose_name='预计时长',default=0.0)
+	is_prepared=models.BooleanField(default=False, verbose_name='是否主动提交摘要')
 	real_time = models.IntegerField(verbose_name='真实时长',default=0)  #单位为秒
 	is_ex = models.BooleanField(default=False, verbose_name='是否超时')
 	ex_reason = models.CharField(max_length=30, verbose_name='超时原因')
@@ -87,3 +89,20 @@ class Topic(models.Model):
 		verbose_name = "汇报内容"
 		verbose_name_plural = "汇报内容"
 
+
+class Fund(models.Model):
+	fund_apart = models.ForeignKey(Apartment,on_delete=models.ProtectedError, verbose_name='所属部门', default='')
+	reason=models.TextField(max_length=200, verbose_name='收入事由',default='')
+	money = models.FloatField(max_length=10, verbose_name='收入金额',default=0.0)
+	income_confer = models.ForeignKey(Conference,on_delete=models.ProtectedError, verbose_name='收入所属会议', default='')
+	income_people=models.ForeignKey(to='login.User', on_delete=models.ProtectedError,verbose_name='创建人员', default='')
+	money_sub = models.FloatField(max_length=10, verbose_name='已交罚款金额', default=0.0)
+	is_money_sub = models.BooleanField(default=False, verbose_name='是否全部上交')
+
+
+	def __str__(self):
+		return self.reason+str(self.money)
+
+	class Meta:
+		verbose_name = "基金情况"
+		verbose_name_plural = "基金情况"

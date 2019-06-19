@@ -36,7 +36,7 @@ class ConferForm(forms.Form):
 	people = forms.CharField(widget=forms.SelectMultiple(choices=user_lst,
 	                                                attrs={'class': 'form-control select2 create-project', 'multiple': 'multiple',
 	                                                       'data-placeholder': '点击选择参会人员'}))
-	stime = forms.CharField(label="会议时间", max_length=30, widget=forms.TextInput(
+	stime = forms.CharField(label="会议时间", max_length=50, widget=forms.TextInput(
 		attrs={'class': 'form-control pull-right create-project', 'id': "reservationtime", 'autofocus': ''}))
 
 

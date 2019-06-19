@@ -38,20 +38,22 @@
                         <h3 class="box-title"><b>会议内容记录</b></h3>
                     </div>
                     <!-- /.box-header -->
-                    <div class="box-body"><form>
-                        <div class="input-group">
+                    <div class="box-body">
+                        <form>
+                            <div class="input-group">
 
-                            <select class="form-control select2" id="peopleselect"
-                                    style="width: 98%;display: inline">
-                                <option selected="selected">点击选择下一个发言人</option>
-                                {% for i in  people_lst %}
-                                    <option>{{ i }}</option>
-                                {% endfor %}
-                            </select>
-                            <span class="input-group-btn">
+                                <select class="form-control select2" id="peopleselect"
+                                        style="width: 98%;display: inline">
+                                    <option selected="selected">点击选择下一个发言人</option>
+                                    {% for i in  people_lst %}
+                                        <option>{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                                <span class="input-group-btn">
                       <button type="button" class="btn btn-warning" id="peopleSubmitbt"><b>确定</b></button>
                     </span>
-                        </div></form>
+                            </div>
+                        </form>
                         <hr style="background-color:#838081;height: 1px;width:100%;border: none;">
                         <form role="form">
 
@@ -96,7 +98,8 @@
                             <!-- textarea -->
 
                             <div style="margin: 0 auto; width: 6%;height: 10%">
-                                <button type="button" class="btn btn-app" id="saveneweditbt" style="display: inline-block;margin: 0 auto;border-color: #838081">
+                                <button type="button" class="btn btn-app" id="saveneweditbt"
+                                        style="display: inline-block;margin: 0 auto;border-color: #838081">
                                     <i
                                             class="fa fa-save"></i>
                                     保存
@@ -201,7 +204,7 @@
     <script>
         $(function () {
             $("#peopleSubmitbt").click(function () {
-                var data=$("#peopleselect").val();
+                var data = $("#peopleselect").val();
                 $.ajax({
                     url: "/confer_manage/chospeople/",
                     type: "POST",
@@ -211,12 +214,36 @@
                         console.log("26----", arg);
                         if (arg["status"] == "成功") {
                             {#alert(arg['subcontent']);#}
-                            $("#subcontent")[0].value=arg['subcontent'];
-                            $("#sharecontent")[0].value=arg['sharecontent'];
-                            $("#pretime")[0].value=arg['pretime'];
-                            $("#followup")[0].value=arg['followup'];
+                            $("#subcontent")[0].value = arg['subcontent'];
+                            $("#sharecontent")[0].value = arg['sharecontent'];
+                            $("#pretime")[0].value = arg['pretime'];
+                            $("#realtime")[0].value = arg['realtime'];
+                            $("#followup")[0].value = arg['followup'];
+                            if (arg['realtime'] > 0) {
+                                $("#subcontent").attr("disabled", true);
+                                $("#sharecontent").attr("disabled", true);
+                                $("#realtime").attr("disabled", true);
+                                $("#followup").attr("disabled", true);
+                                $("#saveneweditbt").attr("disabled", true);
+                            }else {
+                                $("#subcontent").attr("disabled", false);
+                                $("#sharecontent").attr("disabled", false);
+                                $("#realtime").attr("disabled", false);
+                                $("#followup").attr("disabled", false);
+                                $("#saveneweditbt").attr("disabled", false);
+                            }
+
                         } else {
-                            alert(arg['message'])
+                            $("#subcontent")[0].value = 'Null';
+                            $("#sharecontent")[0].value = 'Null';
+                            $("#pretime")[0].value = 'Null';
+                            $("#followup")[0].value = 'Null';
+                            alert(arg['message']);
+                            $("#subcontent").attr("disabled", false);
+                            $("#sharecontent").attr("disabled", false);
+                            $("#realtime").attr("disabled", false);
+                            $("#followup").attr("disabled", false);
+                            $("#saveneweditbt").attr("disabled", false);
                         }
 
                     }
@@ -226,12 +253,12 @@
 
 
             $("#saveneweditbt").click(function () {
-                var people=$("#peopleselect").val();
-                var subcont=$("#subcontent").val();
-                var sharecont=$("#sharecontent").val();
-                var realtim=$("#realtime").val();
-                var folup=$("#followup").val();
-                var data={peop:people,sentence:subcont,share:sharecont,rtime:realtim,follup:folup};
+                var people = $("#peopleselect").val();
+                var subcont = $("#subcontent").val();
+                var sharecont = $("#sharecontent").val();
+                var realtim = $("#realtime").val();
+                var folup = $("#followup").val();
+                var data = {peop: people, sentence: subcont, share: sharecont, rtime: realtim, follup: folup};
                 $.ajax({
                     url: "/confer_manage/savenewedit/",
                     type: "POST",
@@ -241,6 +268,11 @@
                         console.log("26----", arg);
                         if (arg["status"] == "成功") {
                             alert(arg['message']);
+                            $("#subcontent").attr("disabled", true);
+                            $("#sharecontent").attr("disabled", true);
+                            $("#realtime").attr("disabled", true);
+                            $("#followup").attr("disabled", true);
+                            $("#saveneweditbt").attr("disabled", true);
 
                         } else {
                             alert(arg['message'])
