@@ -14,8 +14,8 @@
             <small>conference start</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
-            <li>开始{{ request.session.conftype }}</li>
+            <li><a href="#"><i class="fa fa-table"></i> 主页</a></li>
+            <li>个人会议日程</li>
             <li class="active">开始{{ request.session.conftype }}</li>
         </ol>
     </section>
@@ -71,11 +71,11 @@
 
                             <div class="form-group float-left" style="display: inline-block;width: 38%">
                                 <label>预计发言时间</label>
-                                {{ start_form.pretime }}
+                                {{ start_form.pretime }}分钟
                             </div>
                             <div class="form-group float-right" style="display: inline-block;width: 38%">
                                 <label>实际发言时间</label>
-                                {{ start_form.realtime }}
+                                {{ start_form.realtime }}秒
                             </div>
                             <div class="box-body float-right" style="display: inline-block;position: fixed">
                                 <h3 id="mytime"></h3>
@@ -136,11 +136,11 @@
 {% block script %}
 
     <!-- FastClick -->
-    <script src="{% static 'adminlet-2.4.10/bower_components/fastclick/lib/fastclick.js' %}"></script>
+{#    <script src="{% static 'adminlet-2.4.10/bower_components/fastclick/lib/fastclick.js' %}"></script>#}
     <!-- AdminLTE App -->
-    <script src="{% static 'adminlet-2.4.10/dist/js/adminlte.min.js' %}"></script>
+{#    <script src="{% static 'adminlet-2.4.10/dist/js/adminlte.min.js' %}"></script>#}
     <!-- AdminLTE for demo purposes -->
-    <script src="{% static 'adminlet-2.4.10/dist/js/demo.js' %}"></script>
+{#    <script src="{% static 'adminlet-2.4.10/dist/js/demo.js' %}"></script>#}
 
     <script type="text/javascript">
         var h = m = s = ms = 0;  //定义时，分，秒，毫秒并初始化为0；

@@ -15,7 +15,6 @@ users = lg_models.User.objects.filter(has_confirmed=1)
 user_lst = []
 for i in users:
 	user_lst.append((i.id, i.name))
-print(user_lst)
 
 projects=models.Project.objects.all()
 project_lst = []
@@ -65,10 +64,13 @@ class StartForm(forms.Form):
 		                          attrs={'class': 'form-control','id':'pretime', 'readonly':'readonly', 'placeholder': "填写数字即可，单位：分钟"}))
 	realtime = forms.CharField(label="实际时间", max_length=8,
 	                           widget=forms.TextInput(attrs={'class': 'form-control','id':'realtime'}))
-	followup = forms.CharField(label="followup", max_length=30,
+	followup = forms.CharField(label="followup", max_length=100,
 	                           widget=forms.TextInput(attrs={'class': 'form-control','id':'followup'}))
+	backup = forms.CharField(label="backup", max_length=100,
+	                           widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'backup'}))
 
 
 class Document(forms.Form):
-	conferconclusion = forms.CharField(label="汇报内容", max_length=100, widget=forms.Textarea(
+	conferconclusion = forms.CharField(label="汇报内容", max_length=2000, widget=forms.Textarea(
 		attrs={'class': 'form-control', 'id':'confconclusion','rows': 23, 'readonly':'readonly','placeholder': "请不要超过1000字，参考格式1、...；2、...；..."}))
+

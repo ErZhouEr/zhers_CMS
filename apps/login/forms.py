@@ -45,3 +45,18 @@ class RegisterForm(forms.Form):
 	apartment = forms.ChoiceField(label='部门', choices=apartment_lst)
 	role=forms.ChoiceField(label='角色',choices=roles)
 	captcha = CaptchaField(label='验证码')
+
+
+class editUserForm(forms.Form):
+	roles = (
+		('user', '普通用户'),
+		('moneyadmin', '基金管理员'),
+		('admin', "管理员"),
+	)
+	username = forms.CharField(label="用户名", min_length=2, max_length=10, widget=forms.TextInput(attrs={'class': 'form-control','placeholder': "请输入不少于2位用户名"}))
+	password1 = forms.CharField(label="密码", min_length=6, max_length=10, widget=forms.PasswordInput(attrs={'class': 'form-control','placeholder': "请输入不少于6位密码"}))
+	password2 = forms.CharField(label="确认密码", min_length=6, max_length=10,
+	                            widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+	email = forms.EmailField(label="邮箱地址", widget=forms.EmailInput(attrs={'class': 'form-control'}))
+	apartment = forms.ChoiceField(label='部门', choices=apartment_lst)
+	role=forms.ChoiceField(label='角色',choices=roles)

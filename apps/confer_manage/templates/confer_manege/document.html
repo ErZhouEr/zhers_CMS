@@ -1,10 +1,8 @@
 {% extends 'index.html' %}
 {% load static %}
+
 {% block title %}会议纪要查看{% endblock %}
-
-{% block css %}
-
-{% endblock %}
+{% block css %}{% endblock %}
 
 {% block breadcrumb %}
     <!-- Content Header (Page header) -->
@@ -14,8 +12,7 @@
             <small>conference edit</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> 会议纪要查看</a></li>
-            <li>会议纪要查看</li>
+            <li><a href="#"><i class="fa fa-book"></i> 主页</a></li>
             <li class="active">会议纪要查看</li>
         </ol>
     </section>
@@ -43,7 +40,7 @@
     <select id="confertime" class="btn btn-default">
         <option id="Not_data3">会议时间</option>
     </select>
-    <button type="button" class="btn btn-block btn-primary" id="searchconf" style="width: 8%;display: inline;margin-left: 2%">查找会议</button>
+    <button type="button" class="btn btn-block btn-primary" id="searchconf" style="width: 100px;display: inline;margin-left: 2%">查找会议</button>
     <!--<hr style="background-color:#8B8986;height: 1px;width:100%;border: none;"/>-->
         </div>
 
@@ -83,11 +80,11 @@
 {% block script %}
 
     <!-- FastClick -->
-    <script src="{% static 'adminlet-2.4.10/bower_components/fastclick/lib/fastclick.js' %}"></script>
-    <!-- AdminLTE App -->
-    <script src="{% static 'adminlet-2.4.10/dist/js/adminlte.min.js' %}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{% static 'adminlet-2.4.10/dist/js/demo.js' %}"></script>
+{#    <script src="{% static 'adminlet-2.4.10/bower_components/fastclick/lib/fastclick.js' %}"></script>#}
+{#    <!-- AdminLTE App -->#}
+{#    <script src="{% static 'adminlet-2.4.10/dist/js/adminlte.min.js' %}"></script>#}
+{#    <!-- AdminLTE for demo purposes -->#}
+{#    <script src="{% static 'adminlet-2.4.10/dist/js/demo.js' %}"></script>#}
 
     <!-- Select2 -->
     <script src="{% static 'adminlet-2.4.10/bower_components/select2/dist/js/select2.full.min.js' %}"></script>

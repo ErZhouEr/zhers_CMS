@@ -193,7 +193,7 @@
                                     <!--not submitted money items -->
                                     <span class="text">{{ k }}中，欠款未还</span>
                                     <!-- Emphasis label -->
-                                    <small class="label label-danger"><i class="fa fa-clock-o"></i> {{ v }}元</small>
+                                    <small class="label label-danger"><i class="fa fa-money"></i> {{ v }}元</small>
                                     <!-- General tools such as edit or delete-->
                                     <div class="tools">
                                         <i class="fa fa-edit"></i>
@@ -230,6 +230,37 @@
 
 
     <script>
+        $(".fa-trash-o").click(function () {
+            confirm("确定此条目欠款已经还清了吗？此操作不可撤回");
+            var data=new Array();
+
+            $.ajax({
+                url: "/confer_manage/createajax/",
+                type: "POST",
+                data: $("#createForm").serialize(),
+                dataType: "JSON",
+                success: function (arg) {
+                    console.log("26----", arg);
+                    if (arg["status"] == "成功") {
+                        alert(arg["message"]);
+                        var btnSubmit = document.getElementById('createSubmitbt');
+                        btnSubmit.disabled = "disabled";
+                        var inputArea = document.getElementsByClassName('form-control create-project');
+                        for (i = 0; i < inputArea.length; i++) {
+                            inputArea[i].disabled = "disabled";
+                        }
+                        var editconferdiv = document.getElementById('editconfer');
+                        editconferdiv.style.display = 'block';
+
+                    } else {
+                        alert(arg["message"]);
+                    }
+
+                }
+
+            })
+        });
+
         // 顶部服务器状态百分率圆图
         {#$(function () {#}
         {#    /* jQueryKnob */#}
@@ -303,7 +334,7 @@
                 toolbox: {
                     feature: {
                         saveAsImage: {},
-                        dataView:{}
+                        dataView: {}
                     }
                 },
                 xAxis: {

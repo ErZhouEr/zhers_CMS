@@ -12,8 +12,21 @@ import traceback
 from . import models
 from . import forms
 from apps.login import models as lg_models
+from apps.login import forms as lg_forms
 
 from django.views.decorators.csrf import csrf_exempt
+
+import logging
+
+# logging.basicConfig(level = logging.INFO,format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger('django')
+
+
+# handler = logging.FileHandler("log.txt",encoding='utf-8')
+# handler.setLevel(logging.INFO)
+# formatter=logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# handler.setFormatter(formatter)
+# logger.addHandler(handler)
 
 
 # Create your views here.
@@ -34,7 +47,7 @@ def dashboard(request):
 	for outcome in outcome_funds:
 		total_dict['outcome'][outcome.reason] = total_dict['outcome'].get(outcome.income_people.name, 0) + round(
 			-outcome.money, 3)
-	print(total_dict)
+	logger.info(['dashboard:总体收支-', total_dict])
 	# money_dict = {}
 	# for topic in topics:
 	# 	money_dict[topic.people_id.name] = money_dict.get(topic.people_id.name, 0) + topic.money
@@ -49,7 +62,7 @@ def dashboard(request):
 	for i in outcome_people:
 		if i not in total_data_x:
 			total_data_x.append(i)
-	print(total_data_x)
+	logger.info(['dashboard:人员-', total_data_x])
 	# 收支情况
 	layer1_money = {'income': 0, 'outcome': 0}
 	for i in total_dict['income']:
@@ -68,11 +81,18 @@ def dashboard(request):
 	peop_cf_dict = {}
 	for peop in people_lst:
 		con_num = models.Conference.objects.filter(people=peop).count()
-		print(con_num)
 		peop_cf_dict[peop.name] = con_num
 	peoples = list(peop_cf_dict.keys())
 	values = list(peop_cf_dict.values())
 	return render(request, 'confer_manege/dashboard.html', locals())
+
+
+def huanqian(request):
+	if not request.session.get('is_login', None):
+		return redirect('/login/')
+	ret = {"status": None, "message": None}
+
+	return HttpResponse(json.dumps(ret))
 
 
 def usertask(request):
@@ -110,7 +130,7 @@ def usertask(request):
 		confer_dict['backgroundColor'] = type_color[confer.confer_type.confer_type]
 		confer_dict['borderColor'] = type_color[confer.confer_type.confer_type]
 		confer_data.append(confer_dict)
-	print(confer_data)
+	logger.info(['usertask:会议数据-', confer_data])
 	return render(request, 'confer_manege/usertask.html', locals())
 
 
@@ -124,28 +144,30 @@ def create(request):
 	if not request.session.get('is_login', None):
 		return redirect('/login/')
 	conftype = request.GET.get('confertype')
+	confid = request.GET.get('conferid')
 	conferstartime = request.GET.get('startime')
 	conferstartime = str(conferstartime).replace('000', '', 1)
-	formated_stime = datetime.utcfromtimestamp(float(conferstartime)).strftime('%Y/%m/%d %I:%M %p')
-	print(1, conferstartime, formated_stime)
+	formated_stime = datetime.fromtimestamp(float(conferstartime)).strftime('%Y/%m/%d %I:%M %p')
+	logger.info(['create:开始时间', conferstartime, formated_stime])
 	conferendtime = request.GET.get('endtime')
 	conferendtime = str(conferendtime).replace('000', '', 1)
-	formated_endtime = datetime.utcfromtimestamp(float(conferendtime)).strftime('%Y/%m/%d %I:%M %p')
+	formated_endtime = datetime.fromtimestamp(float(conferendtime)).strftime('%Y/%m/%d %I:%M %p')
 	# print(conftype,conferstartime,conferendtime)
 	users = lg_models.User.objects.filter(has_confirmed=1)
 	cu_user = request.session['user_id']
 	one_people = lg_models.User.objects.get(id=cu_user)
 	# 查询此会议是否是当前登录人创建，只有是登录人创建，并且会议没有被提交过，才会进入会议创建流程
-	print(conftype)
 	type_id = models.Sysconf.objects.get(confer_type=conftype)
-	print(2, type_id, formated_stime, one_people)
+	logger.info(['create:会议、结束时间及登录人', confid, type_id, formated_stime, one_people])
 	try:
-		confer = models.Conference.objects.get(confer_type=type_id, stime=formated_stime, people=one_people)
+		confer = models.Conference.objects.get(id=confid)
 		confer_creater = confer.creater.id
 		confer_id = confer.id
-		confer_is_over=confer.is_over
+		confer_is_over = confer.is_over
 		if confer_is_over is True:
-			notice='所选会议已结束，可以查看会议纪要'
+			request.session['confer_id'] = confer_id
+			notice = '所选会议已结束，可以查看会议纪要'
+			logger.info(['create:点击会议', notice])
 			return document(request)
 		# 显示会议的准备进度
 		people_count = confer.people.count()
@@ -155,7 +177,6 @@ def create(request):
 			start_flag = True
 		else:
 			start_flag = False
-		print(confer_is_over,type(confer_is_over))
 	except:
 		confer = None
 		confer_creater = None  # 空说明没有这个会议，是新建的
@@ -179,7 +200,7 @@ def create(request):
 		flag_topic = False  # 未创建的汇报
 	else:
 		flag_topic = True
-	print(3, confer, flag_conf, flag_creat, flag_topic)
+	logger.info(['create:各种flag', confer, flag_conf, flag_creat, flag_topic])
 
 	# 在服务端session中添加key认证，避免用户重复提交表单
 	token = '10000'  # 可以采用随机数
@@ -188,15 +209,15 @@ def create(request):
 	request.session['confer_id'] = confer_id
 	request.session['confstime'] = formated_stime
 	request.session['confendtime'] = formated_endtime
-	print(4, formated_endtime)
+	logger.info(['create:结束时间', formated_endtime])
 
 	# 在input中显示已提交过的信息
 	if confer is not None:
-		peoples=confer.people.all()
-		names=[people.name for people in peoples]
+		peoples = confer.people.all()
+		names = [people.name for people in peoples]
 		data = {'conferproj': confer.confer_proj, 'confersub': confer.subject, 'people': str(names),
-		        'stime': confer.stime +' - '+ confer.endtime}
-		print(data)
+		        'stime': confer.stime + ' - ' + confer.endtime}
+		logger.info(['create:渲染数据', data])
 		startime = confer.stime
 		endtime = confer.endtime
 		confer_form = forms.ConferForm(auto_id=True, data=data)
@@ -206,19 +227,19 @@ def create(request):
 		peoples = None
 		startime = formated_stime
 		endtime = formated_endtime
-		data = {'stime': startime + ' - ' +endtime}
-		confer_form = forms.ConferForm(auto_id=True,data=data)
+		data = {'stime': startime + ' - ' + endtime}
+		confer_form = forms.ConferForm(auto_id=True, data=data)
 
 	if topic is not None:
 		topic_data = {}
-		topic_data['sentence']=ast.literal_eval(topic.sentence)
-		topic_data['sharecontent']=topic.share
-		topic_data['pretime']=topic.pre_time
-		topic_data['exreason']=topic.ex_reason
+		topic_data['sentence'] = ast.literal_eval(topic.sentence)
+		topic_data['sharecontent'] = topic.share
+		topic_data['pretime'] = topic.pre_time
+		topic_data['exreason'] = topic.ex_reason
 	else:
-		topic_data=None
+		topic_data = None
 
-	edit_Form = forms.EditForm(auto_id=True,data=topic_data)
+	edit_Form = forms.EditForm(auto_id=True, data=topic_data)
 	return render(request, 'confer_manege/edit.html', locals())
 
 
@@ -280,7 +301,6 @@ def createajax(request):
 					confer_apart_lst = []
 					for i in peopleset:
 						confer_apart_lst.append(i.apartment)
-					print(confer_apart_lst)
 					confer.confer_apart.set(confer_apart_lst)
 					confer.save()
 					ret["message"] = '会议更新成功~'
@@ -299,7 +319,7 @@ def createajax(request):
 					confertime = confer_form.cleaned_data.get('stime')
 					# peoplelst = conferpeople.split(',')
 					startime, endtime = confertime.split(' - ')
-					nowtime=datetime.strptime(datetime.now(),'%Y/%m/%d %I:%M %p')
+					nowtime = datetime.strptime(datetime.now(), '%Y/%m/%d %I:%M %p')
 					if len(people_id_lst) < 2:
 						ret["message"] = '会议人数太少，请继续添加~'
 						return HttpResponse(json.dumps(ret))
@@ -310,15 +330,14 @@ def createajax(request):
 						cf_type = models.Sysconf.objects.get(confer_type=confertype)
 						cf_proj = models.Project.objects.get(projname=conferproj)
 						cf_creater = lg_models.User.objects.get(id=cu_user)
-						print(type(people_id_lst))
 						newconfer = models.Conference()
 						newconfer.confer_type = cf_type
 						newconfer.confer_proj = cf_proj
 						newconfer.subject = confersub
 						newconfer.creater = cf_creater
-						newconfer.stime = startime   #写入的是时间选择框中的开始时间和结束时间
+						newconfer.stime = startime  # 写入的是时间选择框中的开始时间和结束时间
 						newconfer.endtime = endtime
-						newconfer.creatime=nowtime
+						newconfer.creatime = nowtime
 						newconfer.save()
 						# 多对多方式的数据插入，需要set
 						confer_people = []
@@ -331,7 +350,6 @@ def createajax(request):
 						confer_apart_lst = []
 						for i in peopleset:
 							confer_apart_lst.append(i.apartment)
-						print(confer_apart_lst)
 						newconfer.confer_apart.set(confer_apart_lst)
 						newconfer.save()
 
@@ -352,7 +370,7 @@ def createajax(request):
 		else:
 			# err = obj.errors
 			ret["message"] = str(confer_form.errors)
-			print(confer_form.errors)
+			logger.warning(['create:结束时间', confer_form.errors])
 			return HttpResponse(json.dumps(ret))
 
 
@@ -367,10 +385,10 @@ def editajax(request):
 		# edit_form = forms.EditForm()
 		ret = {"status": None, "message": None}
 		data = request.POST.getlist('dt')
-		print(1, data)
+		logger.info(['editajax:提交数据', data])
 		topic_num = int((len(data) - 3) / 2)
 		# insert new conference
-		print(topic_num)
+		logger.info(['editajax:话题数', topic_num])
 		newtopic = models.Topic()
 		sentence = {}
 		for i in range(topic_num):
@@ -418,8 +436,8 @@ def editajax(request):
 				ret["status"] = "成功"
 			except:
 				ret["message"] = '汇报内容编辑失败~'
+		logger.info(['editajax:编辑结果', ret])
 
-		print("35", ret)
 		# del request.session['createToken']
 		return HttpResponse(json.dumps(ret))
 
@@ -458,7 +476,6 @@ def edit(request):
 def start(request):
 	if not request.session.get('is_login', None):
 		return redirect('/login/')
-	print(1, 'start')
 	confer_id = request.session['confer_id']
 	cu_user = request.session['user_id']
 	confer = models.Conference.objects.get(id=confer_id)
@@ -466,7 +483,7 @@ def start(request):
 	people_lst = []
 	for i in people:
 		people_lst.append(i.name + ' / ' + i.email)
-	print(confer, people_lst)
+	logger.info(['start:会议及人员', confer, people_lst])
 	try:
 		topic = models.Topic.objects.get(confer_id=confer_id, people_id=cu_user)
 		sentence = ''
@@ -477,7 +494,7 @@ def start(request):
 		        "realtime": topic.real_time, "followup": topic.followup}
 		start_form = forms.StartForm(auto_id=True, data=data)
 	except:
-		print('topic error')
+		logger.error(['start:会议及人员', confer, people_lst], exc_info=True)
 	return render(request, 'confer_manege/start.html', locals())
 
 
@@ -520,7 +537,7 @@ def savenewedit(request):
 		people = lg_models.User.objects.get(email=email)
 		confer_id = request.session['confer_id']
 		confer = models.Conference.objects.get(id=confer_id)
-		print(people, confer_id)
+		logger.info(['savenewedit', people, confer_id])
 		try:
 			topic = models.Topic.objects.get(confer_id=confer_id, people_id=people)
 		except:
@@ -532,6 +549,7 @@ def savenewedit(request):
 			sentence = data['sentence']
 			topicsubs = sentence.split('-----' * 10)
 			for sub in topicsubs:
+				sub = sub.strip('-')
 				if len(sub) > 5:
 					sen_lst = sub.split(':')
 					sen_dict[sen_lst[0].strip()] = sen_lst[1].strip()
@@ -580,8 +598,9 @@ def savenewedit(request):
 		except Exception as err:
 			topic = None
 			print(err.__class__.__name__, err, ';')
-			print(traceback.format_exc())  # traceback.print_exc()
+			logger.error(traceback.format_exc(), exc_info=True)  # traceback.print_exc()
 			ret['message'] = '保存失败，请联系管理员'
+		logger.info(ret)
 
 		return HttpResponse(json.dumps(ret))
 
@@ -608,11 +627,11 @@ def document(request):
 		confer_id = request.session['confer_id']
 		cu_user = request.session['user_id']
 		confer = models.Conference.objects.get(id=confer_id)
-		user=lg_models.User.objects.get(id=cu_user)
-		data={'conferconclusion':confer.confer_conclusion}
+		user = lg_models.User.objects.get(id=cu_user)
+		data = {'conferconclusion': confer.confer_conclusion}
 	except:
-		data=None
-	document_form = forms.Document(auto_id=True,data=data)
+		data = None
+	document_form = forms.Document(auto_id=True, data=data)
 	return render(request, 'confer_manege/document.html', locals())
 
 
@@ -636,7 +655,7 @@ def newdocument(request):
 		confer_id = request.session['confer_id']
 		cu_user = request.session['user_id']
 		confer = models.Conference.objects.get(id=confer_id)
-		user=lg_models.User.objects.get(id=cu_user)
+		user = lg_models.User.objects.get(id=cu_user)
 		confer_is_over = confer.is_over
 		if confer_is_over is True:
 			notice = '所选会议已结束，可以查看会议纪要'
@@ -648,8 +667,10 @@ def newdocument(request):
 			for key in sen_dict:
 				# print(key, sen_dict)
 				conclusion[key] = conclusion.get(key, [])
-				conclusion[key].append(
-					'* [ ' + topic.people_id.name + ' ] ' + sen_dict[key].split('#')[1].replace('\n', ''))  #有问题啊，用换行符切分是不是好一点
+				sen_lst = sen_dict[key].split('\n')
+				for i in sen_lst:
+					conclusion[key].append(
+						'* [ ' + topic.people_id.name + ' ] ' + i.replace('\n', ''))  # 有问题啊，用换行符切分是不是好一点
 		doc = '【会议纪要】\n'
 		for key in conclusion:
 			doc = doc + 'PROJECT: ' + key + ':\n' + '\n'.join(conclusion[key]) + '\n'
@@ -675,22 +696,21 @@ def newdocument(request):
 
 		if models.Fund.objects.filter(income_confer=confer_id, reason='未提交汇报摘要').exists():
 			funds = models.Fund.objects.filter(income_confer=confer_id, reason='未提交汇报摘要')
-			print(confer_id, funds)
+			# print(confer_id, funds)
 			for fund in funds:
 				money = money + '* [ ' + fund.income_people.name + ' ] 未提交汇报摘要，' + '本次需奉献' + str(
 					fund.money) + '元' + '，已奉献' + str(
 					fund.money_sub) + '元' + '\n'
 		else:
 			s = '无其他罚款项~\n'
-			print(s)
 			money = money + s
-		foot='< 会议记录人 > -'+user.name+' / '+user.email
-		doc = doc + '-----' * 40 + '\n' + share + '-----' * 40 + '\n' + follup + '-----' * 40 + '\n' + money + '-----' * 40 + '\n'+foot
+		foot = '< 会议记录人 > -' + user.name + ' / ' + user.email
+		doc = doc + '-----' * 40 + '\n' + share + '-----' * 40 + '\n' + follup + '-----' * 40 + '\n' + money + '-----' * 40 + '\n' + foot
 		confer.confer_conclusion = doc
 		confer.conclusioner = user
 		confer.is_over = True
 		confer.save()
-		print('会议纪要保存成功')
+		logger.info('会议纪要保存成功')
 		data = {'conferconclusion': doc}
 		document_form = forms.Document(auto_id=True, data=data)
 		return render(request, 'confer_manege/document.html', locals())
@@ -735,11 +755,11 @@ def choscoonf(request):
 	ret = {"status": '失败', "message": '请检查输入'}
 	if request.method == 'POST':
 		data = request.POST
-		print(data)
+		# print(data)
 		conftype = models.Sysconf.objects.get(confer_type=data['cftyp'])
 		confsub = data['cfsb']
 		conftime = data['cftm']
-		print(conftype, confsub, conftime)
+		logger.info(['choscoonf:选择会议', conftype, confsub, conftime])
 		try:
 			conf = models.Conference.objects.get(confer_type=conftype, subject=confsub, stime=conftime)
 			conclusion = conf.confer_conclusion
@@ -767,3 +787,16 @@ def getTimeData(request):
 	confertype, confersub = request.GET['confertype'], request.GET['confersub']
 	Time_list = conf_dict[confertype][confersub]
 	return HttpResponse(json.dumps(Time_list))
+
+
+def userprofile(request):
+	if not request.session.get('is_login', None):
+		return redirect('/login/')
+	cu_user = request.session['user_id']
+	user = lg_models.User.objects.get(id=cu_user)
+	name=user.name
+	apartment=user.apartment.apartment
+	email=user.email
+	data={}
+	user_form=lg_forms.editUserForm(data=data)
+	return render(request, 'confer_manege/profile.html', locals())

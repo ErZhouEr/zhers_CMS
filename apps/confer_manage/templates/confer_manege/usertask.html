@@ -12,7 +12,7 @@
             <small>conference schedule</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+            <li><a href="#"><i class="fa fa-table"></i> 主页</a></li>
             <li class="active">个人会议日程</li>
         </ol>
     </section>
@@ -179,6 +179,7 @@
 
             $('#calendar').fullCalendar({
                 themeSystem: 'standard',
+                defaultView: 'agendaWeek',
                 header: {
                     left: 'prev,next today',
                     center: 'title',
@@ -206,32 +207,6 @@
                 },
                 //Random default events
                 events: confer_data,
-
-                {#events    : [#}
-                {##}
-                {#  {#}
-                {#    title          : 'All Day Event',#}
-                {#    start          : new Date(y, m, 1),#}
-                {#    backgroundColor: '#f56954', //red#}
-                {#    borderColor    : '#f56954' //red#}
-                {#  },#}
-                {#  {#}
-                {#    title          : 'Lunch',#}
-                {#    start          : new Date(y, m, d, 12, 0),#}
-                {#    end            : new Date(y, m, d, 14, 0),#}
-                {#    allDay         : false,#}
-                {#    backgroundColor: '#00c0ef', //Info (aqua)#}
-                {#    borderColor    : '#00c0ef' //Info (aqua)#}
-                {#  },#}
-                {#  {#}
-                {#    title          : 'Birthday Party',#}
-                {#    start          : new Date(y, m, d + 1, 19, 0),#}
-                {#    end            : new Date(y, m, d + 1, 22, 30),#}
-                {#    allDay         : false,#}
-                {#    backgroundColor: '#00a65a', //Success (green)#}
-                {#    borderColor    : '#00a65a' //Success (green)#}
-                {#  },#}
-                {#],#}
                 editable: true,
                 aspectRatio: 1.8,
                 droppable: true, // this allows things to be dropped onto the calendar !!!

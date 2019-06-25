@@ -55,9 +55,21 @@ def index(request):   #貌似没有用处
     return redirect('confer_manage:dashboard')
 
 
+def blog(request):   #貌似没有用处
+    if not request.session.get('is_login', None):
+        return redirect('/login/')
+    return render(request, 'blog:index', locals())
+
+
+def appplat(request):
+    if not request.session.get('is_login', None):
+        return redirect('/login/')
+    return render(request, 'plat.html', locals())
+
+
 def login(request):
     if request.session.get('is_login', None):  # 不允许重复登录
-        return redirect('/index/')
+        return redirect('/appplat/')
     if request.method == 'POST':
         login_form = forms.UserForm(request.POST)
         message = '请检查填写的内容！'
@@ -79,7 +91,7 @@ def login(request):
                 request.session['is_login'] = True
                 request.session['user_id'] = user.id
                 request.session['user_name'] = user.name
-                return redirect('/index/')
+                return redirect('/appplat/')
             else:
                 message = '密码不正确！'
                 return render(request, 'login/login.html', locals())
