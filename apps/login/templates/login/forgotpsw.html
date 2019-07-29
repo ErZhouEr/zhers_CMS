@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>找回密码</title>
+    <!-- Required meta tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    {#    <link href="{% static 'login/css/login.css' %}" rel="stylesheet"/>#}
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/bower_components/font-awesome/css/font-awesome.min.css' %}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/bower_components/Ionicons/css/ionicons.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/dist/css/AdminLTE.min.css' %}">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/plugins/iCheck/square/blue.css' %}">
+</head>
+<body style="background-color: #2b2b2b">
+
+
+<h3 style="margin-left: 100px;color: #fff;text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);">找回密码</h3>
+
+<div style="box-shadow: 10px 10px 20px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);width: 30%;margin-top: 30px;margin-left: 5%;background-color: rgba(243,241,238,0.86)">
+    <form id="jsFindPwdForm" method="post" action="/forgotpsw/" autocomplete="off" style="width: 85%;margin-left: 5%;margin-bottom: 70px">
+        {% csrf_token %}
+<br>
+        <div class="form-group has-feedback">
+            <label style="color: #3a3836">邮箱地址</label>
+            {{ user_forget_form.email }}
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+
+        <div class="form-group has-feedback">
+            <label style="color: #3a3836">验证码</label>
+            {{ user_forget_form.captcha }}
+            <button id='js-captcha-refresh' type="button"><i class="fa fa-refresh"></i></button>
+        </div>
+        <button type="submit" class="btn btn-primary" style="float: right">确认</button>
+    </form>
+    <hr>
+    <p class="form-p" style="bottom:40px;color: #3a3836;margin-left: 5%;">您还可以<a href="/login/" style="color: #6088ff;font-weight: bold">
+        直接登录</a></p><br>
+</div>
+<script src="{% static 'adminlet-2.4.10/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script>
+    $('#js-captcha-refresh').click(function () {
+        $.getJSON('/refresh_captcha/', function (result) {
+            $('.captcha').attr('src', result['image_url']);
+            $('#id_captcha_0').val(result['hashkey'])
+        });
+    });
+
+</script>
+
+</body>
+</html>

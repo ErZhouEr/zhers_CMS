@@ -48,7 +48,7 @@
                             <input type="hidden" name="createtoken" value="{{ token }}"/>
 
                             <div class="form-group">
-                                <label>所属项目</label>
+                                <span style="color: red;">*</span><label>所属项目</label>
                                 {{ confer_form.conferproj }}
                             </div>
 
@@ -58,12 +58,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label>参会人员</label>
+                                <span style="color: red;">*</span><label>参会人员</label>
                                 <!-- /btn-group -->
                                 {{ confer_form.people }}
                             </div>
                             <div class="form-group">
-                                <label>会议时间</label>
+                                <span style="color: red;">*</span><label>会议时间</label>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">
@@ -111,9 +111,12 @@
                     <div class="box-body">
 
                         <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-tags"></i>
+                            </div>
                             {#                            <p><b>选择你在本次会议的话题数</b></p>#}
                             <select class="form-control select2" id="countselect"
-                                    style="width: 98%;display: inline;float: right">
+                                    style="width: 100%;display: inline;float: right">
                                 <option selected="selected">点击选择你在本次会议的话题(项目)数</option>
                                 <option>1</option>
                                 <option>2</option>
@@ -121,7 +124,7 @@
                                 <option>4</option>
                                 <option>5</option>
                             </select>
-                            <span class="input-group-btn">
+                            <span class="input-group-btn" style="visibility: hidden;">
                       <button type="button" class="btn btn-warning" id="countSubmitbt"><b>确定</b></button>
                     </span>
                         </div>
@@ -134,7 +137,122 @@
                                 <div id="edit"></div>
 
                                 <br>
+                                <div id="proj1" style="display: none">
+                                    <div class="form-group">
+                                        <label>项目名称1</label>
+                                        <select id="selectproj1" class="form-control select2 edit-project selectproj"
+                                                data-placeholder="点击选择项目"
+                                                style="width: 100%;">
+                                            <option>喜好度模型</option>
+                                            <option>型号匹配</option>
+                                            <option>二手车保值率排行榜</option>
+                                            <option>二手车估值模型</option>
+                                            <option>CJLR年度服务</option>
+                                            <option>Benz商务车</option>
+                                            <option>X95新车定价</option>
+                                            <option>MDM市场需求模型</option>
+                                            <option>上汽大数据中心</option>
+                                        </select>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label>汇报内容1</label>
+                                        <textarea class="form-control edit-project" id="contproj1" rows=3
+                                                  placeholder="请不要超过50字，参考格式1、...；2、...；..."></textarea>
+                                    </div>
+                                </div>
+                                <div id="proj2" style="display: none">
+                                    <div class="form-group">
+                                        <label>项目名称2</label>
+                                        <select id="selectproj2" class="form-control select2 edit-project selectproj"
+                                                data-placeholder="点击选择项目"
+                                                style="width: 100%;">
+                                            <option>喜好度模型</option>
+                                            <option>型号匹配</option>
+                                            <option>二手车保值率排行榜</option>
+                                            <option>二手车估值模型</option>
+                                            <option>CJLR年度服务</option>
+                                            <option>Benz商务车</option>
+                                            <option>X95新车定价</option>
+                                            <option>MDM市场需求模型</option>
+                                            <option>上汽大数据中心</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>汇报内容2</label>
+                                        <textarea class="form-control edit-project" id="contproj2" rows=3
+                                                  placeholder="请不要超过50字，参考格式1、...；2、...；..."></textarea>
+                                    </div>
+                                </div>
+                                <div id="proj3" style="display: none">
+                                    <div class="form-group">
+                                        <label>项目名称3</label>
+                                        <select id="selectproj3" class="form-control select2 edit-project selectproj"
+                                                data-placeholder="点击选择项目"
+                                                style="width: 100%;">
+                                            <option>喜好度模型</option>
+                                            <option>型号匹配</option>
+                                            <option>二手车保值率排行榜</option>
+                                            <option>二手车估值模型</option>
+                                            <option>CJLR年度服务</option>
+                                            <option>Benz商务车</option>
+                                            <option>X95新车定价</option>
+                                            <option>MDM市场需求模型</option>
+                                            <option>上汽大数据中心</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>汇报内容3</label>
+                                        <textarea class="form-control edit-project" id="contproj3" rows=3
+                                                  placeholder="请不要超过50字，参考格式1、...；2、...；..."></textarea>
+                                    </div>
+                                </div>
+                                <div id="proj4" style="display: none">
+                                    <div class="form-group">
+                                        <label>项目名称4</label>
+                                        <select id="selectproj4" class="form-control select2 edit-project selectproj"
+                                                data-placeholder="点击选择项目"
+                                                style="width: 100%;">
+                                            <option>喜好度模型</option>
+                                            <option>型号匹配</option>
+                                            <option>二手车保值率排行榜</option>
+                                            <option>二手车估值模型</option>
+                                            <option>CJLR年度服务</option>
+                                            <option>Benz商务车</option>
+                                            <option>X95新车定价</option>
+                                            <option>MDM市场需求模型</option>
+                                            <option>上汽大数据中心</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>汇报内容4</label>
+                                        <textarea class="form-control edit-project" id="contproj4" rows=3
+                                                  placeholder="请不要超过50字，参考格式1、...；2、...；..."></textarea>
+                                    </div>
+                                </div>
+                                <div id="proj5" style="display: none">
+                                    <div class="form-group">
+                                        <label>项目名称5</label>
+                                        <select id="selectproj5" class="form-control select2 edit-project selectproj"
+                                                data-placeholder="点击选择项目"
+                                                style="width: 100%;">
+                                            <option>喜好度模型</option>
+                                            <option>型号匹配</option>
+                                            <option>二手车保值率排行榜</option>
+                                            <option>二手车估值模型</option>
+                                            <option>CJLR年度服务</option>
+                                            <option>Benz商务车</option>
+                                            <option>X95新车定价</option>
+                                            <option>MDM市场需求模型</option>
+                                            <option>上汽大数据中心</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>汇报内容5</label>
+                                        <textarea class="form-control edit-project" id="contproj5" rows=3
+                                                  placeholder="请不要超过50字，参考格式1、...；2、...；..."></textarea>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label>分享内容</label>
                                     {{ edit_Form.sharecontent }}
@@ -182,7 +300,7 @@
                 <div id="startconfer" style="display: none">
 
                     <button type="button" id="startbt" class="btn btn-block btn-success btn-lg "
-                            onclick="window.location.href='/confer_manage/start/'"
+                            {#                            onclick="window.location.href='/confer_manage/start/'"#}
                             style="height: 50px; width: 25%; margin: 0 auto;"><b>START
                         CONFERENCE</b></button>
                 </div>
@@ -207,11 +325,11 @@
 {% block script %}
 
     <!-- FastClick -->
-{#    <script src="{% static 'adminlet-2.4.10/bower_components/fastclick/lib/fastclick.js' %}"></script>#}
+    {#    <script src="{% static 'adminlet-2.4.10/bower_components/fastclick/lib/fastclick.js' %}"></script>#}
     <!-- AdminLTE App -->
-{#    <script src="{% static 'adminlet-2.4.10/dist/js/adminlte.min.js' %}"></script>#}
+    {#    <script src="{% static 'adminlet-2.4.10/dist/js/adminlte.min.js' %}"></script>#}
     <!-- AdminLTE for demo purposes -->
-{#    <script src="{% static 'adminlet-2.4.10/dist/js/demo.js' %}"></script>#}
+    {#    <script src="{% static 'adminlet-2.4.10/dist/js/demo.js' %}"></script>#}
 
     <!-- Select2 -->
     <script src="{% static 'adminlet-2.4.10/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
@@ -228,14 +346,15 @@
     <script>
         $(function () {
             //Initialize Select2 Elements
-            $('.select2').select2()
+            $('.select2').select2();
+            $('#people_selec').val(['26', '23', '22', '21', '20', '19', '18', '17', '16', '13', '10', '9', '8', '4', '24', '15']).trigger('change');
 
             //Datemask dd/mm/yyyy
-            $('#datemask').inputmask('dd/mm/yyyy h:mm A', {'placeholder': 'dd/mm/yyyy h:mm A'})
+            $('#datemask').inputmask('dd/mm/yyyy h:mm A', {'placeholder': 'dd/mm/yyyy h:mm A'});
             //Datemask2 mm/dd/yyyy
-            $('#datemask2').inputmask('mm/dd/yyyy h:mm A', {'placeholder': 'mm/dd/yyyy h:mm A'})
+            $('#datemask2').inputmask('mm/dd/yyyy h:mm A', {'placeholder': 'mm/dd/yyyy h:mm A'});
             //Money Euro
-            $('[data-mask]').inputmask()
+            $('[data-mask]').inputmask();
 
             //Date range picker with time picker
             $('#reservationtime').daterangepicker({
@@ -245,6 +364,10 @@
                     format: 'YYYY/M/DD hh:mm A'
                 }
             })
+
+            $('.selectproj').select2({
+                tags: true
+            });
 
         })
     </script>
@@ -335,10 +458,39 @@
                     for (i = 0; i < inputArea.length; i++) {
                         inputArea[i].disabled = "disabled";
                     }
+                    for (i = 0; i <{{ topic_num }}; i++) {
+                        var titleid = 'selectproj' + (i + 1);
+                        var contentid = 'contproj' + (i + 1);
+                        document.getElementById(titleid).value = {{ proj_titles|safe }}[i];
+                        document.getElementById(contentid).value = {{ proj_content|safe }}[i];
+                        var id = "proj" + (i + 1);
+                        document.getElementById(id).style.display = "block";
+                        {#alert(id);#}
+                    }
                     var startconferdiv = document.getElementById('startconfer');
                     startconferdiv.style.display = 'block';
                     if ('{{ start_flag }}' == 'False') {
-                        $('#startbt').attr('disabled', 'disabled')
+                        $('#startbt').click(function () {
+                            var flag = confirm("还有人没准备好，要强行开始会议吗？");
+                            if (flag == false) {
+                                return false;
+                            } else {
+                                if ('{{ flag_creat }}' == 'False') {
+                                    alert('抱歉，您不是此会议的创建人，无法启动会议');
+                                    return false;
+                                } else {
+                                    window.location.href = '/confer_manage/start/';
+                                }
+
+                            }
+                        })
+                    } else if ('{{ flag_creat }}' == 'False') {
+                        alert('抱歉，您不是此会议的创建人，无法启动会议');
+                        return false;
+                    } else {
+                        $('#startbt').click(function () {
+                            window.location.href = '/confer_manage/start/';
+                        })
                     }
                 }
 
@@ -360,10 +512,30 @@
                     for (i = 0; i < inputArea.length; i++) {
                         inputArea[i].disabled = "disabled";
                     }
+                    for (i = 0; i <{{ topic_num }}; i++) {
+                        var titleid = 'selectproj' + (i + 1);
+                        var contentid = 'contproj' + (i + 1);
+                        document.getElementById(titleid).value = {{ proj_titles|safe }}[i];
+                        document.getElementById(contentid).value = {{ proj_content|safe }}[i];
+                        var id = "proj" + (i + 1);
+                        document.getElementById(id).style.display = "block";
+                        {#alert(id);#}
+                    }
                     var startconferdiv = document.getElementById('startconfer');
                     startconferdiv.style.display = 'block';
                     if ('{{ start_flag }}' == 'False') {
-                        $('#startbt').attr('disabled', 'disabled')
+                        $('#startbt').click(function () {
+                            var flag = confirm("还有人没准备好，要强行开始会议吗？");
+                            if (flag == false) {
+                                return false;
+                            } else {
+                                window.location.href = '/confer_manage/start/';
+                            }
+                        })
+                    } else {
+                        $('#startbt').click(function () {
+                            window.location.href = '/confer_manage/start/';
+                        })
                     }
                 }
             }
@@ -404,16 +576,30 @@
 
             $(function () {
                 $("#editSubmitbt").click(function () {
-                    var arr = new Array();
-                    var editinput = document.getElementsByClassName("form-control edit-project");
-                    for (i = 0; i < editinput.length; i++) {
-                        arr.push(editinput[i].value);
+                    //var arr = new Array();
+                    // var editinput = document.getElementsByClassName("form-control edit-project");
+                    //for (i = 0; i < editinput.length; i++) {
+                    // arr.push(editinput[i].value);
+                    // }
+                    var n = document.getElementById('countselect').value;
+                    var data = {'num': n};
+                    for (i = 0; i < n; i++) {
+                        var titleid = 'selectproj' + (i + 1);
+                        var contentid = 'contproj' + (i + 1);
+                        data[titleid] = document.getElementById(titleid).value;
+                        data[contentid] = document.getElementById(contentid).value;
                     }
+                    var share = document.getElementById('share').value;
+                    var pretime = document.getElementById('pretime').value;
+                    var exreason = document.getElementById('exreason').value;
+                    data['share'] = share;
+                    data['pretime'] = pretime;
+                    data['exreason'] = exreason;
                     $.ajax({
                         url: "/confer_manage/editajax/",
                         type: "POST",
                         traditional: true,
-                        data: {dt: arr},
+                        data: data,
                         dataType: "JSON",
                         success: function (arg) {
                             console.log("26----", arg);
@@ -443,35 +629,45 @@
 
 
             $(function () {
-                $("#countSubmitbt").click(function () {
+                $("#countselect").change(function () {
                     var n = document.getElementById('countselect').value;
-                    var editdiv = document.getElementById('edit');
-                    while (editdiv.hasChildNodes()) //当elem下还存在子节点时 循环继续
-                    {
-                        editdiv.removeChild(editdiv.firstChild);
+                    {#var editdiv = document.getElementById('edit');#}
+                    {#while (editdiv.hasChildNodes()) //当elem下还存在子节点时 循环继续#}
+                    {#{#}
+                    {#    editdiv.removeChild(editdiv.firstChild);#}
+                    {# }#}
+                    {#for (i = 0; i < n; i++) {#}
+                    {#    var br = document.createElement('br');#}
+                    {#    editdiv.appendChild(br);#}
+                    {#    var lb = document.createElement('label');#}
+                    {#    lb.innerText = "汇报内容" + (i + 1);#}
+                    {#    editdiv.appendChild(lb);#}
+                    {#    var inp = document.createElement('select');#}
+                    {#inp.setAttribute('type', 'text');//输入框的类型#}
+                    {#    inp.setAttribute('class', 'form-control edit-project select2');//输入框的#}
+                    {#    inp.setAttribute('placeholder', "请点击选择标准项目名称，若选项中没有则自行输入");#}
+                    {#inp.setAttribute('value', '{{ project }}');#}
+                    {#    editdiv.appendChild(inp);#}
+                    {#    var lb2 = document.createElement('label');#}
+                    {#    lb2.innerText = "";#}
+                    {#    editdiv.appendChild(lb2);#}
+                    {#    var addele2 = document.createElement('textarea');#}
+                    {#    addele2.setAttribute('rows', '3');#}
+                    {#    addele2.setAttribute('class', 'form-control edit-project');//输入框的#}
+                    {#    addele2.setAttribute('placeholder', "请不要超过50字，参考格式1、...；2、...；...");#}
+                    {#    editdiv.appendChild(addele2);#}
+                    {# }#}
+                    for (i = 1; i < 6; i++) {
+                        id = "proj" + i;
+                        document.getElementById(id).style.display = "none";
                     }
                     for (i = 0; i < n; i++) {
-                        var br = document.createElement('br');
-                        editdiv.appendChild(br);
-                        var lb = document.createElement('label');
-                        lb.innerText = "汇报内容" + (i + 1);
-                        editdiv.appendChild(lb);
-                        var inp = document.createElement('input');
-                        inp.setAttribute('type', 'text');//输入框的类型
-                        inp.setAttribute('class', 'form-control edit-project');//输入框的
-                        inp.setAttribute('placeholder', "请输入标准项目名称，不要自由发挥");
-                        {#inp.setAttribute('value', '{{ project }}');#}
-                        editdiv.appendChild(inp);
-                        var lb2 = document.createElement('label');
-                        lb2.innerText = "";
-                        editdiv.appendChild(lb2);
-                        var addele2 = document.createElement('textarea');
-                        addele2.setAttribute('rows', '3');
-                        addele2.setAttribute('class', 'form-control edit-project');//输入框的
-                        addele2.setAttribute('placeholder', "请不要超过50字，参考格式1、...；2、...；...");
-                        editdiv.appendChild(addele2);
+                        id = "proj" + (i + 1);
+                        document.getElementById(id).style.display = "block";
                     }
-                })
+
+                });
+
 
             })
         })

@@ -3,7 +3,32 @@
 {% block title %}个人主页{% endblock %}
 
 {% block css %}
+    <style>
+        .file-box {
+            display: inline-block;
+            position: relative;
+            padding: 8px 15px;
+            overflow: hidden;
+            color: #fff;
+            background-color: #536987;
+            cursor: pointer;
+        }
 
+        .file-btn {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            outline: none;
+            background-color: transparent;
+            filter: alpha(opacity=0);
+            -moz-opacity: 0;
+            -khtml-opacity: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+    </style>
 {% endblock %}
 
 {% block breadcrumb %}
@@ -31,8 +56,9 @@
                 <!-- Profile Image -->
                 <div class="box box-primary">
                     <div class="box-body box-profile">
+
                         <img class="profile-user-img img-responsive img-circle"
-                             src="{% static 'adminlet-2.4.10/dist/img/avatar.png' %}" alt="User profile picture">
+                             src="{{ request.session.avatar }}" alt="User profile picture">
 
                         <h3 class="profile-username text-center">{{ name }}</h3>
 
@@ -48,9 +74,16 @@
                             <li class="list-group-item">
                                 <b>待处理罚款</b> <a class="pull-right">87</a>
                             </li>
+                            <hr>
+                            <li class="list-group-item">
+                                <b>分享文章数</b> <a class="pull-right">8</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>发表评论数</b> <a class="pull-right">7</a>
+                            </li>
                         </ul>
 
-                        <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                        <a href="/confer_manage/upload/" class="btn btn-primary btn-block"><b>保留位置，作用待定</b></a>
                     </div>
                     <!-- /.box-body -->
                 </div>
@@ -71,9 +104,9 @@
 
                         <hr>
 
-                        <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                        <strong><i class="fa fa-phone margin-r-5"></i> Phone</strong>
 
-                        <p class="text-muted">Malibu, California</p>
+                        <p class="text-muted">123-4567-8901</p>
 
                         <hr>
 
@@ -113,7 +146,7 @@
                                 <!-- timeline time label -->
                                 <li class="time-label">
                         <span class="bg-red">
-                          10 Feb. 2014
+                          10 Feb. 2019
                         </span>
                                 </li>
                                 <!-- /.timeline-label -->
@@ -124,7 +157,7 @@
                                     <div class="timeline-item">
                                         <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
 
-                                        <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+                                        <h3 class="timeline-header"><a href="#">Support System</a> 给你发了一封邮件</h3>
 
                                         <div class="timeline-body">
                                             Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
@@ -134,21 +167,27 @@
                                         </div>
                                         <div class="timeline-footer">
                                             <a class="btn btn-primary btn-xs">Read more</a>
-                                            <a class="btn btn-danger btn-xs">Delete</a>
                                         </div>
                                     </div>
                                 </li>
                                 <!-- END timeline item -->
                                 <!-- timeline item -->
                                 <li>
-                                    <i class="fa fa-user bg-aqua"></i>
+                                    <i class="fa fa-book bg-aqua"></i>
 
                                     <div class="timeline-item">
                                         <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
 
-                                        <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your
-                                            friend request
+                                        <h3 class="timeline-header no-border"><a href="#">李四</a> 发表了一篇博客
                                         </h3>
+                                        <div class="timeline-body">
+                                            啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊，
+                                            哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦，哈哈哈哈哈哈哈哈哈哈，
+                                            或或或或或或或或或或或或或或或或...
+                                        </div>
+                                        <div class="timeline-footer">
+                                            <a class="btn btn-primary btn-xs">Read more</a>
+                                        </div>
                                     </div>
                                 </li>
                                 <!-- END timeline item -->
@@ -159,13 +198,11 @@
                                     <div class="timeline-item">
                                         <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
 
-                                        <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post
+                                        <h3 class="timeline-header"><a href="#">张三</a> 评论了你的博客
                                         </h3>
 
                                         <div class="timeline-body">
-                                            Take me to your leader!
-                                            Switzerland is small and neutral!
-                                            We are more like Germany, ambitious and misunderstood!
+                                            啊啊啊啊啊啊啊啊啊啊啊，太辣鸡啦。。。。。。。。。。。。。
                                         </div>
                                         <div class="timeline-footer">
                                             <a class="btn btn-warning btn-flat btn-xs">View comment</a>
@@ -176,7 +213,7 @@
                                 <!-- timeline time label -->
                                 <li class="time-label">
                         <span class="bg-green">
-                          3 Jan. 2014
+                          3 Jan. 2019
                         </span>
                                 </li>
                                 <!-- /.timeline-label -->
@@ -187,7 +224,7 @@
                                     <div class="timeline-item">
                                         <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
 
-                                        <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
+                                        <h3 class="timeline-header"><a href="#">王五</a> 上传了一些资料</h3>
 
                                         <div class="timeline-body">
                                             <img src="http://placehold.it/150x100" alt="..." class="margin">
@@ -206,6 +243,7 @@
                         <!-- /.tab-pane -->
 
                         <div class="tab-pane" id="settings">
+                            <a name="modifyinfo"></a>
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <label for="inputName" class="col-sm-2 control-label">Name</label>
@@ -256,6 +294,25 @@
                                     </div>
                                 </div>
                             </form>
+                            <hr>
+                            <div>
+                                {#                                 {% csrf_token %}#}
+                                <!----用一个label标签将上传文件输入框跟图片绑定一起，
+									  点击图片的时候就相当于点击了上传文件的按钮---->
+                                <h5><b>修改个人头像</b></h5>
+                                <img class="profile-user-img img-responsive img-circle" id="avatar-img"
+                                     src="{{ request.session.avatar }}" alt="User profile picture"
+                                     style="margin-left: 18.67%">
+                                <br>
+                                <div>
+                                    <div class="file-box" style="margin-left: 16.67%">上传图片
+                                        <input id="avatar-input" type="file" class="file-btn">
+                                    </div>
+                                    <button class="file-box" id="submitpic"
+                                            style="vertical-align:top;border: none">提交图片
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.tab-pane -->
                     </div>
@@ -270,5 +327,50 @@
     </section>
     <!-- /.content -->
 
+    <script src="{% static 'adminlet-2.4.10/bower_components/jquery/dist/jquery.min.js' %}"></script>
 
+    <script>
+        {#alert("{{ request.session.avatar }}");#}
+
+        // 上传文件按钮（label里的图片）点击事件
+        $('#avatar-input').on('change', function () {
+            // 获取用户最后一次选择的图片
+            var choose_file = $(this)[0].files[0];
+            // 创建一个新的FileReader对象，用来读取文件信息
+            var reader = new FileReader();
+            // 读取用户上传的图片的路径
+            reader.readAsDataURL(choose_file);
+            // 读取完毕之后，将图片的src属性修改成用户上传的图片的本地路径
+            reader.onload = function () {
+                $("#avatar-img").attr("src", reader.result)
+            };
+
+        });
+
+        $('#submitpic').click(function () {
+            var formdata = new FormData();
+            formdata.append("avatar", $("#avatar-input")[0].files[0]);
+            {#formdata.append("csrfmiddlewaretoken", $("[name='csrfmiddlewaretoken']").val());#}
+            $.ajax({
+                cache: false, //上传文件不需要缓存
+                processData: false,// 告诉jQuery不要去处理发送的数据
+                contentType: false,// 告诉jQuery不要去设置Content-Type请求头
+                url: '/confer_manage/upload/',
+                type: 'post',
+                data: formdata,
+                dataType: "JSON",
+                success: function (arg) {
+                    console.log("----------------", arg);
+                    if (arg["status"] == "成功") {
+                        alert(arg['status']);
+
+                    } else {
+                        alert(arg['status'])
+                    }
+                }
+            })
+
+        });
+
+    </script>
 {% endblock %}

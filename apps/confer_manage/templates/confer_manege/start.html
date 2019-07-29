@@ -41,6 +41,9 @@
                     <div class="box-body">
                         <form>
                             <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </div>
 
                                 <select class="form-control select2" id="peopleselect"
                                         style="width: 98%;display: inline">
@@ -49,7 +52,8 @@
                                         <option>{{ i }}</option>
                                     {% endfor %}
                                 </select>
-                                <span class="input-group-btn">
+
+                                <span class="input-group-btn" style="visibility: hidden;width: 1px">
                       <button type="button" class="btn btn-warning" id="peopleSubmitbt"><b>确定</b></button>
                     </span>
                             </div>
@@ -69,23 +73,34 @@
                                 {{ start_form.sharecontent }}
                             </div>
 
-                            <div class="form-group float-left" style="display: inline-block;width: 38%">
+                            <div class="form-group float-left"
+                                 style="display: inline-block;width: 35%;margin-right: 20px">
                                 <label>预计发言时间</label>
-                                {{ start_form.pretime }}分钟
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                    {{ start_form.pretime }}</div>
+                                <span></span>
                             </div>
-                            <div class="form-group float-right" style="display: inline-block;width: 38%">
+                            <div class="form-group float-right" style="display: inline-block;width: 35%">
                                 <label>实际发言时间</label>
-                                {{ start_form.realtime }}秒
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                    {{ start_form.realtime }}</div>
                             </div>
-                            <div class="box-body float-right" style="display: inline-block;position: fixed">
-                                <h3 id="mytime"></h3>
-                                <button class="btn btn-app" type="button" onclick="start()">
+                            <div class="float-right" style="display: inline-block;">
+                                {#                                <h3 id="mytime"></h3>#}
+                                <button class="btn" type="button" id="startcount" style="margin-top: 58px;margin-left: 20px"
+                                        onclick="start()">
                                     <i class="fa fa-play"></i> Play
                                 </button>
-                                <button class="btn btn-app" type="button" onclick="resetime()">
+                                <button class="btn" type="button" style="margin-top: 58px" onclick="resetime()">
                                     <i class="fa fa-repeat"></i> Reset
                                 </button>
-                                <button class="btn btn-app" type="button" onclick="stop()">
+                                <button class="btn" type="button" style="margin-top: 58px" onclick="stop()">
                                     <i class="fa fa-pause"></i> Pause
                                 </button>
                             </div>
@@ -113,7 +128,8 @@
                     <!-- /.box-body -->
                 </div>
 
-                <a href="/confer_manage/newdocument/" class="btn btn-block btn-success btn-lg "
+                <a href="/confer_manage/newdocument/" onclick="if(confirm('确定会议完全结束了吗?')==false)return false;"
+                   class="btn btn-block btn-success btn-lg "
                    style="height: 50px; width: 30%; margin: 0 auto;"><b>CONFERENCE
                     COMPLETED</b></a>
                 <!-- /.box -->
@@ -136,11 +152,11 @@
 {% block script %}
 
     <!-- FastClick -->
-{#    <script src="{% static 'adminlet-2.4.10/bower_components/fastclick/lib/fastclick.js' %}"></script>#}
+    {#    <script src="{% static 'adminlet-2.4.10/bower_components/fastclick/lib/fastclick.js' %}"></script>#}
     <!-- AdminLTE App -->
-{#    <script src="{% static 'adminlet-2.4.10/dist/js/adminlte.min.js' %}"></script>#}
+    {#    <script src="{% static 'adminlet-2.4.10/dist/js/adminlte.min.js' %}"></script>#}
     <!-- AdminLTE for demo purposes -->
-{#    <script src="{% static 'adminlet-2.4.10/dist/js/demo.js' %}"></script>#}
+    {#    <script src="{% static 'adminlet-2.4.10/dist/js/demo.js' %}"></script>#}
 
     <script type="text/javascript">
         var h = m = s = ms = 0;  //定义时，分，秒，毫秒并初始化为0；
@@ -152,33 +168,36 @@
                 ms = 0;
                 s = s + 1;         //秒
             }
-            if (s >= 60) {
-                s = 0;
-                m = m + 1;        //分钟
-            }
-            if (m >= 60) {
-                m = 0;
-                h = h + 1;        //小时
-            }
-            str = toDub(h) + "时" + toDub(m) + "分" + toDub(s) + "秒" + toDubms(ms) + "毫秒";
-            mytime = document.getElementById('mytime');
-            mytime.innerText = str;
+            {#if (s >= 60) {#}
+            {#    s = 0;#}
+            {#    m = m + 1;        //分钟#}
+            {# }#}
+            {#if (m >= 60) {#}
+            {#    m = 0;#}
+            {#    h = h + 1;        //小时#}
+            {# } #}
+            str = s;
+            mytime = document.getElementById('realtime');
+            mytime.value = str;
             // document.getElementById('mytime').innerHTML=h+"时"+m+"分"+s+"秒"+ms+"毫秒";
         }
 
 
         function start() {  //开始
             time = setInterval(timer, 50);
+            document.getElementById('startcount').disabled="disabled"
         }
 
         function resetime() {  //重置
             clearInterval(time);
             h = m = s = ms = 0;
-            document.getElementById('mytime').innerText = "00时00分00秒0000毫秒";
+            document.getElementById('realtime').value = s;
+            document.getElementById('startcount').disabled=false
         }
 
         function stop() {  //暂停
             clearInterval(time);
+            document.getElementById('startcount').disabled=false
         }
 
         function toDub(n) {  //补0操作
@@ -203,7 +222,7 @@
 
     <script>
         $(function () {
-            $("#peopleSubmitbt").click(function () {
+            $("#peopleselect").change(function () {
                 var data = $("#peopleselect").val();
                 $.ajax({
                     url: "/confer_manage/chospeople/",
@@ -220,12 +239,13 @@
                             $("#realtime")[0].value = arg['realtime'];
                             $("#followup")[0].value = arg['followup'];
                             if (arg['realtime'] > 0) {
-                                $("#subcontent").attr("disabled", true);
-                                $("#sharecontent").attr("disabled", true);
-                                $("#realtime").attr("disabled", true);
-                                $("#followup").attr("disabled", true);
-                                $("#saveneweditbt").attr("disabled", true);
-                            }else {
+                                alert('再次编辑用户发言');
+                                {#$("#subcontent").attr("disabled", true);#}
+                                {#$("#sharecontent").attr("disabled", true);#}
+                                {#$("#realtime").attr("disabled", true);#}
+                                {#$("#followup").attr("disabled", true);#}
+                                {#$("#saveneweditbt").attr("disabled", true);#}
+                            } else {
                                 $("#subcontent").attr("disabled", false);
                                 $("#sharecontent").attr("disabled", false);
                                 $("#realtime").attr("disabled", false);
@@ -268,11 +288,12 @@
                         console.log("26----", arg);
                         if (arg["status"] == "成功") {
                             alert(arg['message']);
-                            $("#subcontent").attr("disabled", true);
-                            $("#sharecontent").attr("disabled", true);
-                            $("#realtime").attr("disabled", true);
-                            $("#followup").attr("disabled", true);
-                            $("#saveneweditbt").attr("disabled", true);
+                            {#应该可以保存多次，故此功能取消#}
+                            {#$("#subcontent").attr("disabled", true);#}
+                            {#$("#sharecontent").attr("disabled", true);#}
+                            {#$("#realtime").attr("disabled", true);#}
+                            {#$("#followup").attr("disabled", true);#}
+                            {#$("#saveneweditbt").attr("disabled", true);#}
 
                         } else {
                             alert(arg['message'])

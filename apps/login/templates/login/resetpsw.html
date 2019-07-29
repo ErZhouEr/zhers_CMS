@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>重置密码</title>
+    <!-- Required meta tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    {#    <link href="{% static 'login/css/login.css' %}" rel="stylesheet"/>#}
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/bower_components/font-awesome/css/font-awesome.min.css' %}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/bower_components/Ionicons/css/ionicons.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/dist/css/AdminLTE.min.css' %}">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/plugins/iCheck/square/blue.css' %}">
+</head>
+<body style="background-color: #2b2b2b">
+
+
+<h3 style="margin-left: 100px;color: #fff;text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);">欢迎{{ username }}重置密码</h3>
+<div style="box-shadow: 10px 10px 20px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);width: 30%;margin-top: 30px;margin-left: 5%;background-color: rgba(243,241,238,0.86)">
+    <form id="resetPwdForm" method="post" action="/psw_reset/" autocomplete="off" style="width: 85%;margin-left: 5%;margin-bottom: 70px">
+        {% csrf_token %}
+<br>
+        <div class="form-group has-feedback">
+            {{ resetpswform.email.label_tag }}
+            {{ resetpswform.email }}
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+
+        <div class="form-group has-feedback">
+            {{ resetpswform.password1.label_tag }}
+            {{ resetpswform.password1 }}
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+
+        <div class="form-group has-feedback">
+            {{ resetpswform.password2.label_tag }}
+            {{ resetpswform.password2 }}
+            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+        </div>
+
+        <div class="form-group has-feedback">
+            {{ resetpswform.captcha.label_tag }}
+            {{ resetpswform.captcha }}
+            <button id='js-captcha-refresh' type="button"><i class="fa fa-refresh"></i></button>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="resetpwdbt" style="float: right">确认</button>
+        <br><br><br>
+    </form>
+</div>
+<script>
+{#$(function () {#}
+{#            $("#resetpwdbt").click(function () {#}
+{#                var conftype=$("#confertype").val();#}
+{#                var confsub=$("#confersub").val();#}
+{#                var conftime=$("#confertime").val();#}
+{#                var data={cftyp:conftype,cfsb:confsub,cftm:conftime};#}
+                {#alert(data);#}
+{#                $.ajax({#}
+{#                    url: "/confer_manage/choscoonf/",#}
+{#                    type: "POST",#}
+{#                    data: data,#}
+{#                    dataType: "JSON",#}
+{#                    success: function (arg) {#}
+{#                        console.log("26----", arg);#}
+{#                        if (arg["status"] == "成功") {#}
+{#                            if(arg['conclusion'].length<10){#}
+{#                                alert('当前会议无会议纪要，请重新选择')#}
+{#                            }else {#}
+{#                                $("#confconclusion")[0].value=arg['conclusion']#}
+{#                            }#}
+{##}
+{#                        } else {#}
+{#                            alert(arg['message'])#}
+{#                        }#}
+{##}
+{#                    }#}
+{##}
+{#                })#}
+{#                })#}
+{#            });#}
+</script>
+
+</body>
+</html>

@@ -29,6 +29,7 @@ class Migration(migrations.Migration):
                 ('confer_type', models.ForeignKey(default=-1, on_delete=django.db.models.deletion.ProtectedError, to='confer_manage.Sysconf', verbose_name='会议类型')),
                 ('creater', models.ForeignKey(default=-1, on_delete=django.db.models.deletion.ProtectedError, related_name='conference_creater', to='login.User', verbose_name='创建人员')),
                 ('people', models.ManyToManyField(default='', to='login.User', verbose_name='参会人员')),
+                ('is_start', models.BooleanField(default=False, verbose_name='是否已经开始')),
             ],
             options={
                 'verbose_name': '会议',

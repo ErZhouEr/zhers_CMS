@@ -53,7 +53,7 @@ class Conference(models.Model):
 	people = models.ManyToManyField(to='login.User', verbose_name='参会人员',default='')
 	confer_conclusion = models.TextField(max_length=1500, verbose_name='会议纪要',default='')
 	conclusioner=models.ForeignKey(to='login.User',related_name='conclusion_people',on_delete=models.ProtectedError,verbose_name='会议记录人',null=True)
-	# is_start=models.CharField(default=False, verbose_name='是否已经开始')
+	is_start=models.BooleanField(default=False, verbose_name='是否已经开始')
 	is_over=models.BooleanField(default=False, verbose_name='是否完成')
 
 
@@ -67,7 +67,7 @@ class Conference(models.Model):
 
 
 class Topic(models.Model):
-	sentence = models.TextField(max_length=200, verbose_name='汇报内容')
+	sentence = models.TextField(max_length=300, verbose_name='汇报内容')
 	share=models.TextField(max_length=200, verbose_name='分享内容',default='')
 	confer_id = models.ForeignKey(Conference, on_delete=models.ProtectedError, verbose_name='会议id',default=-1)
 	pre_time = models.FloatField(max_length=10, verbose_name='预计时长',default=0.0)
@@ -77,7 +77,7 @@ class Topic(models.Model):
 	ex_reason = models.CharField(max_length=30, verbose_name='超时原因')
 	ex_time = models.IntegerField(verbose_name='超时时间',default=0)
 	people_id = models.ForeignKey(to='login.User', on_delete=models.ProtectedError, verbose_name='汇报人id',default=-1)
-	followup = models.CharField(max_length=50, verbose_name='跟踪问题',default='')
+	followup = models.CharField(max_length=100, verbose_name='跟踪问题',default='')
 	money = models.FloatField(max_length=10, verbose_name='罚款金额',default=0.0)
 	money_sub = models.FloatField(max_length=10, verbose_name='已交罚款金额', default=0.0)
 	is_money_sub=models.BooleanField(default=False, verbose_name='是否全部上交')

@@ -9,7 +9,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>{% block title %}base{% endblock %}</title>
+    <title>{% block title %}数鼎工具箱{% endblock %}</title>
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -70,9 +70,9 @@ desired effect
     <!-- Logo -->
     <a href="#" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>PISTON CMS</b></span>
+        <span class="logo-mini"><b>PISTON Support</b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><img src="\static\confer\piston.png" height="40"><b>PISTON CMS</b></span>
+        <span class="logo-lg"><img src="\static\confer\piston.png" height="40"><b>PISTON Support</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -90,7 +90,7 @@ desired effect
                         <span class="label label-success">0</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">You have 0 messages</li>
+                        <li class="header">你有0个新消息</li>
                         <li>
                             <!-- inner menu: contains the messages -->
                             <ul class="menu">
@@ -98,7 +98,7 @@ desired effect
                                     <a href="#">
                                         <div class="pull-left">
                                             <!-- User Image -->
-                                            <img src="{% static 'adminlet-2.4.10/dist/img/avatar.png' %}"
+                                            <img src="{{ request.session.avatar }}"
                                                  class="img-circle" alt="User Image">
                                         </div>
                                         <!-- Message title and timestamp -->
@@ -127,7 +127,7 @@ desired effect
                         <span class="label label-warning">0</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">You have 0 notifications</li>
+                        <li class="header">你有0个事项需要follow up</li>
                         <li>
                             <!-- Inner Menu: contains the notifications -->
                             <ul class="menu">
@@ -151,7 +151,7 @@ desired effect
                         <span class="label label-danger">0</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">You have 0 tasks</li>
+                        <li class="header">你有0笔罚款需要提交</li>
                         <li>
                             <!-- Inner menu: contains the tasks -->
                             <ul class="menu">
@@ -159,7 +159,7 @@ desired effect
                                     <a href="#">
                                         <!-- Task title and progress text -->
                                         <h3>
-                                            hai mei you zuo...
+                                            还款进度
                                             <small class="pull-right">20%</small>
                                         </h3>
                                         <!-- The progress bar -->
@@ -188,7 +188,7 @@ desired effect
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <!-- The user image in the navbar-->
-                        <img src="{% static 'adminlet-2.4.10/dist/img/avatar.png' %}" class="user-image"
+                        <img src="{{ request.session.avatar }}" class="user-image"
                              alt="User Image">
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
                         <span class="hidden-xs">{{ request.session.user_name }}</span>
@@ -196,7 +196,7 @@ desired effect
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
                         <li class="user-header">
-                            <img src="{% static 'adminlet-2.4.10/dist/img/avatar.png' %}" class="img-circle"
+                            <img src="{{ request.session.avatar }}" class="img-circle"
                                  alt="User Image">
 
                             <p>
@@ -205,20 +205,20 @@ desired effect
                             </p>
                         </li>
                         <!-- Menu Body -->
-                        <li class="user-body">
-                            <div class="row">
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Followers</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Sales</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Friends</a>
-                                </div>
-                            </div>
-                            <!-- /.row -->
-                        </li>
+{#                        <li class="user-body">#}
+{#                            <div class="row">#}
+{#                                <div class="col-xs-4 text-center">#}
+{#                                    <a href="#">Followers</a>#}
+{#                                </div>#}
+{#                                <div class="col-xs-4 text-center">#}
+{#                                    <a href="#">Sales</a>#}
+{#                                </div>#}
+{#                                <div class="col-xs-4 text-center">#}
+{#                                    <a href="#">Friends</a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <!-- /.row -->#}
+{#                        </li>#}
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
@@ -237,16 +237,16 @@ desired effect
 </header>
 
 <!-- Content Wrapper. Contains page content -->
-<div id="entry" style="height: 900px">
+<div id="entry" style="min-height: 900px">
 
     <div id="apps" style="width: 90%;margin: 0 auto;">
-        <br>
-        <b><h3 style="margin-top: 70px">辅助工具</h3></b>
+        <br><br>
+        <b><h3 style="margin-top: 70px">实用工具</h3></b>
         <hr>
         <ul>
             <li>
                 <a href="/index/">
-                    <div class="tilt img">
+                    <div class="zoom img">
                         <img src="{% static 'entrystyle/img/meeting.png' %}"/>
                     </div>
                 </a>
@@ -255,22 +255,228 @@ desired effect
 
             <li>
                 <a href="/blog/">
-                    <div class="tilt img">
-                        <img src="{% static 'entrystyle/img/blog.png' %}"/>
+                    <div class="zoom img">
+                        <img src="{% static 'entrystyle/img/sharing2.png' %}"/>
                     </div>
                 </a>
                 <h4>Sharing</h4>
             </li>
 
-            {#            <li>#}
-            {#                <div class="tilt img">#}
-            {#                    <img src="{% static 'entrystyle/img/add.jpg' %}"/>#}
-            {#                </div>#}
-            {#                <h4>TODU</h4>#}
-            {#            </li>#}
+            <li>
+                <div class="zoom img">
+                    <img src="{% static 'entrystyle/img/dataset.jpg' %}"/>
+                </div>
+                <h4>Data Manage</h4>
+            </li>
+{#            <li>#}
+{#                <div class="zoom img">#}
+{#                    <img src="{% static 'entrystyle/img/add.jpg' %}"/>#}
+{#                </div>#}
+{#                <h4>TODU</h4>#}
+{#            </li>#}
 
         </ul>
         <div class="clear"></div>
+
+    </div>
+    <div id="exlinks" style="width: 90%;margin: 0 auto;">
+        <br>
+        <b><h3>常用外链</h3></b>
+        <hr>
+
+        <ul>
+            <li><h4 style="color: #fff;text-shadow:none;text-decoration:none"><b>汽车&nbsp |</b></h4></li>
+            <li>
+                <a href="https://www.autohome.com.cn/guangzhou/" target="_Blank">
+                    <h4><i>汽车之家</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.bitauto.com/" target="_Blank">
+                    <h4><i>易车</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.che168.com/" target="_Blank">
+                    <h4><i>二手车之家</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.taoche.com/" target="_Blank">
+                    <h4><i>淘车</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="http://www.xcar.com.cn/" target="_Blank">
+                    <h4><i>爱卡汽车</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.guazi.com/" target="_Blank">
+                    <h4><i>瓜子二手车</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.xin.com/guangzhou/" target="_Blank">
+                    <h4><i>优信二手车</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.iautos.cn/" target="_Blank">
+                    <h4><i>第一车网</i></h4>
+                </a>
+            </li>
+            <div class="clear"></div>
+
+        </ul>
+        <ul>
+            <li><h4 style="color: #fff;text-shadow:none;text-decoration:none"><b>编程&nbsp |</b></h4></li>
+            <li>
+                <a href="https://docs.python.org/zh-cn/3/" target="_Blank">
+                    <h4><i>Python3中文文档</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.pypandas.cn/" target="_Blank">
+                    <h4><i>Pandas中文文档</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.numpy.org.cn/" target="_Blank">
+                    <h4><i>Numpy中文文档</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="http://www.mongoing.com/docs/crud.html" target="_Blank">
+                    <h4><i>mongodb中文手册</i></h4>
+                </a>
+            </li>
+
+
+            <li>
+                <a href="https://github.com/" target="_Blank">
+                    <h4><i>GitHub</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.csdn.net/" target="_Blank">
+                    <h4><i>CSDN社区</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://stackoverflow.com/" target="_Blank">
+                    <h4><i>Stack Overflow</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://c.runoob.com/front-end/854" target="_Blank">
+                    <h4><i>正则表达式在线测试</i></h4>
+                </a>
+            </li>
+
+            <div class="clear"></div>
+
+        </ul>
+
+        <ul>
+            <li><h4 style="color: #fff;text-shadow:none;text-decoration:none"><b>算法&nbsp |</b></h4></li>
+            <li>
+                <a href="https://github.com/hangtwenty/dive-into-machine-learning" target="_Blank">
+                    <h4><i>机器学习路线图</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="http://www.52nlp.cn/" target="_Blank">
+                    <h4><i>我爱自然语言处理</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="http://sklearn.apachecn.org/#/" target="_Blank">
+                    <h4><i>sklearn中文文档</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="http://www.tensorfly.cn/tfdoc/get_started/introduction.html" target="_Blank">
+                    <h4><i>TensorFlow中文文档</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://xgboost.readthedocs.io/en/latest/index.html" target="_Blank">
+                    <h4><i>XGBoost文档</i></h4>
+                </a>
+            </li>
+
+            <div class="clear"></div>
+        </ul>
+        <ul>
+            <li><h4 style="color: #fff;text-shadow:none;text-decoration:none"><b>其他&nbsp |</b></h4></li>
+            <li>
+                <a href="http://seafile.pistonint.com/" target="_Blank">
+                    <h4><i>SeaFile</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="http://git.pistonint.com/users/sign_in" target="_Blank">
+                    <h4><i>数鼎GitLab</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.cnki.net/" target="_Blank">
+                    <h4><i>知网</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.ixueshu.com/" target="_Blank">
+                    <h4><i>爱学术</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.taobao.com/" target="_Blank">
+                    <h4><i>淘宝</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.jd.com/" target="_Blank">
+                    <h4><i>京东</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.zhihu.com/" target="_Blank">
+                    <h4><i>知乎</i></h4>
+                </a>
+            </li>
+
+            <li>
+                <a href="https://live.bilibili.com/" target="_Blank">
+                    <h4><i>哔哩哔哩</i></h4>
+                </a>
+            </li>
+            <div class="clear"></div>
+
+        </ul><br><br>
 
     </div>
 </div>
@@ -305,6 +511,7 @@ desired effect
 <script src="{% static 'adminlet-2.4.10/plugins/iCheck/icheck.min.js' %}"></script>
 
 <script>
+    {#alert("{{ user.picture.url }}");#}
     $('ul.sidebar-menu li').each(function (i) {
         if ($(this).children().first().attr('href') === '{{ request.path }}') {
             $(this).addClass('active');

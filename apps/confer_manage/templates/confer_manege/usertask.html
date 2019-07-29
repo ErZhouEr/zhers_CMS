@@ -194,13 +194,18 @@
                 eventClick: function (eventObj) {
                     {#$.getJSON('/confer_manage/dropconfer/',{'title':eventObj.title,'startime':eventObj.start,'endtime':eventObj.end});#}
                     if (eventObj.url) {
-                        alert(
+                        var flag=confirm(
                             'Clicked ' + eventObj.title + '.\n' +
-                            '将会前往 ' + eventObj.url + ' 编辑会议，或进入会议纪要查看（已完结会议）'
+                            '将会前往编辑会议页面，或进入会议纪要查看（已完结会议）'
                         );
-                        if(eventObj.end==null){eventObj.end=eventObj.start+7200000;}
+                        if(flag==true){
+                            if(eventObj.end==null){eventObj.end=eventObj.start+7200000;}
                         window.location.href = eventObj.url + '?' + 'confertype=' + eventObj.title.split('-')[0] + '&'+'conferid=' + eventObj.title.split('-')[1] + '&' + 'startime=' + eventObj.start + '&' + 'endtime=' + eventObj.end;
                         return false; // prevents browser from following link in current tab.
+                        }else{
+                            return false;
+                        }
+
                     } else {
                         alert('Clicked ' + eventObj.title);
                     }
@@ -214,21 +219,21 @@
                 drop: function (date, allDay) { // this function is called when something is dropped
 
                     // retrieve the dropped element's stored Event Object
-                    var originalEventObject = $(this).data('eventObject')
+                    var originalEventObject = $(this).data('eventObject');
 
                     // we need to copy it, so that multiple events don't have a reference to the same object
-                    var copiedEventObject = $.extend({}, originalEventObject)
+                    var copiedEventObject = $.extend({}, originalEventObject);
 
                     // assign it the date that was reported
-                    copiedEventObject.start = date
-                    copiedEventObject.allDay = allDay
-                    copiedEventObject.url = '/confer_manage/create/',
-                        copiedEventObject.backgroundColor = $(this).css('background-color')
-                    copiedEventObject.borderColor = $(this).css('border-color')
+                    copiedEventObject.start = date;
+                    copiedEventObject.allDay = allDay;
+                    copiedEventObject.url = '/confer_manage/create/';
+                        copiedEventObject.backgroundColor = $(this).css('background-color');
+                    copiedEventObject.borderColor = $(this).css('border-color');
 
                     // render the event on the calendar
                     // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                    $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
+                    $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 
                     // is the "remove after drop" checkbox checked?
                     if ($('#drop-remove').is(':checked')) {

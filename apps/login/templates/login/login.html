@@ -31,15 +31,15 @@
 
     <title>登录</title>
 </head>
-<body class="hold-transition login-page" style="background-image: url('/static/login/image/bg.png');background-attachment: fixed">
+<body class="hold-transition login-page" style="background-color: #2b2b2b">
 
 <div class="login-box">
 <div class="login-logo">
-    <a href="#">PISTON-<b>CMS</b></a>
+    <a href="#" style="color: #fcd3a1;">PISTON-<b>SUPPORT</b></a>
   </div>
     <!-- /.login-logo -->
-    <div class="login-box-body">
-        <p class="login-box-msg">welcome to conference manage system!</p>
+    <div class="login-box-body" style="box-shadow: 10px 10px 20px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);">
+        <p class="login-box-msg">welcome to Piston Support System!</p>
         <form class="form-login" action="/login/" method="post">
 
             {% if login_form.captcha.errors %}
@@ -63,7 +63,9 @@
             <div class="form-group has-feedback">
                 {{ login_form.captcha.label_tag }}
                 {{ login_form.captcha }}
+                <button  id='js-captcha-refresh'  type="button" ><i class="fa fa-refresh"></i></button>
             </div>
+
             <div class="row">
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
@@ -74,7 +76,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -83,14 +85,14 @@
 
     <div class="social-auth-links text-center">
       <hr style="background-color:#bfbdb9;height: 1px;width:100%;border: none;"/>
-      <a href="#" class="btn btn-block btn-social btn-github btn-flat"><i class="fa fa-facebook"></i> Sign in using
-        Github</a>
-      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
-        Google+</a>
+      <a href="#" class="btn btn-block btn-social btn-success btn-flat"><i class="fa fa-wechat"></i> Sign in using
+        Wechat</a>
+      <a href="#" class="btn btn-block btn-social btn-danger btn-flat"><i class="fa fa-weibo"></i> Sign in using
+        Weibo</a>
     </div>
     <!-- /.social-auth-links -->
 
-    <a href="#">I forgot my password</a><br>
+    <a href="/forgotpsw/">I forgot my password</a><br>
     <a href="/register/" class="text-center">Register a new membership</a>
 
     </div>
@@ -113,6 +115,14 @@
       increaseArea: '20%' /* optional */
     });
   });
+
+  $('#js-captcha-refresh').click(function () {
+                $.getJSON('/refresh_captcha/', function (result) {
+                    $('.captcha').attr('src', result['image_url']);
+                    $('#id_captcha_0').val(result['hashkey'])
+                });
+            });
+
 </script>
 </body>
 </html>

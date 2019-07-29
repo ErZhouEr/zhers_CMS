@@ -38,6 +38,8 @@ class Migration(migrations.Migration):
                 ('c_time', models.DateTimeField(auto_now_add=True)),
                 ('has_confirmed', models.BooleanField(default=False)),
                 ('apartment', models.ForeignKey(default=-1, on_delete=django.db.models.deletion.ProtectedError, to='confer_manage.Apartment', verbose_name='所属部门')),
+                ('phone', models.CharField(max_length=11, unique=True)),
+                ('picture', models.ImageField(width_field=200,height_field=200)),
             ],
             options={
                 'verbose_name': '用户',

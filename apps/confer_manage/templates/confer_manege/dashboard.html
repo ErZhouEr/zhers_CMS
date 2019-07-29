@@ -100,7 +100,7 @@
                 <!-- BAR CHART -->
                 <div class="box box-success">
                     <div class="box-header with-border">
-                        <h3 class="box-title">各部门会议数量/时间折线图</h3>
+                        <h3 class="box-title">各部门会议数量/时间折线图(虚构数据)</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-sm bg-gray" data-widget="collapse"><i
@@ -145,7 +145,7 @@
                 <!-- DONUT CHART -->
                 <div class="box box-danger">
                     <div class="box-header with-border">
-                        <h3 class="box-title">例会基金状况统计：</h3>
+                        <h3 class="box-title">例会基金状况统计</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn bg-danger btn-sm" data-widget="collapse"><i
@@ -182,18 +182,19 @@
                     <!-- /.box-header -->
                     <div class="box-body">
                         <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-                        <ul class="todo-list">
+                        <ul class="todo-list" style="margin: 0 6%">
                             {% for k,v in notsub_dict.items %}
-                                <li>
+                                <li class="qianqian">
                                     <!-- drag handle -->
                                     <span class="handle">
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                                     <!--not submitted money items -->
-                                    <span class="text">{{ k }}中，欠款未还</span>
+                                    <span class="text">{{ k }}，欠款未还</span>
                                     <!-- Emphasis label -->
-                                    <small class="label label-danger"><i class="fa fa-money"></i> {{ v }}元</small>
+                                    <span class="label label-danger" style="font-size: 12px"><i
+                                            class="fa fa-money"></i> {{ v }}元</span>
                                     <!-- General tools such as edit or delete-->
                                     <div class="tools">
                                         <i class="fa fa-edit"></i>
@@ -206,8 +207,47 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer clearfix no-border">
-                        <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item
+                        <button type="button" id="additembt" class="btn btn-default pull-right"><i
+                                class="fa fa-plus"></i> Add item
                         </button>
+                    </div>
+
+                    <div id="additem" style="width: 85%;margin: 0 auto;display: none">
+                        <div class="form-group">
+                            <label>类型</label>
+                            <select class="form-control edit-project" id="itemtype"
+                                    data-placeholder="点击选择类型"
+                                    style="width: 100%;">
+                                <option>收入</option>
+                                <option>支出</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>原因</label>
+                            <input class="form-control" id="itemreason" placeholder="如特殊罚款原因或下午茶等">
+                        </div>
+                        <div class="form-group">
+                            <label>金额</label>
+                            <input type="text" class="form-control" id="itemoney">
+                        </div>
+                        <div class="form-group">
+                            <label>已收入/支出金额</label>
+                            <input type="text" class="form-control" id="itemoneysub">
+                        </div>
+                        <div class="form-group">
+                            <label>收入/支出人</label>
+                            <select class="form-control" id="itempeople">
+                                <option>全体人员</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>收入/支出所属会议</label>
+                            <select class="form-control" id="itemconfer">
+                                <option>无</option>
+                            </select>
+                        </div>
+                        <button type="button" id="additemsubt" class="btn btn-primary" style="float: right"> 提交</button>
+                        <br><br>
                     </div>
                     <!-- /.box-body -->
                 </div>
@@ -231,33 +271,65 @@
 
     <script>
         $(".fa-trash-o").click(function () {
-            confirm("确定此条目欠款已经还清了吗？此操作不可撤回");
-            var data=new Array();
-
-            $.ajax({
-                url: "/confer_manage/createajax/",
-                type: "POST",
-                data: $("#createForm").serialize(),
-                dataType: "JSON",
-                success: function (arg) {
-                    console.log("26----", arg);
-                    if (arg["status"] == "成功") {
-                        alert(arg["message"]);
-                        var btnSubmit = document.getElementById('createSubmitbt');
-                        btnSubmit.disabled = "disabled";
-                        var inputArea = document.getElementsByClassName('form-control create-project');
-                        for (i = 0; i < inputArea.length; i++) {
-                            inputArea[i].disabled = "disabled";
+            var flag = confirm("确定此条目欠款已经还清了吗？此操作不可撤回");
+            if (flag == true) {
+                var moneyele = $(this).parent().prev();
+                var liele = $(this).parent().parent();
+                var item = moneyele.prev();
+                var b = moneyele.text();
+                var a = item.text();
+                $.ajax({
+                    url: "/confer_manage/huanqian/",
+                    type: "POST",
+                    data: {'item': a, 'money': b},
+                    dataType: "JSON",
+                    success: function (arg) {
+                        console.log("26----", arg);
+                        if (arg["status"] == "成功") {
+                            alert("删除成功");
+                            liele.remove();
+                        } else {
+                            alert(arg["message"]);
                         }
-                        var editconferdiv = document.getElementById('editconfer');
-                        editconferdiv.style.display = 'block';
 
-                    } else {
-                        alert(arg["message"]);
                     }
 
-                }
+                })
 
+            } else {
+                return false;
+
+            }
+        });
+
+        $("#additembt").click(function () {
+            $("#additem").css('display', 'block')
+        });
+
+        $("#additemsubt").click(function () {
+            var type = $("#itemtype").val();
+            var reason = $("#itemreason").val();
+            var money = $("#itemoney").val();
+            var moneysub=$("#itemoneysub").val();
+            var people=$("#itempeople").val();
+            var confer=$("#itemconfer").val();
+            {#alert(money);#}
+            var data = {'type': type, 'reason': reason, 'money': money,'moneysub':moneysub,'people': people,'confer':confer};
+            {#alert(data['reason']);#}
+            $.ajax({
+                url: "/confer_manage/addmoneyitem/",
+                type: "POST",
+                data: data,
+                dataType: "JSON",
+                success: function (arg) {
+                    if (arg["status"] == "success") {
+                        alert('新条目添加成功');
+                        $("#additem").css('display', 'none')
+                    }
+                    else {
+                        alert('新条目添加失败')
+                    }
+                }
             })
         });
 
@@ -360,7 +432,7 @@
             option = null;
             option = {
                 title: {
-                    text: '堆叠区域图'
+                    text: '数量'
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -372,7 +444,7 @@
                     }
                 },
                 legend: {
-                    data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+                    data: ['数据管理', '建模分析', 'IT', '品牌市场', '人力资源']
                 },
                 toolbox: {
                     feature: {
@@ -404,31 +476,31 @@
                         type: 'line',
                         stack: '总量',
                         areaStyle: {},
-                        data: [120, 132, 101, 134, 90, 230, 210]
+                        data: [12, 13, 10, 13, 9, 23, 21]
                     },
                     {
                         name: '建模分析',
                         type: 'line',
                         stack: '总量',
                         areaStyle: {},
-                        data: [220, 182, 191, 234, 290, 330, 310]
+                        data: [22, 18, 19, 23, 29, 33, 31]
                     },
                     {
-                        name: '视频广告',
+                        name: 'IT',
                         type: 'line',
                         stack: '总量',
                         areaStyle: {},
-                        data: [150, 232, 201, 154, 190, 330, 410]
+                        data: [15, 23, 20, 15, 19, 33, 41]
                     },
                     {
-                        name: '直接访问',
+                        name: '品牌市场',
                         type: 'line',
                         stack: '总量',
                         areaStyle: {normal: {}},
-                        data: [320, 332, 301, 334, 390, 330, 320]
+                        data: [32, 33, 30, 33, 39, 33, 32]
                     },
                     {
-                        name: '搜索引擎',
+                        name: '人力资源',
                         type: 'line',
                         stack: '总量',
                         label: {
@@ -438,7 +510,7 @@
                             }
                         },
                         areaStyle: {normal: {}},
-                        data: [820, 932, 901, 934, 1290, 1330, 1320]
+                        data: [12, 9, 9, 9, 12, 13, 13]
                     }
                 ]
             };
@@ -517,107 +589,175 @@
             {# };#}
 
             {#app.title = '嵌套环形图';#}
+            var bowserwidth = 0;
+            if (document.documentElement.clientWidth == true) {
+                bowserwidth = document.documentElement.clientWidth;
+            } else {
+                bowserwidth = document.body.offsetWidth;
+            }
 
-            var option = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    x: 'left',
-                    data: {{ total_data_x|safe }}
-                },
-                toolbox: {
-                    feature: {
-                        saveAsImage: {},
-                        dataView: {}
-                    }
-                },
-                series: [
-                    {
-                        name: '总体收支情况',
-                        type: 'pie',
-                        selectedMode: 'single',
-                        radius: [0, '30%'],
-                        center: ['50%', '60%'],
+            var option = new Array()
 
-                        label: {
-                            normal: {
-                                position: 'inner'
-                            }
-                        },
-                        labelLine: {
-                            normal: {
-                                show: false
-                            }
-                        },
-                        data: [
-                            {value: {{ layer1_money.income }}, name: '收入'},
-                            {value: {{ layer1_money.outcome }}, name: '支出'}
-                        ]
+            if (bowserwidth >= 1680) {
+
+                option = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
                     },
-                    {
-                        name: '收支细节',
-                        type: 'pie',
-                        radius: ['40%', '55%'],
-                        center: ['50%', '60%'],
-                        label: {
-                            normal: {
-                                formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
-                                backgroundColor: '#eee',
-                                borderColor: '#aaa',
-                                borderWidth: 1,
-                                borderRadius: 4,
-                                shadowBlur: 3,
-                                shadowOffsetX: 1,
-                                shadowOffsetY: 1,
-                                shadowColor: '#999',
-                                padding: [0, 7],
-                                rich: {
-                                    a: {
-                                        color: '#999',
-                                        lineHeight: 22,
-                                        align: 'center'
-                                    },
-                                    // abg: {
-                                    //     backgroundColor: '#333',
-                                    //     width: '100%',
-                                    //     align: 'right',
-                                    //     height: 22,
-                                    //     borderRadius: [4, 4, 0, 0]
-                                    // },
-                                    hr: {
-                                        borderColor: '#aaa',
-                                        width: '100%',
-                                        borderWidth: 0.5,
-                                        height: 0
-                                    },
-                                    b: {
-                                        fontSize: 16,
-                                        lineHeight: 33
-                                    },
-                                    per: {
-                                        color: '#eee',
-                                        backgroundColor: '#334455',
-                                        padding: [2, 4],
-                                        borderRadius: 2
+                    legend: {
+                        orient: 'vertical',
+                        x: 'left',
+                        data: {{ total_data_x|safe }}
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {},
+                            dataView: {}
+                        }
+                    },
+                    series: [
+                        {
+                            name: '总体收支情况',
+                            type: 'pie',
+                            selectedMode: 'single',
+                            radius: [0, '30%'],
+                            center: ['50%', '60%'],
+
+                            label: {
+                                normal: {
+                                    position: 'inner'
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: [
+                                {value: {{ layer1_money.income }}, name: '收入'},
+                                {value: {{ layer1_money.outcome }}, name: '支出'}
+                            ]
+                        },
+                        {
+                            name: '收支细节',
+                            type: 'pie',
+                            radius: ['40%', '55%'],
+                            center: ['50%', '60%'],
+                            label: {
+                                normal: {
+                                    formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                                    backgroundColor: '#eee',
+                                    borderColor: '#aaa',
+                                    borderWidth: 1,
+                                    borderRadius: 4,
+                                    {#shadowBlur: 3,#}
+                                    {#shadowOffsetX: 1,#}
+                                    {#shadowOffsetY: 1,#}
+                                    {#shadowColor: '#999',#}
+                                    {#padding: [0, 7],#}
+                                    rich: {
+                                        a: {
+                                            color: '#999',
+                                            lineHeight: 16,
+                                            align: 'center'
+                                        },
+                                        // abg: {
+                                        //     backgroundColor: '#333',
+                                        //     width: '100%',
+                                        //     align: 'right',
+                                        //     height: 22,
+                                        //     borderRadius: [4, 4, 0, 0]
+                                        // },
+                                        hr: {
+                                            borderColor: '#aaa',
+                                            width: '100%',
+                                            borderWidth: 0.5,
+                                            height: 0
+                                        },
+                                        b: {
+                                            fontSize: 13,
+                                            lineHeight: 25
+                                        },
+                                        per: {
+                                            color: '#eee',
+                                            backgroundColor: '#334455',
+                                            padding: [2, 4],
+                                            borderRadius: 2
+                                        }
                                     }
                                 }
-                            }
-                        },
-                        data: [
-                            {% for k,v in total_dict.income.items %}
-                                {value: {{ v }}, name: '{{k|safe}}'},
-                            {% endfor %}
-                            {% for k,v in total_dict.outcome.items %}
-                                {value: {{ v }}, name: '{{k|safe}}'},
-                            {% endfor %}
+                            },
+                            data: [
+                                {% for k,v in total_dict.income.items %}
+                                    {value: {{ v }}, name: '{{k|safe}}'},
+                                {% endfor %}
+                                {% for k,v in total_dict.outcome.items %}
+                                    {value: {{ v }}, name: '{{k|safe}}'},
+                                {% endfor %}
 
-                        ]
-                    }
-                ]
-            };
+                            ]
+                        }
+                    ]
+                };
+            } else {
+                option = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        x: 'left',
+                        data: {{ total_data_x|safe }}
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {},
+                            dataView: {}
+                        }
+                    },
+                    series: [
+                        {
+                            name: '总体收支情况',
+                            type: 'pie',
+                            selectedMode: 'single',
+                            radius: [0, '30%'],
+                            center: ['50%', '60%'],
+
+                            label: {
+                                normal: {
+                                    position: 'inner'
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: [
+                                {value: {{ layer1_money.income }}, name: '收入'},
+                                {value: {{ layer1_money.outcome }}, name: '支出'}
+                            ]
+                        },
+                        {
+                            name: '收支细节',
+                            type: 'pie',
+                            radius: ['40%', '55%'],
+                            center: ['50%', '60%'],
+                            data: [
+                                {% for k,v in total_dict.income.items %}
+                                    {value: {{ v }}, name: '{{k|safe}}'},
+                                {% endfor %}
+                                {% for k,v in total_dict.outcome.items %}
+                                    {value: {{ v }}, name: '{{k|safe}}'},
+                                {% endfor %}
+
+                            ]
+                        }
+                    ]
+                };
+            }
             // 使用刚指定的配置项和数据显示图表。
             myChart.setOption(option);
         });

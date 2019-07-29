@@ -31,13 +31,13 @@
 
     <title>注册</title>
 </head>
-<body class="hold-transition register-page" style="background-image: url('/static/login/image/bg.png');background-attachment: fixed">
+<body class="hold-transition register-page" style="background-color: #2b2b2b">
 
-<div class="register-box" style="width: 23%">
+<div class="register-box" style="width: 22%;min-width: 360px;margin-top: 3.5%">
   <div class="register-logo">
-    <a href="#">PISTON-<b>CMS</b></a>
+    <a href="#" style="color: #fcd3a1;">PISTON-<b>SUPPORT</b></a>
   </div>
-<div class="register-box-body">
+<div class="register-box-body" style="box-shadow: 10px 10px 20px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);">
     <p class="login-box-msg">Register a new membership</p>
         <form class="form-register" action="/register/" method="post">
 
@@ -70,6 +70,11 @@
                 {{ register_form.email }}
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
+        <div class="form-group has-feedback">
+                {{ register_form.phone.label_tag }}
+                {{ register_form.phone }}
+                <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+            </div>
         <div class="form-group has-feedback" style="display: inline">
                 {{ register_form.apartment.label_tag }}
                 {{ register_form.apartment }}
@@ -86,6 +91,7 @@
             <div class="form-group">
                 {{ register_form.captcha.label_tag }}
                 {{ register_form.captcha }}
+                <button  id='js-captcha-refresh'  type="button" ><i class="fa fa-refresh"></i></button>
             </div>
 
 
@@ -98,16 +104,28 @@
         </form>
 <div class="social-auth-links text-center">
       <p>—— OR ——</p>
-      <a href="#" class="btn btn-block btn-social btn-github btn-flat"><i class="fa fa-facebook"></i> Sign in using
-        Github</a>
-      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
-        Google+</a>
+      <a href="#" class="btn btn-block btn-social btn-success btn-flat"><i class="fa fa-wechat"></i> Sign in using
+        Wechat</a>
+      <a href="#" class="btn btn-block btn-social btn-danger btn-flat"><i class="fa fa-weibo"></i> Sign in using
+        Weibo</a>
     </div>
     </div>
 </div> <!-- /container -->
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!-- jQuery 3 -->
+<script src="{% static 'adminlet-2.4.10/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script>
+
+  $('#js-captcha-refresh').click(function () {
+                $.getJSON('/refresh_captcha/', function (result) {
+                    $('.captcha').attr('src', result['image_url']);
+                    $('#id_captcha_0').val(result['hashkey'])
+                });
+            });
+
+</script>
 
 </body>
 </html>

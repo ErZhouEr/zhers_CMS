@@ -1,4 +1,5 @@
 from django.db import models
+# from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -18,11 +19,15 @@ class User(models.Model):
     name = models.CharField(max_length=128, unique=True)
     password = models.CharField(max_length=256)
     email = models.EmailField(unique=True)
+    phone=models.CharField(max_length=11,unique=True)
     sex = models.CharField(max_length=32, choices=gender, default="男")
     role = models.CharField(max_length=32, choices=roles, default="普通用户")
     c_time = models.DateTimeField(auto_now_add=True)
     has_confirmed = models.BooleanField(default=False)
     apartment = models.ForeignKey('confer_manage.Apartment', on_delete=models.ProtectedError, verbose_name='所属部门', default=-1)
+    picture=models.ImageField(upload_to='image',width_field='width',height_field='height',default='image/avatar.png')
+    width=models.IntegerField(default=200)
+    height = models.IntegerField(default=200)
 
     def __str__(self):
         return self.name
