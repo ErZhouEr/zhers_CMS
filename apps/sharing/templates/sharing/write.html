@@ -1,0 +1,1140 @@
+{% load staticfiles %}
+{% load blog_tags %}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="robots" content="NONE,NOARCHIVE"/>
+    <title>我的文章 | 数鼎工具箱</title>
+
+    {#    <link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">#}
+
+    {#    <link rel="stylesheet" type="text/css" href="/static/xadmin/css/themes/bootstrap-xadmin.css"/>#}
+
+    {#    <link href="/static/xadmin/vendor/font-awesome/css/font-awesome.min.css" type="text/css" media="screen"#}
+    {#          rel="stylesheet">#}
+{#    <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">#}
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.form.css" type="text/css" media="screen" rel="stylesheet">
+    <link href="/static/xadmin/vendor/bootstrap-datepicker/css/datepicker.css" type="text/css" media="screen"
+          rel="stylesheet">
+    <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/bower_components/font-awesome/css/font-awesome.min.css' %}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/bower_components/Ionicons/css/ionicons.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/dist/css/AdminLTE.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminlet-2.4.10/dist/css/skins/skin-blue.min.css' %}">
+
+    <style type="text/css">
+        .btn-toolbar {
+            margin-top: 0;
+        }
+
+        #content-block.full-content {
+            margin-left: 0;
+        }
+    </style>
+
+{#    <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.min.js"></script>#}
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper" style="background-color: rgb(224, 224, 224) !important;min-height: 900px">
+    <header class="main-header">
+
+        <!-- Logo -->
+        <a href="/appplat/" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><strong>PISTON Sharing</strong></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><img src="\static\confer\piston.png"
+                                       height="40"><strong>PISTON Sharing</strong></span>
+        </a>
+        <!-- /.navbar-collapse -->
+        {#        <div id="header-search-box">#}
+        {#            <a id="search-menu" href="#"><span id="search-icon" class="ion-ios-search-strong"></span></a>#}
+        {#            <div id="search-form" class="search-form">#}
+        {#                <form role="search" method="get" id="searchform" action="{% url 'haystack_search' %}">#}
+        {#                    <input type="search" name="q" placeholder="搜索" required>#}
+        {#                    <button type="submit"><span class="ion-ios-search-strong"></span></button>#}
+        {#                </form>#}
+        {#            </div>#}
+        {#        </div>#}
+
+        <!-- Header Navbar -->
+
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+
+                <ul class="nav navbar-nav">
+
+                    <li class="dropdown messages-menu"><a href="{% url 'sharing:index' %}"
+                                                          style="color: white">首页</a>
+                    </li>
+                    <li class="dropdown messages-menu"><a href="#" data-hover="关于">关于</a>
+                    </li>
+                    <li class="dropdown messages-menu"><a href="#" data-hover="联系">联系</a>
+                    </li>
+
+                    <!-- Messages: style can be found in dropdown.less-->
+                    <li class="dropdown messages-menu">
+
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="label label-success">0</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">你有0个新消息</li>
+                            <li>
+                                <!-- inner menu: contains the messages -->
+                                <ul class="menu">
+                                    <li><!-- start message -->
+                                        <a href="#">
+                                            <div class="pull-left">
+                                                <!-- User Image -->
+                                                <img src="{{ request.session.avatar }}"
+                                                     class="img-circle" alt="User Image">
+                                            </div>
+                                            <!-- Message title and timestamp -->
+                                            <h4>
+                                                aaaaaa
+                                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                            </h4>
+                                            <!-- The message -->
+                                            <p>hai mei you zuo...</p>
+                                        </a>
+                                    </li>
+                                    <!-- end message -->
+                                </ul>
+                                <!-- /.menu -->
+                            </li>
+                            <li class="footer"><a href="#">See All Messages</a></li>
+                        </ul>
+                    </li>
+                    <!-- /.messages-menu -->
+
+                    <!-- Notifications Menu -->
+                    <li class="dropdown notifications-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning">0</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">你有0个事项需要follow up</li>
+                            <li>
+                                <!-- Inner Menu: contains the notifications -->
+                                <ul class="menu">
+                                    <li><!-- start notification -->
+                                        <a href="#">
+                                            <i class="fa fa-users text-aqua"></i> hai mei you zuo...
+                                        </a>
+                                    </li>
+                                    <!-- end notification -->
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#">View all</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Tasks Menu -->
+                    <li class="dropdown tasks-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-flag-o"></i>
+                            <span class="label label-danger">0</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">你有0笔罚款需要提交</li>
+                            <li>
+                                <!-- Inner menu: contains the tasks -->
+                                <ul class="menu">
+                                    <li><!-- Task item -->
+                                        <a href="#">
+                                            <!-- Task title and progress text -->
+                                            <h3>
+                                                还款进度
+                                                <small class="pull-right">20%</small>
+                                            </h3>
+                                            <!-- The progress bar -->
+                                            <div class="progress xs">
+                                                <!-- Change the css width attribute to simulate progress -->
+                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"
+                                                     role="progressbar"
+                                                     aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                    <span class="sr-only">20% Complete</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <!-- end task item -->
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="#">View all tasks</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img src="{{ request.session.avatar }}" class="user-image"
+                                 alt="User Image">
+                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs">{{ request.session.user_name }}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- The user image in the menu -->
+                            <li class="user-header">
+                                <img src="{{ request.session.avatar }}" class="img-circle"
+                                     alt="User Image">
+
+                                <p>
+                                    {{ request.session.user_name }}
+                                    <small id="today"></small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            {#                        <li class="user-body">#}
+                            {#                            <div class="row">#}
+                            {#                                <div class="col-xs-4 text-center">#}
+                            {#                                    <a href="#">Followers</a>#}
+                            {#                                </div>#}
+                            {#                                <div class="col-xs-4 text-center">#}
+                            {#                                    <a href="#">Sales</a>#}
+                            {#                                </div>#}
+                            {#                                <div class="col-xs-4 text-center">#}
+                            {#                                    <a href="#">Friends</a>#}
+                            {#                                </div>#}
+                            {#                            </div>#}
+                            {#                            <!-- /.row -->#}
+                            {#                        </li>#}
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="/confer_manage/userprofile/" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="/logout/" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+
+                <!--<div class="image">
+                    <img src="{{ request.session.avatar }}" class="img-circle" style="width: 60px;max-width: 80px;margin-left: 90px;border: 2px solid white" alt="User Image">
+                </div><br>-->
+                <br>
+                <img class="profile-user-img img-responsive img-circle"
+                     src="{{ request.session.avatar }}" style="width: 85px" alt="User profile picture"><br>
+                <div class="text-center">
+                    <p style="color: white;display: inline">{{ request.session.user_name }}</p>&nbsp
+                    <!-- Status -->
+                    <a href="#"><i class="fa fa-circle text-success"></i>在线</a>
+                </div>
+
+                <p class="text-muted text-center" style="color: white">建模分析</p>
+
+                <ul class="sidebar-menu" style="color: lightgrey;margin-left: 18px;margin-top: 10px">
+
+                    <li style="display: inline;">
+                        <i class="fa fa-file-text"></i><span>&nbsp文章</span> <span>&nbsp&nbsp8</span>
+                    </li>
+                    <li style="display: inline;;margin-left: 30px">
+                        <i class="fa fa-commenting"></i><span>&nbsp评论</span> <span>&nbsp&nbsp7</span>
+                    </li>
+                </ul>
+                <ul class="sidebar-menu" style="color: lightgrey;margin-left: 18px;margin-top: 10px">
+                    <li style="display: inline;">
+                        <i class="fa fa-heart"></i><span>&nbsp收藏</span> <span>&nbsp&nbsp4</span>
+                    </li>
+                    <li style="display: inline;margin-left: 30px">
+                        <i class="fa fa-thumbs-up"></i><span>&nbsp点赞</span> <span>&nbsp&nbsp16</span>
+                    </li>
+                </ul>
+                <ul class="sidebar-menu" style="color: lightgrey;margin-left: 18px;margin-top: 10px">
+                    <li style="display: inline;">
+                        <i class="fa fa-check-circle"></i><span>&nbsp积分</span> <span>&nbsp&nbsp0</span>
+                    </li>
+                    <li style="display: inline;margin-left: 30px">
+                        <i class="fa fa-send"></i><span>&nbsp等级</span> <span>&nbsp&nbsp0</span>
+                    </li>
+                </ul>
+            </div>
+            <hr style="background-color: #8B8986;width: 85%;height: 1px;border:none;margin: 10px 7%">
+
+            <!-- search form (Optional) -->
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+              </button>
+            </span>
+                </div>
+            </form>
+            <!-- /.search form -->
+
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header" style="color: lightgrey">导航栏</li>
+                <!-- Optionally, you can add icons to the links -->
+
+                <li class="active">
+                    <a href="#">
+                        <i class="fa-fw fa fa-bell"></i>
+                        文章列表</a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <i class="fa-fw fa fa-briefcase"></i>
+                        分类目录</a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <i class="fa-fw fa fa-tags"></i>
+                        标签列表</a>
+                </li>
+            </ul>
+            <ul class="well nav nav-list nav-sitemenu show-sm">
+                <li class="app_menu">
+                    <a href="#"><i class="icon fa-fw fa fa-home"></i></a>
+                    <hr/>
+                </li>
+
+                <li class="app_menu dropdown-submenu  active">
+                    <a href="#" class="section">
+                        <i class="icon fa-fw fa fa-bell"></i>
+
+                    </a>
+                    <hr/>
+                    <ul class="dropdown-menu">
+
+                        <li class="active">
+                            <a href="#">
+                                <i class="fa-fw fa fa-bell"></i>
+                                文章列表</a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa-fw fa fa-briefcase"></i>
+                                分类目录</a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa-fw fa fa-tags"></i>
+                                标签列表</a>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+
+    <div id="body-content" class="content-wrapper" style="background-color: rgb(224, 224, 224) !important;min-height: 900px;margin-top: 50px">
+
+        <div id="content-block" class="container" style="background-color: white;width: 94%">
+
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">首页</a>
+                </li>
+
+                <li>
+                    文章列表
+
+                </li>
+
+
+            </ul>
+
+
+            <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+                 data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+                 data-class-sm="navbar content-navbar navbar-default navbar-xs">
+                <div class="navbar-header">
+
+
+                    <button class="navbar-toggle pull-left" data-toggle="class" data-target="#body-content"
+                            data-class-name="show_menu">
+                        <i class="fa fa-list"></i>
+                    </button>
+
+                    <a href="#" class="navbar-toggle pull-right"><i class="fa fa-plus"></i></a>
+
+                    <button class="navbar-toggle pull-right" data-toggle="collapse"
+                            data-target=".content-navbar .navbar-collapse">
+                        <i class="fa fa-filter"></i>
+                    </button>
+
+
+                    <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
+                        <i class="fa fa-bell"></i> 文章列表
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+
+                        <li class="dropdown bookmarks">
+                            <a id="drop-bookmark" title="书签" class="dropdown-toggle" role="button"
+                               data-toggle="dropdown"
+                               href="#">
+                                <i class="fa fa-book"></i> 书签<span class="caret"></span></a>
+                            <ul id="bookmark-menu" class="dropdown-menu" role="menu">
+
+
+                                <li><a class="mute">没有书签</a></li>
+
+
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a id="drop-filter" class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+                                <i class="fa fa-filter"></i> 过滤器
+                                <span class="caret"></span></a>
+                            <ul id="filter-menu" class="dropdown-menu" role="menu" aria-labelledby="drop-filter">
+
+                                <li class="dropdown-submenu filter-char">
+                                    <a><i class="fa fa-filter text-muted"></i> 标题</a>
+                                    <div class="popover right">
+                                        <div class="arrow"></div>
+                                        <h3 class="popover-title">
+                                            搜索 标题
+                                        </h3>
+                                        <div class="popover-content">
+                                            <form method="get" action="">
+
+                                                <div class="input-group">
+                                                    <input name="_p_title__contains" class="input-char form-control"
+                                                           type="text" value="" placeholder="输入 标题…"/>
+                                                    <span class="input-group-btn">
+
+            <button class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
+          </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="dropdown-submenu filter-date">
+                                    <a><i class="fa fa-filter text-muted"></i> 创建时间</a>
+                                    <ul class="dropdown-menu">
+
+                                        <li class="active">
+                                            <a href="?">任意日期</a></li>
+
+                                        <li>
+                                            <a href="?_p_created_time__isnull=False">具有日期</a></li>
+
+                                        <li>
+                                            <a href="?_p_created_time__isnull=True">无日期</a></li>
+
+                                        <li>
+                                            <a href="?_p_created_time__gte=2019-07-24+00%3A00%3A00&amp;_p_created_time__lt=2019-07-25+00%3A00%3A00">今天</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="?_p_created_time__gte=2019-07-17+00%3A00%3A00&amp;_p_created_time__lt=2019-07-25+00%3A00%3A00">过去7天</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="?_p_created_time__gte=2019-07-01+00%3A00%3A00&amp;_p_created_time__lt=2019-07-25+00%3A00%3A00">本月</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="?_p_created_time__gte=2019-01-01+00%3A00%3A00&amp;_p_created_time__lt=2019-07-25+00%3A00%3A00">今年</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a><i class="fa fa-filter text-muted"></i> 文章分类</a>
+                                    <ul class="dropdown-menu">
+
+                                        <li class="active">
+                                            <a href="?">全部</a></li>
+
+                                        <li>
+                                            <a href="?_p_category__id__exact=1">算法</a></li>
+
+                                        <li>
+                                            <a href="?_p_category__id__exact=2">Python</a></li>
+
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a><i class="fa fa-filter text-muted"></i> 文章状态</a>
+                                    <ul class="dropdown-menu">
+
+                                        <li class="active">
+                                            <a href="?">全部</a></li>
+
+                                        <li>
+                                            <a href="?_p_status__exact=p">文章页</a></li>
+
+                                        <li>
+                                            <a href="?_p_status__exact=c">教程页</a></li>
+
+                                        <li>
+                                            <a href="?_p_status__exact=d">草稿箱</a></li>
+
+                                        <li>
+                                            <a href="?_p_status__exact=r">回收站</a></li>
+
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+
+                    <form class="navbar-form navbar-left" action="" method="get">
+                        <div class="input-group search-group">
+
+                            <input id="searchbar" class="form-control" type="text" name="_q_" value=""
+                                   placeholder="搜索 文章列表">
+                            <span class="input-group-btn"><button class="btn btn-primary" type="submit"><i
+                                    class="fa fa-search"></i></button></span>
+                        </div>
+
+                    </form>
+
+
+                    <div class="navbar-btn pull-right hide-xs">
+
+
+                        <a href="/sharing/adddoc/" class="btn btn-primary"><i class="fa fa-plus"></i>
+                            增加 文章</a>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="content-toolbar btn-toolbar pull-right clearfix">
+
+                <div class="btn-group export">
+                    <a class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" href="#">
+                        <i class="fa fa-share"></i> 导出 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+
+                        <li><a data-toggle="modal" data-target="#export-modal-xlsx"><i
+                                class="fa fa-arrow-circle-down"></i>
+                            导出 Excel 2007</a></li>
+
+                        <li><a data-toggle="modal" data-target="#export-modal-xls"><i
+                                class="fa fa-arrow-circle-down"></i>
+                            导出 Excel</a></li>
+
+                        <li><a data-toggle="modal" data-target="#export-modal-csv"><i
+                                class="fa fa-arrow-circle-down"></i>
+                            导出 CSV</a></li>
+
+                        <li><a data-toggle="modal" data-target="#export-modal-xml"><i
+                                class="fa fa-arrow-circle-down"></i>
+                            导出 XML</a></li>
+
+                        <li><a data-toggle="modal" data-target="#export-modal-json"><i
+                                class="fa fa-arrow-circle-down"></i>
+                            导出 JSON</a></li>
+
+                    </ul>
+
+
+                    <div id="export-modal-xlsx" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="get" action="">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title">导出 Excel 2007</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="_do_" value="export"/>
+                                        <input type="hidden" name="export_type" value="xlsx">
+                                        <label class="checkbox">
+
+                                            <input type="checkbox" name="export_xlsx_header" checked="checked"
+                                                   value="on">
+                                            导出表头
+
+
+                                        </label>
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="all" value="on"> 导出全部数据
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button class="btn btn-success" type="submit"><i class="fa fa-share"></i> 导出
+                                        </button>
+                                    </div>
+                                </form>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dalog -->
+                    </div><!-- /.modal -->
+
+                    <div id="export-modal-xls" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="get" action="">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title">导出 Excel</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="_do_" value="export"/>
+                                        <input type="hidden" name="export_type" value="xls">
+                                        <label class="checkbox">
+
+
+                                            <input type="checkbox" name="export_xls_header" checked="checked"
+                                                   value="on">
+                                            导出表头
+
+
+                                        </label>
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="all" value="on"> 导出全部数据
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button class="btn btn-success" type="submit"><i class="fa fa-share"></i> 导出
+                                        </button>
+                                    </div>
+                                </form>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dalog -->
+                    </div><!-- /.modal -->
+
+                    <div id="export-modal-csv" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="get" action="">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title">导出 CSV</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="_do_" value="export"/>
+                                        <input type="hidden" name="export_type" value="csv">
+                                        <label class="checkbox">
+
+
+                                            <input type="checkbox" name="export_csv_header" checked="checked"
+                                                   value="on">
+                                            导出表头
+
+
+                                        </label>
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="all" value="on"> 导出全部数据
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button class="btn btn-success" type="submit"><i class="fa fa-share"></i> 导出
+                                        </button>
+                                    </div>
+                                </form>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dalog -->
+                    </div><!-- /.modal -->
+
+                    <div id="export-modal-xml" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="get" action="">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title">导出 XML</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="_do_" value="export"/>
+                                        <input type="hidden" name="export_type" value="xml">
+                                        <label class="checkbox">
+
+
+                                            <input type="checkbox" name="export_xml_format" checked="checked"
+                                                   value="on">
+                                            导出格式
+
+
+                                        </label>
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="all" value="on"> 导出全部数据
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button class="btn btn-success" type="submit"><i class="fa fa-share"></i> 导出
+                                        </button>
+                                    </div>
+                                </form>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dalog -->
+                    </div><!-- /.modal -->
+
+                    <div id="export-modal-json" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="get" action="">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title">导出 JSON</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="_do_" value="export"/>
+                                        <input type="hidden" name="export_type" value="json">
+                                        <label class="checkbox">
+
+
+                                            <input type="checkbox" name="export_json_format" checked="checked"
+                                                   value="on">
+                                            导出格式
+
+                                        </label>
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="all" value="on"> 导出全部数据
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button class="btn btn-success" type="submit"><i class="fa fa-share"></i> 导出
+                                        </button>
+                                    </div>
+                                </form>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dalog -->
+                    </div><!-- /.modal -->
+
+
+                </div>
+
+                <div class="btn-group">
+                    <a class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" href="#">
+                        <i class="fa fa-list-alt"></i> 显示列 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu model_fields pull-right" role="menu" aria-labelledby="dLabel">
+                        <li><a href="?"><i class="fa fa-refresh"></i> 恢复显示列</a></li>
+                        <li class="divider"></li>
+
+                        <li><a href="?_cols=title.created_time.category.status.excerpt">
+                            <i class="fa fa-check"></i>
+                            ID</a></li>
+
+                        <li><a href="?_cols=id.created_time.category.status.excerpt">
+                            <i class="fa fa-check"></i>
+                            标题</a></li>
+
+                        <li><a href="?_cols=id.title.created_time.category.status.excerpt.body">
+                            <i class="fa fa-blank"></i>
+                            正文</a></li>
+
+                        <li><a href="?_cols=id.title.category.status.excerpt">
+                            <i class="fa fa-check"></i>
+                            创建时间</a></li>
+
+                        <li><a href="?_cols=id.title.created_time.category.status.excerpt.modified_time">
+                            <i class="fa fa-blank"></i>
+                            修改时间</a></li>
+
+                        <li><a href="?_cols=id.title.created_time.category.status">
+                            <i class="fa fa-check"></i>
+                            excerpt</a></li>
+
+                        <li><a href="?_cols=id.title.created_time.category.status.excerpt.views">
+                            <i class="fa fa-blank"></i>
+                            views</a></li>
+
+                        <li><a href="?_cols=id.title.created_time.status.excerpt">
+                            <i class="fa fa-check"></i>
+                            文章分类</a></li>
+
+                        <li><a href="?_cols=id.title.created_time.category.status.excerpt.author">
+                            <i class="fa fa-blank"></i>
+                            作者</a></li>
+
+                        <li><a href="?_cols=id.title.created_time.category.excerpt">
+                            <i class="fa fa-check"></i>
+                            文章状态</a></li>
+
+                        <li><a href="?_cols=id.title.created_time.category.status.excerpt.stick">
+                            <i class="fa fa-blank"></i>
+                            是否置顶</a></li>
+
+                    </ul>
+                </div>
+
+
+                <div class="btn-group layout-btns" data-toggle="buttons">
+                    <label class="btn btn-default btn-sm layout-normal active">
+                        <input type="radio"> <i class="fa fa-th-large"></i>
+                    </label>
+                    <label class="btn btn-default btn-sm layout-condensed">
+                        <input type="radio"> <i class="fa fa-th"></i>
+                    </label>
+
+                </div>
+
+
+                <div class="btn-group layout-btns" data-toggle="buttons-checkbox">
+                    <button type="button" class="btn btn-default btn-sm layout-full"><i class="fa fa-expand"></i>
+                    </button>
+
+                </div>
+
+
+            </div>
+
+            <ul class="pagination pagination-sm pagination-left pagination-inline">
+
+                <li><span><span class="text-success">1</span> 文章列表</span></li>
+
+
+            </ul>
+
+            <form id="changelist-form" action="" method="post"><input type="hidden" name="csrfmiddlewaretoken"
+                                                                      value="5iJNtLzREwL4r3qYM5u72ka8o446wB0gdJ0NmqcjLfMrqLlIjdZ8va4jjQcWlz4p">
+
+                <div class="results table-responsive">
+
+
+                    <table class="table table-bordered table-striped table-hover">
+
+                        <thead>
+                        <tr>
+                            <th scope="col" class="action-checkbox-column">
+
+
+                                <input type="checkbox" id="action-toggle"/>
+
+                            </th>
+                            <th scope="col" class="sortable sorted descending">
+
+                                <div class="pull-right">
+
+                                    <a class="toggle" href="?o=id"><i class="fa fa-sort-down"></i></a>
+
+                                </div>
+
+
+                                <div class="dropdown pull-left">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        ID
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+
+                                        <li><a href="?o=id" class="active"><i class="fa fa-caret-up"></i> 正序</a></li>
+
+                                        <li class="active"><a href="?o=-id" class="active"><i
+                                                class="fa fa-caret-down"></i>
+                                            倒序</a></li>
+
+                                        <li><a href="?o=" class="active"><i class="fa fa-times"></i> 取消排序</a></li>
+
+                                    </ul>
+                                </div>
+
+                            </th>
+                            <th scope="col" class="sortable">
+
+
+                                <div class="dropdown pull-left">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        标题
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+
+                                        <li><a href="?o=title.-id" class="active"><i class="fa fa-caret-up"></i> 正序</a>
+                                        </li>
+
+                                        <li><a href="?o=-title.-id" class="active"><i class="fa fa-caret-down"></i>
+                                            倒序</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                            </th>
+                            <th scope="col" class="sortable">
+
+
+                                <div class="dropdown pull-left">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        创建时间
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+
+                                        <li><a href="?o=created_time.-id" class="active"><i class="fa fa-caret-up"></i>
+                                            正序</a></li>
+
+                                        <li><a href="?o=-created_time.-id" class="active"><i
+                                                class="fa fa-caret-down"></i>
+                                            倒序</a></li>
+
+                                    </ul>
+                                </div>
+
+                            </th>
+                            <th scope="col" class="sortable">
+
+
+                                <div class="dropdown pull-left">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        文章分类
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+
+                                        <li><a href="?o=category.-id" class="active"><i class="fa fa-caret-up"></i>
+                                            正序</a>
+                                        </li>
+
+                                        <li><a href="?o=-category.-id" class="active"><i class="fa fa-caret-down"></i>
+                                            倒序</a></li>
+
+                                    </ul>
+                                </div>
+
+                            </th>
+                            <th scope="col" class="sortable">
+
+
+                                <div class="dropdown pull-left">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        文章状态
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+
+                                        <li><a href="?o=status.-id" class="active"><i class="fa fa-caret-up"></i> 正序</a>
+                                        </li>
+
+                                        <li><a href="?o=-status.-id" class="active"><i class="fa fa-caret-down"></i> 倒序</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                            </th>
+                            <th scope="col" class="sortable">
+
+
+                                <div class="dropdown pull-left">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        excerpt
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+
+                                        <li><a href="?o=excerpt.-id" class="active"><i class="fa fa-caret-up"></i>
+                                            正序</a>
+                                        </li>
+
+                                        <li><a href="?o=-excerpt.-id" class="active"><i class="fa fa-caret-down"></i> 倒序</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                            </th>
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                        <tr class="grid-item">
+                            <td class="action-checkbox">
+
+
+                                <input type="checkbox" name="_selected_action" value="2" class="action-select">
+
+                            </td>
+
+                            <td>
+
+
+                                <a href="/sharing/post/2">2</a>
+
+                            </td>
+
+                            <td>
+
+
+                                test
+
+                            </td>
+
+                            <td class="nowrap">
+
+
+                                2019年7月23日 13:54
+
+                            </td>
+
+                            <td class="nowrap">
+
+                                <div class="btn-group pull-right">
+
+                                    <a data-res-uri="/admin/sharing/category/2/detail/"
+                                       data-edit-uri="/admin/sharing/category/2/update/" class="details-handler"
+                                       rel="tooltip" title="Python详情"><i class="fa fa-info-circle"></i></a>
+
+                                </div>
+
+
+                                Python
+
+                            </td>
+
+                            <td>
+
+
+                                文章页
+
+                            </td>
+
+                            <td>
+
+
+                                from Storm import modelsfrom django.shortcuts import
+
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+
+                </div>
+
+                <div class="form-actions well well-sm">
+                    <input type="hidden" id="action" name="action" value=""/>
+                    <input type="hidden" id="select-across" name="select_across" value=""/>
+                    <div class="btn-group clearfix dropup">
+                        <a class="dropdown-toggle btn btn-success" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                            <span class="action-counter">1 个中 0 个被选</span>
+                            <span class="all" style="display: none;">选中了 1 个</span>
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+
+                            <li><a onclick="$.do_action('delete_selected');"><i class="fa fa-times"></i> 编辑所选的文章</a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+                    <script type="text/javascript">var _actions_icnt = "1";</script>
+                </div>
+
+            </form>
+
+            <ul class="pagination">
+
+                <li><span><span class="text-success">1</span> 文章列表</span></li>
+
+
+            </ul>
+
+        </div>
+    </div>
+
+
+    <!-- Main Footer -->
+    <footer class="main-footer" style="margin-left: 0">
+        <a name="bottom"></a>
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            http://www.****.com
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2019 业务支持系统.</strong> All rights reserved.
+    </footer>
+</div>
+
+<!-- jQuery 3 -->
+<script src="{% static 'adminlet-2.4.10/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="{% static 'adminlet-2.4.10/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'adminlet-2.4.10/dist/js/adminlte.min.js' %}"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.min.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.min.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.mouse.min.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.sortable.min.js"></script>
+{#<script type="text/javascript" src="/static/xadmin/vendor/bootstrap/js/bootstrap.min.js"></script>#}
+<script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.details.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.bookmark.js"></script>
+<script type="text/javascript" src="/static/xadmin/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.filters.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.actions.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.list.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.widget.datetime.js"></script>
+<script type="text/javascript" src="/static/xadmin/js/xadmin.page.form.js"></script>
+
+
+
+</body>
+</html>

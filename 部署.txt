@@ -1,0 +1,6 @@
+C:\Users\l\AppData\Local\Programs\Python\Python36\Scripts>mod_wsgi-express modul
+e-config
+LoadFile "d:/python/python36.dll"
+LoadModule wsgi_module "d:/python/lib/site-packages/mod_wsgi/server/mod_wsgi.cp3
+6-win_amd64.pyd"
+WSGIPythonHome "d:/python"

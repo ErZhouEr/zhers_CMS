@@ -1,0 +1,181 @@
+/*
+Theme Name: CSS3 Animation Styles and Effects
+Description: Shape, Displacement, Position, Color
+Author: Samuel Dalusung
+*/
+
+/*= GENERAL STYLING
+--------------------------------------------------------*/
+
+#entry {
+    background: #2b2b2b url(../img/bg.png);
+    width: 100%;
+    font-family: 'Viga';
+    margin: 0;
+    padding: 0;
+}
+
+
+h1 {
+    color: #fff;
+    text-align: center;
+    text-shadow: 3px 3px 2px rgba(150, 150, 150, 1);
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fcd3a1;
+    /*text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);*/
+}
+
+h4 {
+    color: #fff;
+    text-align: center;
+    text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);
+}
+
+#exlinks h4 {
+    font-size: 13px;
+    color: #60c4ff;
+    text-shadow: 0px 0px 0px rgba(150, 150, 150, 1);
+    text-decoration: underline;
+}
+
+
+#apps ul {
+    list-style: none;
+}
+
+#apps li {
+    float: left;
+    margin: 1.5% 3%;
+    width: 11%;
+    height: 0;
+    min-width: 100px;
+    min-height: 100px;
+    padding-top: 11%;
+    position: relative;
+}
+
+.clear {
+    clear: both;
+}
+
+#exlinks ul {
+    list-style: none;
+    display: block;
+}
+
+#exlinks li {
+    float: left;
+    margin: 5px 25px;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+    /*height: 180px;*/
+    /*padding-top: 50%;*/
+    /*padding-bottom: 50%;*/
+    border: 5px solid #fff;
+    -webkit-border-radius: 18px;
+    border-radius: 18px;
+    overflow: hidden;
+    top: 0;
+    position: absolute;
+}
+
+.img:hover {
+    cursor: pointer;
+}
+
+.img img {
+    width: 100%;
+    height: auto
+}
+
+
+/*= EFFECTS
+--------------------------------------------------------*/
+
+.morph {
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+.morph:hover {
+    border: 10px solid #fff;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+    -moz-box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+    box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+
+}
+
+.zoom img {
+    width: 100%;
+    /*height: 170px;*/
+    /*padding-top: 50%;*/
+    /*padding-bottom: 50%;*/
+    -webkit-transition: all 2s ease;
+    -moz-transition: all 2s ease;
+    -ms-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    transition: all 2s ease;
+}
+
+.zoom img:hover {
+    width: 110%;
+    /*height: 190px;*/
+}
+
+.zoom:hover {
+    -webkit-box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+    -moz-box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+    box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+
+}
+
+.tilt {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.tilt:hover {
+    -webkit-transform: rotate(10deg);
+    -moz-transform: rotate(10deg);
+    -ms-transform: rotate(10deg);
+    -o-transform: rotate(10deg);
+    transform: rotate(10deg);
+    -webkit-box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+    -moz-box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+    box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+}
+
+
+.color {
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+.color:hover {
+    -webkit-filter: grayscale(100%);
+    -webkit-box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+    -moz-box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+    box-shadow: 0 0 40px rgba(255, 255, 255, .6), inset 0 0 40px rgba(255, 255, 255, 1);
+
+}
+
+
+
+

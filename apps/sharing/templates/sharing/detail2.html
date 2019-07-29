@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+{#{% load comments %}#}
+
+{% block main %}
+    <article class="post post-{{ post.pk }}">
+        <header class="entry-header">
+            <h1 class="entry-title">{{ post.title }}</h1>
+            <div class="entry-meta">
+                <span class="post-category">
+                    <a href="{% url 'sharing:category' post.category.pk %}">{{ post.category.name }}</a></span>
+                <span class="post-date"><a href="#"><time class="entry-date"
+                                                          datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
+                <span class="post-author"><a href="#">{{ post.author }}</a></span>
+                <span class="comments-link">
+                    <a href="{{ post.get_absolute_url }}#comment-area">{{ post.comment_set.count }} 评论</a></span>
+                <span class="views-count"><a href="#">{{ post.views }} 阅读</a></span>
+            </div>
+        </header>
+        <div class="entry-content clearfix">
+            {{ post.body|safe }}
+            <div class="widget-tag-cloud">
+                <ul>
+                    标签：
+                    {% for tag in post.tags.all %}
+                        <li><a href="{% url 'sharing:tag' tag.pk %}"># {{ tag.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </article>
+    <section class="comment-area" id="comment-area">
+        <hr>
+        <h3>发表伟大评论</h3>
+        <form id="comment_form" action="{% url 'comments:update_comment' post.pk %}" method="POST">
+
+            <div id="reply_content_container" style="display:none;">
+                <p id="reply_title">回复：</p>
+                <div id="reply_content"></div>
+            </div>
+
+            {#            {% csrf_token %}#}
+            {#            {% get_comment_form for post as comment_form %}#}
+
+            {% for field in form %}
+                {{ field }}
+            {% endfor %}
+
+            <span id="comment_error" class="text-danger pull-left"></span>
+            <input class="btn btn-primary pull-right" type="submit" value="评论">
+        </form>
+        <!--评论显示区域-->
+        <div class="comment-area">
+            <h3 class="comment-area-title" id="comment">伟大评论列表</h3>
+            <div id="comment_list">
+                {#                {% get_comment_list for post as comments %}#}
+                {% for comment in comment_list %}
+                    <div id="root_{{ comment.pk }}" class="comment">
+                        <div class="comment_user">
+                            {% ifequal comment.user.name 'reborn' %}
+                                <img class="user_avatar" src="/media/{{ comment.user.picture }}"
+                                     alt="{{ comment.user.name }}" style="border: 1px solid #ccc">
+                                <span class="user_name comment_name">
+                                                                    <span style="color: #d23f31;">博主</span>
+                                                                </span>
+                            {% else %}
+                                <img class="user_avatar" src="/media/{{ comment.user.picture }}"
+                                     alt="{{ comment.user.name }}" style="border: 1px solid #ccc">
+                                <span class="user_name comment_name">
+                                                                    <span>{{ comment.user.name }}</span>
+                                                                </span>
+                            {% endifequal %}
+                        </div>
+                        <div class="comment_body">
+
+                            <div class="comment_content" id="comment_{{ comment.pk }}">
+                                {{ comment.text|safe }}
+                            </div>
+
+                            <p class="comment_bottom">
+                                <span class="">{{ comment.comment_time|date:'Y-m-d H:i:s' }}</span>
+                                <span class="reply_button"><a class="" href="javascript:reply({{ comment.pk }})">回复</a></span>
+                            </p>
+
+                            {% if reply.user.name is  null %}
+                                <ul class="comment_reply">
+                                    {% for reply in comment.root_comment.all %}
+                                        <li class="reply">
+                                            {% ifequal reply.user.name 'reborn' %}
+                                                <img class="reply_avatar" src="/media/{{ comment.user.picture }}"
+                                                     alt="{{ reply.user.name }}" style="border: 1px solid #ccc">
+                                                <div class="reply_body">
+                                                <p>
+                                                    <span class="comment_name reply_name"
+                                                          style="color: #d23f31;">博主</span>
+                                                    {% else %}
+                                                    <img class="reply_avatar"
+                                                         src="/media/{{ comment.user.picture }}"
+                                                         alt="{{ reply.user.name }}">
+                                                    <div class="reply_body">
+                                                <p>
+                                                <span class="comment_name reply_name">{{ reply.user.name }}</span>
+                                            {% endifequal %}
+                                            <span><i class="fa fa-share" aria-hidden="true"></i></span>
+                                            {% ifequal reply.reply_to.name 'reborn' %}
+                                                <span class="comment_name" style="color: #d23f31;">博主:</span>
+                                            {% else %}
+                                                <span class="comment_name">{{ reply.reply_to.name }}:</span>
+                                            {% endifequal %}
+                                            </p>
+                                            <div class="reply_content" id="comment_{{ reply.pk }}">
+                                                {{ reply.text|safe }}
+                                            </div>
+                                            <p class="comment_bottom">
+                                                <span>{{ reply.comment_time|date:'Y-m-d H:i:s' }}</span>
+                                                <span><a href="javascript:reply({{ reply.pk }})">回复</a></span>
+                                            </p>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% empty %}
+                    此篇文章暂无评论，快来说两句吧！
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock main %}
+{% block toc %}
+    <div class="widget widget-content">
+        <h4 class="widget-title"><i class="fa-fw fa fa-caret-right text-red"></i><strong>文章目录</strong></h4>
+        {{ post.toc|safe }}
+    </div>
+{% endblock toc %}
+
+{% block script_extends %}
+    <script type="text/javascript">
+        function reply(reply_comment_id) {
+            // 设置值
+            $('#reply_comment_id').val(reply_comment_id);
+            var html = $("#comment_" + reply_comment_id).html();
+            $('#reply_content').html(html);
+            $('#reply_content_container').show();
+            $('html').animate({scrollTop: $('#comment_form').offset().top - 60}, 300, function () {
+                CKEDITOR.instances['id_text'].focus();
+            });
+        }
+
+        $("#comment_form").submit(function () {
+            // 清空错误内容
+            $("#comment_error").text('');
+            // 更新数据
+            if (CKEDITOR.instances['id_text'].document.getBody().getText().trim() === '') {
+                // 显示错误信息
+                $("#comment_error").text('评论内容不能为空');
+                return false;
+            }
+        });
+
+    </script>
+{% endblock %}
